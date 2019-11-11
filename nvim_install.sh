@@ -3,7 +3,7 @@
 installationRoot=$HOME/.config/nvim
 rm -rf $installationRoot
 
-if [ ! -d $installationRoot]; then
+if [ ! -d $installationRoot ]; then
   mkdir -p $installationRoot
 fi
 
@@ -15,6 +15,15 @@ currentFolder=$PWD
 sudo apt install neovim
 sudo apt install python-neovim
 sudo apt install python3-neovim
+
+# https://github.com/neovim/neovim/wiki/Installing-Neovim
+# Do I really want that?
+# sudo update-alternatives --install /usr/bin/vi vi /usr/bin/nvim 60
+# sudo update-alternatives --config vi
+# sudo update-alternatives --install /usr/bin/vim vim /usr/bin/nvim 60
+# sudo update-alternatives --config vim
+# sudo update-alternatives --install /usr/bin/editor editor /usr/bin/nvim 60
+# sudo update-alternatives --config editor
 
 function clone {
   echo Cloning path $2
@@ -56,9 +65,18 @@ function installAg {
   clone rking/ag.vim ag.vim
 }
 
-function ctrlp {
-  echo installing 'ctrlp'
-  clone ctrlpvim/ctrlp.vim.git ctrlp.vim
+}
+function fzf {
+  git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fz
+  ~/.fzf/install
+
+  curl -LO https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb
+  sudo dpkg -i ripgrep_11.0.2_amd64.deb
+
+  grep -qxF 'export FZF_DEFAULT_OPTS="--extended"' $HOME/.bashrc || echo 'export FZF_DEFAULT_OPTS="--extended"' >> $HOME/.bashrc
+  grep -qxF 'export FZF_DEFAULT_COMMAND="rg --files --smart-case --hidden"' $HOME/.bashrc || echo 'export FZF_DEFAULT_COMMAND="rg --files --smart-case --hidden"' >> $HOME/.bashrc
+
+  clone junegunn/fzf.vim fzf.vim
 }
 
 function nerdtree {
@@ -179,7 +197,7 @@ function vimrc {
 pathogen
 
 nerdtree
-# ctrlp
+fzf
 commentary
 # installAg
 neoformat
