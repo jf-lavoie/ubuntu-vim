@@ -42,30 +42,6 @@ function pathogen {
   curl -LSso $installationRoot/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 }
 
-function youCompleteMe {
-  echo installing 'YouCompleteMe'
-  sudo apt install build-essential cmake python3-dev
-  npm install -g typescript
-
-  clone Valloric/YouCompleteMe.git YouCompleteMe
-
-  cd $bundlePath/YouCompleteMe
-
-  git submodule update --init --recursive
-
-  python3 install.py --js-completer --clang-completer
-}
-
-
-function installAg {
-  echo installing 'silver search'
-  cd $HOME
-
-  sudo apt-get install silversearcher-ag
-  clone rking/ag.vim ag.vim
-}
-
-}
 function fzf {
   git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fz
   ~/.fzf/install
@@ -82,12 +58,6 @@ function fzf {
 function nerdtree {
   echo installing 'nerdtree'
   clone scrooloose/nerdtree.git nerdtree
-}
-
-function syntastic {
-  echo installing 'syntastic'
-  clone scrooloose/syntastic.git syntastic
-  echo Do not forget to run 'helptags $HOME/.vim/bundle/syntastic/doc'. source: https://groups.google.com/forum/#!topic/vim-syntastic/axAbKWRVN4Q
 }
 
 function ultisnips {
@@ -192,18 +162,15 @@ function vimrc {
 }
 
 pathogen
-
+	
 nerdtree
 fzf
 commentary
-# installAg
 neoformat
 
 easyAlign
 ultisnips
 snippets
-# syntastic
-# youCompleteMe
 fugitive
 delimitMate
 multipleCursors
