@@ -187,11 +187,8 @@ function vimrc {
 
   cd $installationRoot
 
-  echo Symlinking .vimrc
-  if [ -f .vimrc ]; then
-    mv .vimrc .vimrc.bak
-  fi
-  ln -s $dest/.vimrc init.vim
+  echo Symlinking init.vim
+  ln -s $dest/init.vim init.vim
 }
 
 pathogen

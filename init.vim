@@ -1,5 +1,4 @@
 set nocompatible
-source $VIMRUNTIME/vimrc_example.vim
 " source $VIMRUNTIME/mswin.vi
 " behave mswin
 
@@ -155,6 +154,19 @@ let $PATH .= ':./node_modules/.bin'
 " https://til.hashrocket.com/posts/fef382f93e-use-suffixadd-to-save-yourself-some-life
 autocmd BufRead,BufNewFile *.js set suffixesadd+=.js,.json
 
+" ---------------------------------------------------
+" FZF configs
+" ---------------------------------------------------
+set rtp+=~/.fzf
+nnoremap <C-p> :FZF<enter>
+
+nnoremap <leader>f :Rg<enter>
+nnoremap <leader>fw :Rg  <C-r><C-w><enter>
+" nnoremap  <expr> <leader>f ':Ag --ignore node_modules -S "" "' . getcwd() . '"<C-Left><Left><Left>'
+" <C-r><C-w> returns the word under the cursor
+" nnoremap  <expr> <leader>fw ':Ag --ignore node_modules -S "<C-r><C-w>" "' . getcwd() . '"<C-Left><Left><Left>'
+" ---------------------------------------------------
+
 
 " ---------------------------------------------------
 " YouCompleteMe configs
@@ -241,7 +253,7 @@ let g:multi_cursor_exit_from_visual_mode=0
 " ag vim configs
 " ---------------------------------------------------
 " hightlight the search results
-let g:ag_highlight=1
+" let g:ag_highlight=1
 " <C-r><C-w> returns the word under the cursor
 " info taken here: http://stackoverflow.com/questions/13511084/vim-set-cursor-position-in-command-line
 " and here: http://stackoverflow.com/questions/27297304/how-to-append-the-output-of-a-function-in-a-normal-mapping-command/27297508
@@ -249,9 +261,10 @@ let g:ag_highlight=1
 " <C-r><C-w> returns the word under the cursor
 " autocmd FileType javascript,json,yaml,dockerfile nnoremap <buffer> <expr> <leader>fw ':Ag --ignore node_modules --ignore assets -S "<C-r><C-w>" "' . getcwd() . '"<C-Left><Left><Left>'
 
-nnoremap  <expr> <leader>f ':Ag --ignore node_modules -S "" "' . getcwd() . '"<C-Left><Left><Left>'
+" nnoremap  <expr> <leader>f ':Ag --ignore node_modules -S "" "' . getcwd() . '"<C-Left><Left><Left>'
 " <C-r><C-w> returns the word under the cursor
-nnoremap  <expr> <leader>fw ':Ag --ignore node_modules -S "<C-r><C-w>" "' . getcwd() . '"<C-Left><Left><Left>'
+" nnoremap  <expr> <leader>fw ':Ag --ignore node_modules -S "<C-r><C-w>" "' . getcwd() . '"<C-Left><Left><Left>'
+" 
 
 " ---------------------------------------------------
 " neoformat configs
