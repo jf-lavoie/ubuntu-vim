@@ -155,6 +155,140 @@ let $PATH .= ':./node_modules/.bin'
 autocmd BufRead,BufNewFile *.js set suffixesadd+=.js,.json
 
 " ---------------------------------------------------
+" coc configs
+" ---------------------------------------------------
+" if hidden is not set, TextEdit might fail.
+set hidden
+
+" Some servers have issues with backup files, see #649
+set nobackup
+set nowritebackup
+
+" Better display for messages
+set cmdheight=2
+
+" You will have bad experience for diagnostic messages when it's default 4000.
+set updatetime=300
+
+" don't give |ins-completion-menu| messages.
+set shortmess+=c
+
+" always show signcolumns
+set signcolumn=yes
+
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" Or use `complete_info` if your vim support it, like:
+" inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
+
+" Remap for format selected region
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap for do codeAction of current line
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Fix autofix problem of current line
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Create mappings for function text object, requires document symbols feature of languageserver.
+xmap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap if <Plug>(coc-funcobj-i)
+omap af <Plug>(coc-funcobj-a)
+
+" Use <C-d> for select selections ranges, needs server support, like: coc-tsserver, coc-python
+nmap <silent> <C-d> <Plug>(coc-range-select)
+xmap <silent> <C-d> <Plug>(coc-range-select)
+
+" Use `:Format` to format current buffer
+command! -nargs=0 Format :call CocAction('format')
+
+" Use `:Fold` to fold current buffer
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" use `:OR` for organize import of current buffer
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+" Add status line support, for integration with other plugin, checkout `:h coc-status`
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+" Using CocList
+" Show all diagnostics
+nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+" Manage extensions
+nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+" Show commands
+nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+" Find symbol of current document
+nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+" Search workspace symbols
+nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+" Resume latest coc list
+nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+" ---------------------------------------------------
+
+
+" ---------------------------------------------------
 " FZF configs
 " ---------------------------------------------------
 set rtp+=~/.fzf
@@ -168,65 +302,65 @@ nnoremap <leader>fw :Rg  <C-r><C-w><enter>
 " ---------------------------------------------------
 
 
-" ---------------------------------------------------
-" YouCompleteMe configs
-" ---------------------------------------------------
-let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_autoclose_preview_window_after_insertion = 1
-" let g:ycm_always_populate_loc_list = 0
-let g:ycm_always_populate_location_list = 0
-" ---------------------------------------------------
-" Syntastic configs
-" ---------------------------------------------------
-let g:syntastic_javascript_checkers = ['eslint']
-" node developpers usually let the exeuctable sit in the local repo.
-" taken here:https://github.com/vim-syntastic/syntastic/issues/1692 
-" alternative if not working: https://github.com/mtscout6/syntastic-local-eslint.vim
-" THIS SOLUTION WAS REPLACED BY ADDING LOCAL NODE_MODULES TO THE PATH AS
-" DESCRIBED HERE https://github.com/npm/npm/issues/957
-" let g:syntastic_javascript_eslint_generic = 1
-" let g:syntastic_javascript_eslint_exec = '/bin/ls'
-" let g:syntastic_javascript_eslint_exe='$(npm bin)/eslint'
-" let g:syntastic_javascript_eslint_args='-f compact'
+" " ---------------------------------------------------
+" " YouCompleteMe configs
+" " ---------------------------------------------------
+" let g:ycm_autoclose_preview_window_after_completion = 1
+" let g:ycm_autoclose_preview_window_after_insertion = 1
+" " let g:ycm_always_populate_loc_list = 0
+" let g:ycm_always_populate_location_list = 0
+" " ---------------------------------------------------
+" " Syntastic configs
+" " ---------------------------------------------------
+" let g:syntastic_javascript_checkers = ['eslint']
+" " node developpers usually let the exeuctable sit in the local repo.
+" " taken here:https://github.com/vim-syntastic/syntastic/issues/1692 
+" " alternative if not working: https://github.com/mtscout6/syntastic-local-eslint.vim
+" " THIS SOLUTION WAS REPLACED BY ADDING LOCAL NODE_MODULES TO THE PATH AS
+" " DESCRIBED HERE https://github.com/npm/npm/issues/957
+" " let g:syntastic_javascript_eslint_generic = 1
+" " let g:syntastic_javascript_eslint_exec = '/bin/ls'
+" " let g:syntastic_javascript_eslint_exe='$(npm bin)/eslint'
+" " let g:syntastic_javascript_eslint_args='-f compact'
 
-" let g:syntastic_quiet_messages = { "level" : "warnings" }
-let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"] " hides angular eerrors. source: http://stackoverflow.com/questions/18270355/how-to-ignore-angular-directive-lint-error-with-vim-and-syntastic
-let g:syntastic_always_populate_loc_list = 1 "Enable this option to tell syntastic to always stick any detected errors into the |location-list|:
-let g:syntastic_auto_loc_list = 1 " When set to 1 the error window will be automatically opened when errors are detected, and closed when none are detected. >
-let g:syntastic_mode_map = { "mode": "active", "passive_filetypes": ["html"] }
-" let g:syntastic_debug = 1
+" " let g:syntastic_quiet_messages = { "level" : "warnings" }
+" let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"] " hides angular eerrors. source: http://stackoverflow.com/questions/18270355/how-to-ignore-angular-directive-lint-error-with-vim-and-syntastic
+" let g:syntastic_always_populate_loc_list = 1 "Enable this option to tell syntastic to always stick any detected errors into the |location-list|:
+" let g:syntastic_auto_loc_list = 1 " When set to 1 the error window will be automatically opened when errors are detected, and closed when none are detected. >
+" let g:syntastic_mode_map = { "mode": "active", "passive_filetypes": ["html"] }
+" " let g:syntastic_debug = 1
 
 
 " ---------------------------------------------------
 " UtilsSnip configs
 " ---------------------------------------------------
-" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-" let g:UltiSnipsExpandTrigger="<tab>"
-" let g:UltiSnipsJumpForwardTrigger="<c-b>"
-" let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-" If you want :UltiSnipsEdit to split your window.
-" let g:UltiSnipsEditSplit="vertical"
-function! g:UltiSnips_Complete()
-  call UltiSnips#ExpandSnippet()
-  if g:ulti_expand_res == 0
-    if pumvisible()
-      return "\<C-n>"
-    else
-      call UltiSnips#JumpForwards()
-      if g:ulti_jump_forwards_res == 0
-        return "\<TAB>"
-      endif
-    endif
-  endif
-  return ""
-endfunction
-au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
-" let g:UltiSnipsJumpForwardTrigger="<tab>"
-" let g:UltiSnipsListSnippets="<c-e>"
-" this mapping Enter key to <C-y> to chose the current highlight item
-" and close the selection list, same as other IDEs.
-" CONFLICT with some plugins like tpope/Endwise
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+" " let g:UltiSnipsExpandTrigger="<tab>"
+" " let g:UltiSnipsJumpForwardTrigger="<c-b>"
+" " let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+" " If you want :UltiSnipsEdit to split your window.
+" " let g:UltiSnipsEditSplit="vertical"
+" function! g:UltiSnips_Complete()
+"   call UltiSnips#ExpandSnippet()
+"   if g:ulti_expand_res == 0
+"     if pumvisible()
+"       return "\<C-n>"
+"     else
+"       call UltiSnips#JumpForwards()
+"       if g:ulti_jump_forwards_res == 0
+"         return "\<TAB>"
+"       endif
+"     endif
+"   endif
+"   return ""
+" endfunction
+" au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
+" " let g:UltiSnipsJumpForwardTrigger="<tab>"
+" " let g:UltiSnipsListSnippets="<c-e>"
+" " this mapping Enter key to <C-y> to chose the current highlight item
+" " and close the selection list, same as other IDEs.
+" " CONFLICT with some plugins like tpope/Endwise
+" inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 " UltiSnips is the default bundle used by UltiSnips. It is installed via
 " 'vim-snippets' plugin
@@ -285,15 +419,15 @@ noremap <C-F3> :Neoformat<CR>
 :autocmd BufWritePre *.js,*.css,*.json :Neoformat
 
 
-" ---------------------------------------------------
-" CTRL-P configuration
-" ---------------------------------------------------
-let g:ctrlp_max_depth = 40
-let g:ctrlp_max_files = 0
-let g:ctrlp_show_hidden = 1
-" beware of the escaped OR in regex
-let g:ctrlp_custom_ignore = 'node_modules\|git'
-" tip: how to use silver searcher for faster result: https://github.com/kien/ctrlp.vim/issues/58#issuecomment-247017402
+" " ---------------------------------------------------
+" " CTRL-P configuration
+" " ---------------------------------------------------
+" let g:ctrlp_max_depth = 40
+" let g:ctrlp_max_files = 0
+" let g:ctrlp_show_hidden = 1
+" " beware of the escaped OR in regex
+" let g:ctrlp_custom_ignore = 'node_modules\|git'
+" " tip: how to use silver searcher for faster result: https://github.com/kien/ctrlp.vim/issues/58#issuecomment-247017402
 
 
 " ---------------------------------------------------

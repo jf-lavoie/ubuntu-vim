@@ -71,6 +71,26 @@ function ultisnips {
 
 }
 
+function coc {
+  echo installing 'coc'
+
+  # source: https://github.com/neoclide/coc.nvim/wiki/Install-coc.nvim
+  mkdir -p ~/.local/share/nvim/site/pack/coc/start
+  cd ~/.local/share/nvim/site/pack/coc/start
+  curl --fail -L https://github.com/neoclide/coc.nvim/archive/release.tar.gz|tar xzfv -
+
+  mkdir -p ~/.config/coc/extensions
+  cd ~/.config/coc/extensions
+  if [ ! -f package.json ]
+  then
+    echo '{"dependencies":{}}'> package.json
+  fi
+  # Change extension names to the extensions you need
+  npm install coc-tsserver --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
+  npm install coc-json --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
+  npm install coc-css --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
+}
+
 function snippets {
   echo installing 'snippets'
   clone honza/vim-snippets.git vim-snippets
@@ -165,6 +185,7 @@ pathogen
 	
 nerdtree
 fzf
+coc
 commentary
 neoformat
 
