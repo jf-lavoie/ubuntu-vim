@@ -74,6 +74,8 @@ function ultisnips {
 function coc {
   echo installing 'coc'
 
+  local dest=$currentFolder
+
   # source: https://github.com/neoclide/coc.nvim/wiki/Install-coc.nvim
   mkdir -p ~/.local/share/nvim/site/pack/coc/start
   cd ~/.local/share/nvim/site/pack/coc/start
@@ -89,6 +91,10 @@ function coc {
   npm install coc-tsserver --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
   npm install coc-json --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
   npm install coc-css --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
+
+
+  cd $installationRoot
+  ln -s $dest/coc-settings.json coc-settings.json
 }
 
 function snippets {
