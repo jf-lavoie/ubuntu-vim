@@ -396,13 +396,17 @@ let g:lightline = {
       \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
       \ },
       \ 'component': {
-      \   'filename': '%F'
+      \   'filename': '%n:%F'
       \ },
       \ 'component_function': {
       \   'gitbranch': 'fugitive#head'
       \ },
       \ }
 set noshowmode " mode is already displayed in the status line
+
+if has('title')
+  set title titlestring="%F"
+endif
 
 " how-to see the non-visible while spaces
 " :set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
