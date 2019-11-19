@@ -1,3 +1,4 @@
 {
-  "tsserver.enableJavascript": true
+  "tsserver.enableJavascript": true,
+  "javascript.suggestionActions.enabled": false
 }
