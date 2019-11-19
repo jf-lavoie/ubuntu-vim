@@ -302,35 +302,6 @@ nnoremap <leader>fw :Rg  <C-r><C-w><enter>
 " ---------------------------------------------------
 
 
-" " ---------------------------------------------------
-" " YouCompleteMe configs
-" " ---------------------------------------------------
-" let g:ycm_autoclose_preview_window_after_completion = 1
-" let g:ycm_autoclose_preview_window_after_insertion = 1
-" " let g:ycm_always_populate_loc_list = 0
-" let g:ycm_always_populate_location_list = 0
-" " ---------------------------------------------------
-" " Syntastic configs
-" " ---------------------------------------------------
-" let g:syntastic_javascript_checkers = ['eslint']
-" " node developpers usually let the exeuctable sit in the local repo.
-" " taken here:https://github.com/vim-syntastic/syntastic/issues/1692 
-" " alternative if not working: https://github.com/mtscout6/syntastic-local-eslint.vim
-" " THIS SOLUTION WAS REPLACED BY ADDING LOCAL NODE_MODULES TO THE PATH AS
-" " DESCRIBED HERE https://github.com/npm/npm/issues/957
-" " let g:syntastic_javascript_eslint_generic = 1
-" " let g:syntastic_javascript_eslint_exec = '/bin/ls'
-" " let g:syntastic_javascript_eslint_exe='$(npm bin)/eslint'
-" " let g:syntastic_javascript_eslint_args='-f compact'
-
-" " let g:syntastic_quiet_messages = { "level" : "warnings" }
-" let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"] " hides angular eerrors. source: http://stackoverflow.com/questions/18270355/how-to-ignore-angular-directive-lint-error-with-vim-and-syntastic
-" let g:syntastic_always_populate_loc_list = 1 "Enable this option to tell syntastic to always stick any detected errors into the |location-list|:
-" let g:syntastic_auto_loc_list = 1 " When set to 1 the error window will be automatically opened when errors are detected, and closed when none are detected. >
-" let g:syntastic_mode_map = { "mode": "active", "passive_filetypes": ["html"] }
-" " let g:syntastic_debug = 1
-
-
 " ---------------------------------------------------
 " UtilsSnip configs
 " ---------------------------------------------------
@@ -384,23 +355,6 @@ let g:multi_cursor_exit_from_insert_mode=0
 let g:multi_cursor_exit_from_visual_mode=0
 
 " ---------------------------------------------------
-" ag vim configs
-" ---------------------------------------------------
-" hightlight the search results
-" let g:ag_highlight=1
-" <C-r><C-w> returns the word under the cursor
-" info taken here: http://stackoverflow.com/questions/13511084/vim-set-cursor-position-in-command-line
-" and here: http://stackoverflow.com/questions/27297304/how-to-append-the-output-of-a-function-in-a-normal-mapping-command/27297508
-" autocmd FileType javascript,json,yaml,dockerfile nnoremap <buffer> <expr> <leader>f ':Ag --ignore node_modules --ignore assets -S "" "' . getcwd() . '"<C-Left><Left><Left>'
-" <C-r><C-w> returns the word under the cursor
-" autocmd FileType javascript,json,yaml,dockerfile nnoremap <buffer> <expr> <leader>fw ':Ag --ignore node_modules --ignore assets -S "<C-r><C-w>" "' . getcwd() . '"<C-Left><Left><Left>'
-
-" nnoremap  <expr> <leader>f ':Ag --ignore node_modules -S "" "' . getcwd() . '"<C-Left><Left><Left>'
-" <C-r><C-w> returns the word under the cursor
-" nnoremap  <expr> <leader>fw ':Ag --ignore node_modules -S "<C-r><C-w>" "' . getcwd() . '"<C-Left><Left><Left>'
-" 
-
-" ---------------------------------------------------
 " neoformat configs
 " ---------------------------------------------------
 let g:neoformat_enabled_javascript = ['prettier']
@@ -417,17 +371,6 @@ let g:neoformat_enabled_yaml = ['prettier'] " is this working?
 " let g:neoformat_verbose = 1
 noremap <C-F3> :Neoformat<CR>
 :autocmd BufWritePre *.js,*.css,*.json :Neoformat
-
-
-" " ---------------------------------------------------
-" " CTRL-P configuration
-" " ---------------------------------------------------
-" let g:ctrlp_max_depth = 40
-" let g:ctrlp_max_files = 0
-" let g:ctrlp_show_hidden = 1
-" " beware of the escaped OR in regex
-" let g:ctrlp_custom_ignore = 'node_modules\|git'
-" " tip: how to use silver searcher for faster result: https://github.com/kien/ctrlp.vim/issues/58#issuecomment-247017402
 
 
 " ---------------------------------------------------
