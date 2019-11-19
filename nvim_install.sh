@@ -50,7 +50,8 @@ function fzf {
   sudo dpkg -i ripgrep_11.0.2_amd64.deb
 
   grep -qxF 'export FZF_DEFAULT_OPTS="--extended"' $HOME/.bashrc || echo 'export FZF_DEFAULT_OPTS="--extended"' >> $HOME/.bashrc
-  grep -qxF 'export FZF_DEFAULT_COMMAND="rg --files --smart-case --hidden"' $HOME/.bashrc || echo 'export FZF_DEFAULT_COMMAND="rg --files --smart-case --hidden"' >> $HOME/.bashrc
+  # for the quoting escapeds black magic fuckery : https://stackoverflow.com/questions/1250079/how-to-escape-single-quotes-within-single-quoted-strings
+  grep -qxF 'export FZF_DEFAULT_COMMAND="rg --files --smart-case --hidden -g '"'"'!.git'"'"'"' $HOME/.bashrc || echo 'export FZF_DEFAULT_COMMAND="rg --files --smart-case --hidden -g '"'"'!.git'"'"'"' >> $HOME/.bashrc
 
   clone junegunn/fzf.vim fzf.vim
 }
@@ -188,7 +189,7 @@ function vimrc {
 }
 
 pathogen
-	
+
 nerdtree
 fzf
 coc
