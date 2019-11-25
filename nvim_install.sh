@@ -1,13 +1,14 @@
 #!/bin/bash
 
 installationRoot=$HOME/.config/nvim
-rm -rf $installationRoot
+# rm -rf $installationRoot
 
 if [ ! -d $installationRoot ]; then
   mkdir -p $installationRoot
 fi
 
 bundlePath=$installationRoot/bundle
+nativeBundlePath=~/.local/share/nvim/site/pack
 
 # currentFolder=$HOME/ubuntu-vim-nodejs
 currentFolder=$PWD
@@ -50,7 +51,7 @@ function fzf {
   sudo dpkg -i ripgrep_11.0.2_amd64.deb
 
   grep -qxF 'export FZF_DEFAULT_OPTS="--extended"' $HOME/.bashrc || echo 'export FZF_DEFAULT_OPTS="--extended"' >> $HOME/.bashrc
-  # for the quoting escapeds black magic fuckery : https://stackoverflow.com/questions/1250079/how-to-escape-single-quotes-within-single-quoted-strings
+  # for the quoting escape black magic fuckery : https://stackoverflow.com/questions/1250079/how-to-escape-single-quotes-within-single-quoted-strings
   grep -qxF 'export FZF_DEFAULT_COMMAND="rg --files --smart-case --hidden -g '"'"'!.git'"'"'"' $HOME/.bashrc || echo 'export FZF_DEFAULT_COMMAND="rg --files --smart-case --hidden -g '"'"'!.git'"'"'"' >> $HOME/.bashrc
 
   clone junegunn/fzf.vim fzf.vim
@@ -78,8 +79,8 @@ function coc {
   local dest=$currentFolder
 
   # source: https://github.com/neoclide/coc.nvim/wiki/Install-coc.nvim
-  mkdir -p ~/.local/share/nvim/site/pack/coc/start
-  cd ~/.local/share/nvim/site/pack/coc/start
+  mkdir -p $nativeBundlePath/coc/start
+  cd $nativeBundlePath/coc/start
   curl --fail -L https://github.com/neoclide/coc.nvim/archive/release.tar.gz|tar xzfv -
 
   mkdir -p ~/.config/coc/extensions
@@ -178,6 +179,17 @@ function vim-jsx-pretty {
   clone MaxMEllon/vim-jsx-pretty.git MaxMEllon/vim-jsx-pretty
 }
 
+function ale {
+  echo installing ale
+  echo first, installing eslint
+  npm -g install eslint
+
+  echo clonig ale
+
+  mkdir -p $nativeBundlePath/ale/start
+  cd $nativeBundlePath/ale/start
+  git clone https://github.com/w0rp/ale.git
+}
 
 function vimrc {
   local dest=$currentFolder
@@ -193,6 +205,7 @@ pathogen
 nerdtree
 fzf
 coc
+ale
 commentary
 neoformat
 
