@@ -1,14 +1,15 @@
-#!/bin/bash
+#!/bin/bash -x
+
 
 installationRoot=$HOME/.config/nvim
-# rm -rf $installationRoot
+rm -rf $installationRoot
 
 if [ ! -d $installationRoot ]; then
   mkdir -p $installationRoot
 fi
 
 bundlePath=$installationRoot/bundle
-nativeBundlePath=~/.local/share/nvim/site/pack
+nativeBundlePath=$HOME/.local/share/nvim/site/pack
 
 # currentFolder=$HOME/ubuntu-vim-nodejs
 currentFolder=$PWD
@@ -32,8 +33,9 @@ function clone {
   if [ -d $dest ]; then
     rm -rf $dest
   fi
-  cd $bundlePath
+  pushd $bundlePath
   git clone https://github.com/$1
+  popd
 
 }
 
@@ -44,11 +46,12 @@ function pathogen {
 }
 
 function fzf {
-  git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fz
-  ~/.fzf/install
+  git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf
+  $HOME/.fzf/install
 
   curl -LO https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb
   sudo dpkg -i ripgrep_11.0.2_amd64.deb
+  rm ripgrep_11.0.2_amd64.deb
 
   grep -qxF 'export FZF_DEFAULT_OPTS="--extended"' $HOME/.bashrc || echo 'export FZF_DEFAULT_OPTS="--extended"' >> $HOME/.bashrc
   # for the quoting escape black magic fuckery : https://stackoverflow.com/questions/1250079/how-to-escape-single-quotes-within-single-quoted-strings
@@ -68,8 +71,9 @@ function ultisnips {
 
   # also adding custom snippets
   # in order to work, the array g:UltiSnipsSnippetDirectories must contain "jf-snippets". Done in .vimrc
-  cd $bundlePath
+  pushd $bundlePath
   ln -s $currentFolder/vim-jfsnippets vim-jfsnippets
+  popd
 
 }
 
@@ -80,23 +84,28 @@ function coc {
 
   # source: https://github.com/neoclide/coc.nvim/wiki/Install-coc.nvim
   mkdir -p $nativeBundlePath/coc/start
-  cd $nativeBundlePath/coc/start
+  pushd $nativeBundlePath/coc/start
   curl --fail -L https://github.com/neoclide/coc.nvim/archive/release.tar.gz|tar xzfv -
+  popd # $nativeBundlePath/coc/start
 
-  mkdir -p ~/.config/coc/extensions
-  cd ~/.config/coc/extensions
+  mkdir -p $HOME/.config/coc/extensions
+  pushd $HOME/.config/coc/extensions
   if [ ! -f package.json ]
   then
     echo '{"dependencies":{}}'> package.json
   fi
+
   # Change extension names to the extensions you need
   npm install coc-tsserver --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
   npm install coc-json --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
   npm install coc-css --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
 
+  popd # $HOME/.config/coc/extensions
 
-  cd $installationRoot
+
+  pushd $installationRoot
   ln -s $dest/coc-settings.json coc-settings.json
+  popd
 }
 
 function snippets {
@@ -113,6 +122,12 @@ function neoformat {
   echo installing 'neoformat'
   echo installer npm prettier globally first
   npm -g install prettier
+
+  # local dest=$currentFolder
+  # pushd $HOME
+  # ln -s $dest/.prettierrc .prettierrc
+  # popd
+
   clone sbdchd/neoformat.git neoformat
 }
 
@@ -183,21 +198,32 @@ function ale {
   echo installing ale
   echo first, installing eslint
   npm -g install eslint
+  # npm -g install eslint-plugin-prettier
+  # npm -g install eslint-config-prettier
+
+
+  # local dest=$currentFolder
+  # pushd $HOME
+  # ln -s $dest/.eslintrc .eslintrc
+  # popd
 
   echo clonig ale
 
   mkdir -p $nativeBundlePath/ale/start
-  cd $nativeBundlePath/ale/start
+  pushd $nativeBundlePath/ale/start
   git clone https://github.com/w0rp/ale.git
+  popd
 }
 
 function vimrc {
   local dest=$currentFolder
 
-  cd $installationRoot
+  pushd $installationRoot
 
   echo Symlinking init.vim
   ln -s $dest/init.vim init.vim
+
+  popd
 }
 
 pathogen

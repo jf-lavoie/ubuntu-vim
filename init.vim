@@ -164,6 +164,17 @@ let $PATH .= ':./node_modules/.bin'
 " https://til.hashrocket.com/posts/fef382f93e-use-suffixadd-to-save-yourself-some-life
 autocmd BufRead,BufNewFile *.js set suffixesadd+=.js,.json
 
+
+
+" ---------------------------------------------------
+" ale configs
+" ---------------------------------------------------
+" let g:ale_linters_explicit = 1
+" let g:ale_linters = {
+" \   'javascript': ['eslint'],
+" \}
+" ---------------------------------------------------
+
 " ---------------------------------------------------
 " coc configs
 " ---------------------------------------------------
