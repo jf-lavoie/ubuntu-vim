@@ -2,5 +2,5 @@
   "tsserver.npm": "$NVM_BIN/npm",
   "tsserver.enableJavascript": true,
   "javascript.suggestionActions.enabled": false,
-  "diagnostic.enable": false,
+  "diagnostic.enable": false
 }
