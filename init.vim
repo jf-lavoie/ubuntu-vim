@@ -313,9 +313,11 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 " ---------------------------------------------------
 " FZF configs
 " ---------------------------------------------------
+
 set rtp+=~/.fzf
 nnoremap <C-p> :FZF<enter>
 
+command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
 nnoremap <leader>f :Rg<enter>
 nnoremap <leader>fw :Rg  <C-r><C-w><enter>
 " nnoremap  <expr> <leader>f ':Ag --ignore node_modules -S "" "' . getcwd() . '"<C-Left><Left><Left>'
