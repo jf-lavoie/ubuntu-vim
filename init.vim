@@ -40,6 +40,12 @@ syntax enable
 " ---------------------------------------------------
 let g:vim_monokai_tasty_italic = 1
 colorscheme vim-monokai-tasty
+" ---------------------------------------------------
+
+
+" do not resize windows when closing a window
+" source: https://stackoverflow.com/questions/486027/close-a-split-window-in-vim-without-resizing-other-windows
+set noequalalways
 
 " Display line number
 set number
@@ -133,8 +139,8 @@ autocmd BufEnter * if &buftype=="terminal" | startinsert | endif
 autocmd FileType javascript nmap <buffer> <F2> yiwoi<BS><esc>:let @m = 'console.log(''jf-debug-> "' . @" . '": '', ' . @" . ');'<enter><esc>"mp
 autocmd FileType javascript vmap <buffer> <F2> yoi<BS><esc>:let @m = 'console.log(''jf-debug-> "' . @" . '": '', ' . @" . ');'<enter><esc>"mp
 autocmd FileType javascript nmap <buffer> <F3> oi<BS><esc>:let @m = 'console.log(''jf-debug-> arguments: '', arguments);'<enter><esc>"mp<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
-autocmd FileType javascript nmap <buffer> <F4> yiwoi<BS><esc>:let @m = 'console.log(''jf-debug-> "' . @" . '": '', require(''util'').inspect(' . @" . ', {depth:100, colors:true}));'<enter><esc>"mp
-autocmd FileType javascript vmap <buffer> <F4> yoi<BS><esc>:let @m = 'console.log(''jf-debug-> "' . @" . '": '', require(''util'').inspect(' . @" . ', {depth:100, colors:true}));'<enter><esc>"mp
+autocmd FileType javascript nmap <buffer> <F4> yiwoi<BS><esc>:let @m = 'console.log(''jf-debug-> "' . @" . '": '', require(''util'').inspect(' . @" . ', {depth:100, colors:false}));'<enter><esc>"mp
+autocmd FileType javascript vmap <buffer> <F4> yoi<BS><esc>:let @m = 'console.log(''jf-debug-> "' . @" . '": '', require(''util'').inspect(' . @" . ', {depth:100, colors:false}));'<enter><esc>"mp
 
 " ---------------------------------------------------
 " Adding batch file comment type. Used with plugin commentary
@@ -420,7 +426,7 @@ let g:lightline = {
       \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
       \ },
       \ 'component': {
-      \   'filename': '%n:%F'
+      \   'filename': '%F:%n'
       \ },
       \ 'component_function': {
       \   'gitbranch': 'fugitive#head'
