@@ -215,6 +215,11 @@ function ale {
   popd
 }
 
+function vim-closetag {
+  echo installing vim-closetag
+  clone alvan/vim-closetag alvan/vim-closetag
+}
+
 function vimrc {
   local dest=$currentFolder
 
@@ -242,6 +247,7 @@ fugitive
 delimitMate
 multipleCursors
 lightline
+vim-closetag
 
 # those 3 are required to work together
 vim-javascript
