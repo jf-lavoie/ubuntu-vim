@@ -337,6 +337,7 @@ nnoremap <leader>fw :Rg  <C-r><C-w><enter>
 " ---------------------------------------------------
 " " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 " " let g:UltiSnipsExpandTrigger="<tab>"
+" " let g:UltiSnipsExpandTrigger="<leader>s"
 " " let g:UltiSnipsJumpForwardTrigger="<c-b>"
 " " let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 " " If you want :UltiSnipsEdit to split your window.
@@ -410,9 +411,9 @@ if !&diff " do not open nerdtree on diff mode
   " automatically open NERDTree when vim opens, even when no files are specified.
   " source: https://github.com/scrooloose/nerdtree
   autocmd StdinReadPre * let s:std_in=1
-  autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+  autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | wincmd l  | endif
   " automatically open NERDTree when a file is specified at command line
-  autocmd vimenter * NERDTree
+  autocmd vimenter * NERDTree | wincmd l
 endif
 
 
