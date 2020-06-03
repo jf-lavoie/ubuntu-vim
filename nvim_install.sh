@@ -14,9 +14,24 @@ nativeBundlePath=$HOME/.local/share/nvim/site/pack
 # currentFolder=$HOME/ubuntu-vim-nodejs
 currentFolder=$PWD
 
+sudo apt update
+
+# installing pip3 and install/enable python2 and pip2
+# taken here: https://linuxize.com/post/how-to-install-pip-on-ubuntu-20.04/
 sudo apt install neovim
-sudo apt install python-neovim
-sudo apt install python3-neovim
+sudo apt install python3-pip
+pip3 --version
+sudo add-apt-repository universe
+sudo apt update 
+sudo apt install python2
+curl https://bootstrap.pypa.io/get-pip.py --output get-pip.py
+sudo python2 get-pip.py
+pip2 --version
+rm get-pip.py
+
+# taken here: https://github.com/neovim/pynvim
+pip2 install pynvim
+pip3 install pynvim
 
 # https://github.com/neovim/neovim/wiki/Installing-Neovim
 # Do I really want that?
