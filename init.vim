@@ -2,8 +2,6 @@ set nocompatible
 " source $VIMRUNTIME/mswin.vi
 " behave mswin
 
-" pathogen plugin startin
-call pathogen#infect()
 syntax on
 filetype plugin indent on
 
@@ -122,7 +120,11 @@ set noundofile
 " ---------------------------------------------------
 " taken from here: https://stackoverflow.com/questions/1236563/how-do-i-run-a-terminal-inside-of-vim
 tnoremap <ESC><ESC> <C-\><C-n>
-autocmd TermOpen * startinsert
+if has('nvim')
+  autocmd TermOpen * startinsert
+else
+  autocmd BufNew * if &buftype=="terminal" | startinsert | endif
+endif
 autocmd BufEnter * if &buftype=="terminal" | startinsert | endif
 " ---------------------------------------------------
 
