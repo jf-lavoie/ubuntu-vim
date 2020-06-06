@@ -323,18 +323,18 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 " ---------------------------------------------------
 
 set rtp+=~/.fzf
-nnoremap <C-p> :FZF<enter>
+nnoremap <C-p> :call fzf#run(
+  \   fzf#wrap(
+  \     fzf#vim#with_preview()
+  \   ))<enter>
 
-" command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
   \   'rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1,
   \   fzf#vim#with_preview(), <bang>0)
 nnoremap <leader>f :Rg<enter>
-nnoremap <leader>fw :Rg  <C-r><C-w><enter>
-" nnoremap  <expr> <leader>f ':Ag --ignore node_modules -S "" "' . getcwd() . '"<C-Left><Left><Left>'
 " <C-r><C-w> returns the word under the cursor
-" nnoremap  <expr> <leader>fw ':Ag --ignore node_modules -S "<C-r><C-w>" "' . getcwd() . '"<C-Left><Left><Left>'
+nnoremap <leader>fw :Rg  <C-r><C-w><enter>
 " ---------------------------------------------------
 
 
