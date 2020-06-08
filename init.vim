@@ -407,7 +407,7 @@ let g:neoformat_enabled_yaml = ['prettier'] " is this working?
 " let g:neoformat_try_prettier = 1
 " let g:neoformat_verbose = 1
 noremap <C-F3> :Neoformat<CR>
-:autocmd BufWritePre *.js,*.css,*.json :Neoformat
+:autocmd BufWritePre *.js,*.css,*.json,*.vue,*.ts,*.yml,*.yaml,*.css,*.less,*.scss :Neoformat
 
 
 " ---------------------------------------------------
