@@ -2,8 +2,6 @@ set nocompatible
 " source $VIMRUNTIME/mswin.vi
 " behave mswin
 
-" pathogen plugin startin
-call pathogen#infect()
 syntax on
 filetype plugin indent on
 
@@ -122,7 +120,11 @@ set noundofile
 " ---------------------------------------------------
 " taken from here: https://stackoverflow.com/questions/1236563/how-do-i-run-a-terminal-inside-of-vim
 tnoremap <ESC><ESC> <C-\><C-n>
-autocmd TermOpen * startinsert
+if has('nvim')
+  autocmd TermOpen * startinsert
+else
+  autocmd BufNew * if &buftype=="terminal" | startinsert | endif
+endif
 autocmd BufEnter * if &buftype=="terminal" | startinsert | endif
 " ---------------------------------------------------
 
@@ -321,14 +323,18 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 " ---------------------------------------------------
 
 set rtp+=~/.fzf
-nnoremap <C-p> :FZF<enter>
+nnoremap <C-p> :call fzf#run(
+  \   fzf#wrap(
+  \     fzf#vim#with_preview()
+  \   ))<enter>
 
-command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1,
+  \   fzf#vim#with_preview(), <bang>0)
 nnoremap <leader>f :Rg<enter>
-nnoremap <leader>fw :Rg  <C-r><C-w><enter>
-" nnoremap  <expr> <leader>f ':Ag --ignore node_modules -S "" "' . getcwd() . '"<C-Left><Left><Left>'
 " <C-r><C-w> returns the word under the cursor
-" nnoremap  <expr> <leader>fw ':Ag --ignore node_modules -S "<C-r><C-w>" "' . getcwd() . '"<C-Left><Left><Left>'
+nnoremap <leader>fw :Rg  <C-r><C-w><enter>
 " ---------------------------------------------------
 
 
@@ -401,7 +407,7 @@ let g:neoformat_enabled_yaml = ['prettier'] " is this working?
 " let g:neoformat_try_prettier = 1
 " let g:neoformat_verbose = 1
 noremap <C-F3> :Neoformat<CR>
-:autocmd BufWritePre *.js,*.css,*.json :Neoformat
+:autocmd BufWritePre *.js,*.css,*.json,*.vue,*.ts,*.yml,*.yaml,*.css,*.less,*.scss :Neoformat
 
 
 " ---------------------------------------------------
