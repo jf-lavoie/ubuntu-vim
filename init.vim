@@ -138,11 +138,11 @@ autocmd BufEnter * if &buftype=="terminal" | startinsert | endif
 " using the registers make those mapping agnostic of the plugins.
 " the 'oi<BS><esc>' is just to et leverage the automatic indentation provided
 " by vim 'o' while still returning in normal mode with the <esc>
-autocmd FileType javascript nmap <buffer> <F2> yiwoi<BS><esc>:let @m = 'console.log(''jf-debug-> "' . @" . '": '', ' . @" . ');'<enter><esc>"mp
-autocmd FileType javascript vmap <buffer> <F2> yoi<BS><esc>:let @m = 'console.log(''jf-debug-> "' . @" . '": '', ' . @" . ');'<enter><esc>"mp
-autocmd FileType javascript nmap <buffer> <F3> oi<BS><esc>:let @m = 'console.log(''jf-debug-> arguments: '', arguments);'<enter><esc>"mp<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
-autocmd FileType javascript nmap <buffer> <F4> yiwoi<BS><esc>:let @m = 'console.log(''jf-debug-> "' . @" . '": '', require(''util'').inspect(' . @" . ', {depth:100, colors:false}));'<enter><esc>"mp
-autocmd FileType javascript vmap <buffer> <F4> yoi<BS><esc>:let @m = 'console.log(''jf-debug-> "' . @" . '": '', require(''util'').inspect(' . @" . ', {depth:100, colors:false}));'<enter><esc>"mp
+autocmd FileType javascript,vue nmap <buffer> <F2> yiwoi<BS><esc>:let @m = 'console.log(''jf-debug-> "' . @" . '": '', ' . @" . ');'<enter><esc>"mp
+autocmd FileType javascript,vue vmap <buffer> <F2> yoi<BS><esc>:let @m = 'console.log(''jf-debug-> "' . @" . '": '', ' . @" . ');'<enter><esc>"mp
+autocmd FileType javascript,vue nmap <buffer> <F3> oi<BS><esc>:let @m = 'console.log(''jf-debug-> arguments: '', arguments);'<enter><esc>"mp<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
+autocmd FileType javascript.vue nmap <buffer> <F4> yiwoi<BS><esc>:let @m = 'console.log(''jf-debug-> "' . @" . '": '', require(''util'').inspect(' . @" . ', {depth:100, colors:false}));'<enter><esc>"mp
+autocmd FileType javascript,vue vmap <buffer> <F4> yoi<BS><esc>:let @m = 'console.log(''jf-debug-> "' . @" . '": '', require(''util'').inspect(' . @" . ', {depth:100, colors:false}));'<enter><esc>"mp
 
 " ---------------------------------------------------
 " Adding batch file comment type. Used with plugin commentary
@@ -178,9 +178,10 @@ autocmd BufRead,BufNewFile *.js set suffixesadd+=.js,.json
 " ale configs
 " ---------------------------------------------------
 " let g:ale_linters_explicit = 1
-" let g:ale_linters = {
-" \   'javascript': ['eslint'],
-" \}
+let g:ale_linters = {
+\   'javascript': ['eslint'],
+\   'vue': ['eslint'],
+\}
 " ---------------------------------------------------
 
 " ---------------------------------------------------
