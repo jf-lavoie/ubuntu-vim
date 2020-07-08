@@ -163,7 +163,7 @@ endif
 " generic solution to let syntastic, neoformat, ...
 " find locally installed node_modules and not requiring a global installation.
 " find here: https://github.com/npm/npm/issues/957
-let $PATH .= ':./node_modules/.bin'
+let $PATH = './node_modules/.bin:'.$PATH
 
 " when using gf in javascript file, the extension is not set most of the time.
 " :help path
