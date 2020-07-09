@@ -86,12 +86,21 @@ set autoindent
 set nowrap
 " indent/outdent to nearest tabstops
 set shiftround
-" indentation levels every four columns
+" indentation levels every two columns
 set tabstop=2
 " "number of space characters inserted for indentation
 set shiftwidth=2
 " this is to make sure vim replaces tabs by spaces
 set expandtab
+
+" python is special
+au BufNewFile,BufRead *.py
+    \ set tabstop=4
+    \ set softtabstop=4
+    \ set shiftwidth=4
+    \ set expandtab
+    \ set autoindent
+    \ set fileformat=unix
 
 "----------------------------------------------------
 " Beeping
