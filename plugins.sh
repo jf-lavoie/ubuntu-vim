@@ -184,7 +184,7 @@ function ale {
 
   echo clonig ale
 
-  clone w0rp/ale.git ale
+  clone dense-analysis/ale.git ale
 
   # mkdir -p $bundlePath/ale/start
   # pushd $bundlePath/ale/start
