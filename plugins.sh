@@ -169,6 +169,12 @@ function vim-jsx-pretty {
   clone MaxMEllon/vim-jsx-pretty.git vim-jsx-pretty
 }
 
+
+function vim-go {
+  echo installing vim-go
+  clone fatih/vim-go.git vim-go
+}
+
 function ale {
   echo installing ale
   echo first, installing eslint
@@ -221,4 +227,6 @@ monokai-tasty
 
 json
 jsDoc
+
+vim-go
 
