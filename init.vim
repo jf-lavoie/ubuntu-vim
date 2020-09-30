@@ -416,8 +416,9 @@ let g:neoformat_enabled_vue = ['prettier'] " is this working?
 let g:neoformat_enabled_yaml = ['prettier'] " is this working?
 " let g:neoformat_try_prettier = 1
 " let g:neoformat_verbose = 1
+let g:neoformat_enabled_go = ['gofmt', 'goimports', 'gofumpt', 'gofumports']
 noremap <C-F3> :Neoformat<CR>
-:autocmd BufWritePre *.js,*.css,*.json,*.vue,*.ts,*.yml,*.yaml,*.css,*.less,*.scss :Neoformat
+:autocmd BufWritePre *.js,*.css,*.json,*.vue,*.ts,*.yml,*.yaml,*.css,*.less,*.scss,*.go :Neoformat
 
 
 " ---------------------------------------------------
@@ -506,3 +507,9 @@ let g:closetag_shortcut = '>'
 " Add > at current position without closing the current tag, default is ''
 "
 let g:closetag_close_shortcut = '<leader>>'
+
+" ---------------------------------------------------
+" vim-go
+" ---------------------------------------------------
+" taken here: https://medium.com/@furkanbegen/go-development-with-vim-79cfa0a928b0
+let g:go_def_mapping_enabled = 0
