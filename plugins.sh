@@ -16,7 +16,6 @@ function clone {
   pushd $dest
   git clone https://github.com/$1
   popd # $dest
-
 }
 
 
@@ -49,7 +48,6 @@ function ultisnips {
   pushd $bundlePath
   ln -s $currentFolder/vim-jfsnippets vim-jfsnippets
   popd
-
 }
 
 function coc {
@@ -118,7 +116,7 @@ function json {
 
 function easyAlign {
   echo installing 'easyAlign'
-  clone junegunn/vim-easy-align vim-easy-align
+  clone junegunn/vim-easy-align.git vim-easy-align
 }
 
 function fugitive {
@@ -156,7 +154,7 @@ function multipleCursors {
 
 function lightline {
   echo installing lightline
-  clone itchyny/lightline.vim lightline.vim
+  clone itchyny/lightline.vim.git lightline.vim
 }
 
 function vim-javascript {
@@ -200,7 +198,12 @@ function ale {
 
 function vim-closetag {
   echo installing vim-closetag
-  clone alvan/vim-closetag vim-closetag
+  clone alvan/vim-closetag.git vim-closetag
+}
+
+function vim-terraform {
+  echo installing vim-terraform
+  clone hashivim/vim-terraform.git vim-terraform
 }
 
 nerdtree
@@ -229,4 +232,4 @@ json
 jsDoc
 
 vim-go
-
+vim-terraform
