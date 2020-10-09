@@ -16,7 +16,6 @@ function clone {
   pushd $dest
   git clone https://github.com/$1
   popd # $dest
-
 }
 
 
@@ -203,30 +202,44 @@ function vim-closetag {
   clone alvan/vim-closetag vim-closetag
 }
 
-nerdtree
-fzf
-coc
-ale
-commentary
-neoformat
+function vim-terraform-ls {
+  echo installing terraform-ls
+  mkdir $HOME/terraform-ls
+  pushd $HOME/terraform-ls
+  wget https://releases.hashicorp.com/terraform-ls/0.7.0/terraform-ls_0.7.0_linux_amd64.zip
+  sudo apt-get install -y unzip
+  unzip -o terraform-ls_0.7.0_linux_amd64.zip
+  mkdir -p $HOME/bin
+  ln -sfv $HOME/terraform-ls/terraform-ls $HOME/bin/terraform-ls
+  rm terraform-ls_0.7.0_linux_amd64.zip
+  popd
+}
 
-easyAlign
-ultisnips
-snippets
-fugitive
-delimitMate
-multipleCursors
-lightline
-vim-closetag
 
-# those 3 are required to work together
-vim-javascript
-# vim-jsx-pretty over vim-jsx for this reason: https://github.com/mxw/vim-jsx/issues/183
-vim-jsx-pretty
-monokai-tasty
+# nerdtree
+# fzf
+# coc
+# ale
+# commentary
+# neoformat
 
-json
-jsDoc
+# easyAlign
+# ultisnips
+# snippets
+# fugitive
+# delimitMate
+# multipleCursors
+# lightline
+# vim-closetag
 
-vim-go
+# # those 3 are required to work together
+# vim-javascript
+# # vim-jsx-pretty over vim-jsx for this reason: https://github.com/mxw/vim-jsx/issues/183
+# vim-jsx-pretty
+# monokai-tasty
 
+# json
+# jsDoc
+
+# vim-go
+vim-terraform-ls
