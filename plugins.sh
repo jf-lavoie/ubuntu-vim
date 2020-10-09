@@ -210,12 +210,12 @@ function vim-terraform-ls {
   echo installing terraform-ls
   mkdir $HOME/terraform-ls
   pushd $HOME/terraform-ls
-  wget https://releases.hashicorp.com/terraform-ls/0.7.0/terraform-ls_0.7.0_linux_amd64.zip
+  wget https://releases.hashicorp.com/terraform-ls/0.8.0/terraform-ls_0.8.0_linux_amd64.zip
   sudo apt-get install -y unzip
-  unzip -o terraform-ls_0.7.0_linux_amd64.zip
+  unzip -o terraform-ls_0.8.0_linux_amd64.zip
   mkdir -p $HOME/bin
   ln -sfv $HOME/terraform-ls/terraform-ls $HOME/bin/terraform-ls
-  rm terraform-ls_0.7.0_linux_amd64.zip
+  rm terraform-ls_0.8.0_linux_amd64.zip
   popd
 }
 

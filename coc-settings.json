@@ -15,7 +15,9 @@
       "command": "terraform-ls",
       "args": ["serve"],
       "filetypes": ["terraform", "tf"],
-      "initializationOptions": {},
+      "initializationOptions": {
+        "rootModulePaths": ["/mnt/c/Users/jflavoie/.genvid/terraform/"]
+      },
       "settings": {}
     }
   }
