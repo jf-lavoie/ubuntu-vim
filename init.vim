@@ -221,7 +221,12 @@ inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+" source : https://github.com/neoclide/coc.nvim/wiki/Completion-with-sources
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
 
 function! s:check_back_space() abort
   let col = col('.') - 1
@@ -233,7 +238,7 @@ inoremap <silent><expr> <c-space> coc#refresh()
 
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
 " Coc only does snippet and additional edit on confirm.
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " Or use `complete_info` if your vim support it, like:
 " inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
 
@@ -353,7 +358,7 @@ nnoremap <leader>fw :Rg  <C-r><C-w><enter>
 " ---------------------------------------------------
 " " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 " " let g:UltiSnipsExpandTrigger="<tab>"
-" " let g:UltiSnipsExpandTrigger="<leader>s"
+let g:UltiSnipsExpandTrigger="<leader><tab>"
 " " let g:UltiSnipsJumpForwardTrigger="<c-b>"
 " " let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 " " If you want :UltiSnipsEdit to split your window.
