@@ -172,6 +172,15 @@ function vim-go {
   echo installing vim-go
   clone fatih/vim-go.git vim-go
 }
+function gitgutter {
+  echo installing git-gutter
+  clone airblade/vim-gitgutter.git vim-gitgutter
+  if [ "$VI_TARGET" = "nvim" ]
+  then
+  elif [ "$VI_TARGET" = "gvim" ]
+    vim -u NONE -c "helptags vim-gitgutter/doc" -c q
+  fi
+}
 
 function ale {
   echo installing ale
@@ -206,6 +215,7 @@ function vim-terraform {
   clone hashivim/vim-terraform.git vim-terraform
 }
 
+<<<<<<< HEAD
 function vim-terraform-lsp {
   echo installing terraform-lsp
   mkdir $HOME/terraform-lsp
@@ -245,5 +255,32 @@ function vim-terraform-lsp {
 # jsDoc
 
 # vim-go
-vim-terraform
+=======
+nerdtree
+fzf
+coc
+ale
+commentary
+neoformat
+
+easyAlign
+ultisnips
+snippets
+fugitive
+delimitMate
+multipleCursors
+lightline
+vim-closetag
+
+# those 3 are required to work together
+vim-javascript
+# vim-jsx-pretty over vim-jsx for this reason: https://github.com/mxw/vim-jsx/issues/183
+vim-jsx-pretty
+monokai-tasty
+
+json
+jsDoc
+
+vim-go
+gitgutter
 vim-terraform-lsp
