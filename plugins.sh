@@ -215,7 +215,6 @@ function vim-terraform {
   clone hashivim/vim-terraform.git vim-terraform
 }
 
-<<<<<<< HEAD
 function vim-terraform-lsp {
   echo installing terraform-lsp
   mkdir $HOME/terraform-lsp
@@ -229,33 +228,6 @@ function vim-terraform-lsp {
 }
 
 
-# nerdtree
-# fzf
-# coc
-# ale
-# commentary
-# neoformat
-
-# easyAlign
-# ultisnips
-# snippets
-# fugitive
-# delimitMate
-# multipleCursors
-# lightline
-# vim-closetag
-
-# # those 3 are required to work together
-# vim-javascript
-# # vim-jsx-pretty over vim-jsx for this reason: https://github.com/mxw/vim-jsx/issues/183
-# vim-jsx-pretty
-# monokai-tasty
-
-# json
-# jsDoc
-
-# vim-go
-=======
 nerdtree
 fzf
 coc
@@ -283,4 +255,5 @@ jsDoc
 
 vim-go
 gitgutter
+vim-terraform
 vim-terraform-lsp
