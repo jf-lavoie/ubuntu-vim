@@ -175,6 +175,11 @@ function vim-go {
 function gitgutter {
   echo installing git-gutter
   clone airblade/vim-gitgutter.git vim-gitgutter
+  if [ "$VI_TARGET" = "nvim" ]
+  then
+  elif [ "$VI_TARGET" = "gvim" ]
+    vim -u NONE -c "helptags vim-gitgutter/doc" -c q
+  fi
 }
 
 function ale {
