@@ -16,7 +16,7 @@ sudo apt update
 
 sudo apt install vim-gtk3 
 
-./plugins.sh $installationRoot $bundlePath
+VI_TARGET=gvim ./plugins.sh $installationRoot $bundlePath
 
 
 function vimrc {

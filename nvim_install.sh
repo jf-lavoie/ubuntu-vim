@@ -35,7 +35,7 @@ pip3 --version
 pip2 install pynvim
 pip3 install pynvim
 
-./plugins.sh $installationRoot $bundlePath
+VI_TARGET=nvim ./plugins.sh $installationRoot $bundlePath
 
 # https://github.com/neovim/neovim/wiki/Installing-Neovim
 # Do I really want that?
