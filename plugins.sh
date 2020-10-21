@@ -174,6 +174,10 @@ function vim-go {
   echo installing vim-go
   clone fatih/vim-go.git vim-go
 }
+function gitgutter {
+  echo installing git-gutter
+  clone airblade/vim-gitgutter.git vim-gitgutter
+}
 
 function ale {
   echo installing ale
@@ -229,4 +233,4 @@ json
 jsDoc
 
 vim-go
-
+gitgutter
