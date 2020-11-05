@@ -464,7 +464,7 @@ function! LightlineGitGutter()
   if !get(g:, 'gitgutter_enabled', 0) || empty(FugitiveHead())
     return ''
   endif
-    echo 'returned empty'
+  "   echo 'returned empty'
   let [ l:added, l:modified, l:removed ] = GitGutterGetHunkSummary()
   return printf('+%d ~%d -%d', l:added, l:modified, l:removed)
 endfunction
