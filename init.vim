@@ -449,7 +449,7 @@ let g:lightline = {
       \             [ 'githunks', 'gitbranch', 'readonly', 'filename', 'modified' ] ]
       \ },
       \ 'component': {
-      \   'filename': '%F:%n'
+      \   'filename': '%f:%n'
       \ },
       \ 'component_function': {
       \   'githunks': 'LightlineGitGutter',
@@ -529,4 +529,10 @@ let g:closetag_close_shortcut = '<leader>>'
 " vim-go
 " ---------------------------------------------------
 " taken here: https://medium.com/@furkanbegen/go-development-with-vim-79cfa0a928b0
-let g:go_def_mapping_enabled = 0
+" let g:go_def_mapping_enabled = 0
+let g:go_highlight_structs = 1 
+" https://github.com/fatih/vim-go/issues/316
+let g:go_highlight_methods = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
