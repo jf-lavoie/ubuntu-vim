@@ -142,6 +142,11 @@ function monokai-tasty {
   clone patstockwell/vim-monokai-tasty.git vim-monokai-tasty.vim
 }
 
+function vim-monokai {
+  echo installing 'vim-monokai' color scheme
+  clone crusoexia/vim-monokai.git vim-monokai
+}
+
 function delimitMate {
   echo insalling delimitMate
   clone Raimondi/delimitMate.git delimitMate
@@ -236,6 +241,7 @@ vim-javascript
 # vim-jsx-pretty over vim-jsx for this reason: https://github.com/mxw/vim-jsx/issues/183
 vim-jsx-pretty
 monokai-tasty
+vim-monokai
 
 json
 jsDoc

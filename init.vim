@@ -36,8 +36,10 @@ syntax enable
 " ---------------------------------------------------
 "  vim-monokai-tasty configs
 " ---------------------------------------------------
-let g:vim_monokai_tasty_italic = 1
-colorscheme vim-monokai-tasty
+let g:monokai_term_italic = 1
+let g:monokai_gui_italic = 1
+colorscheme monokai
+
 " ---------------------------------------------------
 
 
@@ -456,7 +458,7 @@ endif
 " lightline configuration
 " ---------------------------------------------------
 let g:lightline = {
-      \ 'colorscheme': 'monokai_tasty',
+      \ 'colorscheme': 'molokai',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'githunks', 'gitbranch', 'readonly', 'filename', 'modified' ] ]
@@ -549,3 +551,5 @@ let g:closetag_close_shortcut = '<leader>>'
 " let g:go_highlight_functions = 1
 " let g:go_highlight_operators = 1
 " let g:go_highlight_build_constraints = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
