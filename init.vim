@@ -163,8 +163,8 @@ autocmd FileType javascript,vue vmap <buffer> <F4> yoi<BS><esc>:let @m = 'consol
 " using the registers make those mapping agnostic of the plugins.
 " the 'oi<BS><esc>' is just to et leverage the automatic indentation provided by vim 'o'
 " while still returning in normal mode with the <esc>
-autocmd FileType go nmap <buffer> <F2> yiwoi<BS><esc>:let @m = 'fmt.Println("jf-debug-> ''' . @" .''': %v", ' . @" . ');'<enter><esc>"mp
-autocmd FileType go vmap <buffer> <F2> yoi<BS><esc>:let @m = 'fmt.Println("jf-debug-> ''' . @" .''': %v", ' . @" . ');'<enter><esc>"mp
+autocmd FileType go nmap <buffer> <F2> yiwoi<BS><esc>:let @m = 'fmt.Println("jf-debug-> ''' . @" .''': ", ' . @" . ');'<enter><esc>"mp
+autocmd FileType go vmap <buffer> <F2> yoi<BS><esc>:let @m = 'fmt.Println("jf-debug-> ''' . @" .''': ", ' . @" . ');'<enter><esc>"mp
 
 " ---------------------------------------------------
 " Adding batch file comment type. Used with plugin commentary
