@@ -36,8 +36,13 @@ syntax enable
 " ---------------------------------------------------
 "  vim-monokai-tasty configs
 " ---------------------------------------------------
-let g:vim_monokai_tasty_italic = 1
-colorscheme vim-monokai-tasty
+" let g:monokai_term_italic = 1
+" let g:monokai_gui_italic = 1
+" colorscheme monokai
+
+packadd! dracula
+colorscheme dracula
+
 " ---------------------------------------------------
 
 
@@ -145,13 +150,26 @@ autocmd BufEnter * if &buftype=="terminal" | startinsert | endif
 " printed
 " the delimiter plugin was adding double quote, single quotes, ....
 " using the registers make those mapping agnostic of the plugins.
-" the 'oi<BS><esc>' is just to et leverage the automatic indentation provided
-" by vim 'o' while still returning in normal mode with the <esc>
+" the 'oi<BS><esc>' is just to et leverage the automatic indentation provided by vim 'o'
+" while still returning in normal mode with the <esc>
 autocmd FileType javascript,vue nmap <buffer> <F2> yiwoi<BS><esc>:let @m = 'console.log(''jf-debug-> "' . @" . '": '', ' . @" . ');'<enter><esc>"mp
 autocmd FileType javascript,vue vmap <buffer> <F2> yoi<BS><esc>:let @m = 'console.log(''jf-debug-> "' . @" . '": '', ' . @" . ');'<enter><esc>"mp
 autocmd FileType javascript,vue nmap <buffer> <F3> oi<BS><esc>:let @m = 'console.log(''jf-debug-> arguments: '', arguments);'<enter><esc>"mp<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
 autocmd FileType javascript.vue nmap <buffer> <F4> yiwoi<BS><esc>:let @m = 'console.log(''jf-debug-> "' . @" . '": '', require(''util'').inspect(' . @" . ', {depth:100, colors:false}));'<enter><esc>"mp
 autocmd FileType javascript,vue vmap <buffer> <F4> yoi<BS><esc>:let @m = 'console.log(''jf-debug-> "' . @" . '": '', require(''util'').inspect(' . @" . ', {depth:100, colors:false}));'<enter><esc>"mp
+
+" ---------------------------------------------------
+" GO specific shortcuts
+" ---------------------------------------------------
+" in order to prevent some plugins (like delimiter) to interfer with the typed
+" characters, the content is provided to a register, and this register is
+" printed
+" the delimiter plugin was adding double quote, single quotes, ....
+" using the registers make those mapping agnostic of the plugins.
+" the 'oi<BS><esc>' is just to et leverage the automatic indentation provided by vim 'o'
+" while still returning in normal mode with the <esc>
+autocmd FileType go nmap <buffer> <F2> yiwoi<BS><esc>:let @m = 'fmt.Println("jf-debug-> ''' . @" .''': ", ' . @" . ');'<enter><esc>"mp
+autocmd FileType go vmap <buffer> <F2> yoi<BS><esc>:let @m = 'fmt.Println("jf-debug-> ''' . @" .''': ", ' . @" . ');'<enter><esc>"mp
 
 " ---------------------------------------------------
 " Adding batch file comment type. Used with plugin commentary
@@ -443,13 +461,13 @@ endif
 " lightline configuration
 " ---------------------------------------------------
 let g:lightline = {
-      \ 'colorscheme': 'monokai_tasty',
+      \ 'colorscheme': 'molokai',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'githunks', 'gitbranch', 'readonly', 'filename', 'modified' ] ]
       \ },
       \ 'component': {
-      \   'filename': '%F:%n'
+      \   'filename': '%f:%n'
       \ },
       \ 'component_function': {
       \   'githunks': 'LightlineGitGutter',
@@ -529,4 +547,12 @@ let g:closetag_close_shortcut = '<leader>>'
 " vim-go
 " ---------------------------------------------------
 " taken here: https://medium.com/@furkanbegen/go-development-with-vim-79cfa0a928b0
-let g:go_def_mapping_enabled = 0
+" let g:go_def_mapping_enabled = 0
+" let g:go_highlight_structs = 1 
+" https://github.com/fatih/vim-go/issues/316
+" let g:go_highlight_methods = 1
+" let g:go_highlight_functions = 1
+" let g:go_highlight_operators = 1
+" let g:go_highlight_build_constraints = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
