@@ -14,7 +14,7 @@ function clone {
   fi
   mkdir -p $dest
   pushd $dest
-  git clone https://github.com/$1
+  git clone https://github.com/$1 $3
   popd # $dest
 }
 
@@ -147,6 +147,11 @@ function vim-monokai {
   clone crusoexia/vim-monokai.git vim-monokai
 }
 
+function dracula {
+  echo installing 'dracula' color scheme
+  clone dracula/vim.git dracula dracula
+}
+
 function delimitMate {
   echo insalling delimitMate
   clone Raimondi/delimitMate.git delimitMate
@@ -242,6 +247,7 @@ vim-javascript
 vim-jsx-pretty
 monokai-tasty
 vim-monokai
+dracula
 
 json
 jsDoc

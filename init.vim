@@ -36,9 +36,12 @@ syntax enable
 " ---------------------------------------------------
 "  vim-monokai-tasty configs
 " ---------------------------------------------------
-let g:monokai_term_italic = 1
-let g:monokai_gui_italic = 1
-colorscheme monokai
+" let g:monokai_term_italic = 1
+" let g:monokai_gui_italic = 1
+" colorscheme monokai
+
+packadd! dracula
+colorscheme dracula
 
 " ---------------------------------------------------
 
