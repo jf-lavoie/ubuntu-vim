@@ -209,6 +209,7 @@ let g:ale_linters = {
 \   'javascript': ['eslint'],
 \   'vue': ['eslint'],
 \}
+let g:ale_go_golangci_lint_options = '--enable-all'
 " ---------------------------------------------------
 
 " ---------------------------------------------------
@@ -556,3 +557,13 @@ let g:closetag_close_shortcut = '<leader>>'
 " let g:go_highlight_build_constraints = 1
 let g:go_highlight_functions = 1
 let g:go_highlight_function_calls = 1
+
+" coc and vim-go competes for the same shortcuts: K and gd. (maybe more?)
+" https://github.com/fatih/vim-go/commit/8c589255cba97103b84c0c8de74d233521613195
+" https://github.com/fatih/vim-go/blob/d2dfc048a07c81d016ee97f7eb8a297d0f1c6aeb/ftplugin/go.vim
+" they both start a gopls server
+" unable to make them work nicely togheter....using both with their own
+" server.
+" " using coc for language server instead
+" let g:go_gopls_enabled = 0
+" let g:go_def_mapping_enabled = 0
