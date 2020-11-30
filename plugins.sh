@@ -187,7 +187,9 @@ function gitgutter {
   clone airblade/vim-gitgutter.git vim-gitgutter
   if [ "$VI_TARGET" = "nvim" ]
   then
+    nvim -u NONE -c "helptags vim-gitgutter/doc" -c q
   elif [ "$VI_TARGET" = "gvim" ]
+  then
     vim -u NONE -c "helptags vim-gitgutter/doc" -c q
   fi
 }
