@@ -462,7 +462,7 @@ endif
 " lightline configuration
 " ---------------------------------------------------
 let g:lightline = {
-      \ 'colorscheme': 'molokai',
+      \ 'colorscheme': 'dracula',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'githunks', 'gitbranch', 'readonly', 'filename', 'modified' ] ]
@@ -481,6 +481,7 @@ set noshowmode " mode is already displayed in the status line
 " taken from here: https://gitlab.com/polyzen/dotfiles/blob/dce37955a745ee23efd247306781f8bc4a4d62bc/base/.vim/vimrc#L158
 function! LightlineGitGutter()
   if !get(g:, 'gitgutter_enabled', 0) || empty(FugitiveHead())
+    " echo "gitgutter"
     return ''
   endif
   "   echo 'returned empty'
