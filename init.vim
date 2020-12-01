@@ -440,7 +440,10 @@ let g:neoformat_enabled_vue = ['prettier'] " is this working?
 let g:neoformat_enabled_yaml = ['prettier'] " is this working?
 " let g:neoformat_try_prettier = 1
 " let g:neoformat_verbose = 1
-let g:neoformat_enabled_go = ['gofmt', 'goimports', 'gofumpt', 'gofumports']
+"
+" goimports > gofmt : https://goinbigdata.com/goimports-vs-gofmt/
+let g:neoformat_enabled_go = ['goimports', 'gofmt', 'gofumpt', 'gofumports']
+
 noremap <C-F3> :Neoformat<CR>
 :autocmd BufWritePre *.js,*.css,*.json,*.vue,*.ts,*.yml,*.yaml,*.css,*.less,*.scss,*.go :Neoformat
 
