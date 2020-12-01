@@ -72,6 +72,7 @@ function coc {
   npm install coc-tsserver --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
   npm install coc-json --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
   npm install coc-css --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
+  npm install coc-pyright --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
 
   popd # $HOME/.config/coc/extensions
 
