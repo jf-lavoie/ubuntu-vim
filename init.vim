@@ -361,13 +361,35 @@ nnoremap <C-p> :call fzf#run(
   \     fzf#vim#with_preview()
   \   ))<enter>
 
+" taken here: https://github.com/junegunn/fzf.vim/issues/1081
+" linked there: https://github.com/junegunn/fzf.vim#example-advanced-ripgrep-integration
+function! RipgrepFzf(query, fullscreen)
+  let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
+  let initial_command = printf(command_fmt, shellescape(a:query))
+  let reload_command = printf(command_fmt, '{q}')
+  let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+endfunction
+command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
+
+nnoremap <leader>fr :RG<enter>
+
+" taken here: https://github.com/junegunn/fzf.vim#example-rg-command-with-preview-window
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
   \   'rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1,
   \   fzf#vim#with_preview(), <bang>0)
+
 nnoremap <leader>f :Rg<enter>
 " <C-r><C-w> returns the word under the cursor
 nnoremap <leader>fw :Rg  <C-r><C-w><enter>
+
+" todo: future improvement: add a visual selection search. Hightlight test in
+" visual mode than search for it using Rg.
+" see https://stackoverflow.com/questions/41238238/how-to-map-vim-visual-mode-to-replace-my-selected-text-parts
+" to get visual selection
+" if no selection, revert to current behavior of <C-r><C-w>
+
 " ---------------------------------------------------
 
 
