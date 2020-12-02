@@ -240,6 +240,16 @@ function vim-terraform-lsp {
   popd
 }
 
+function vim-markdown {
+  echo installing vim-markdown
+  clone plasticboy/vim-markdown.git plasticboy/vim-markdown
+}
+
+function markdown-preview {
+  echo installing markdown-preview.nvim
+  clone iamcco/markdown-preview.nvim.git iamcco/markdown-preview.nvim
+}
+
 
 nerdtree
 fzf
@@ -271,4 +281,10 @@ jsDoc
 vim-go
 gitgutter
 vim-terraform
+<<<<<<< HEAD
 vim-terraform-lsp
+=======
+
+vim-markdown
+markdown-preview
+>>>>>>> master
