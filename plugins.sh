@@ -228,6 +228,18 @@ function vim-terraform {
   clone hashivim/vim-terraform.git vim-terraform
 }
 
+function vim-markdown {
+  echo installing vim-markdown
+  clone plasticboy/vim-markdown.git plasticboy/vim-markdown
+}
+
+function markdown-preview {
+
+  echo installing markdown-preview.nvim
+  clone iamcco/markdown-preview.nvim.git iamcco/markdown-preview.nvim
+}
+
+
 nerdtree
 fzf
 coc
@@ -258,3 +270,6 @@ jsDoc
 vim-go
 gitgutter
 vim-terraform
+
+vim-markdown
+markdown-preview
