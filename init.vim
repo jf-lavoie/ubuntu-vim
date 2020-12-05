@@ -456,7 +456,7 @@ nnoremap <leader>fw :Rg  <C-r><C-w><enter>
 
 " UltiSnips is the default bundle used by UltiSnips. It is installed via
 " 'vim-snippets' plugin
-let g:UltiSnipsSnippetDirectories=["UltiSnips", "jfsnippets"]
+let g:UltiSnipsSnippetDirectories=["UltiSnips", "jfsnippets", "gosnippets/UltiSnips"]
 
 
 " ---------------------------------------------------
