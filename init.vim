@@ -249,10 +249,25 @@ set signcolumn=yes
 
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+" inoremap <silent><expr> <TAB>
+"       \ pumvisible() ? "\<C-n>" :
+"       \ <SID>check_back_space() ? "\<TAB>" :
+"       \ coc#refresh()
+" this new mapping was gotten here: https://github.com/neoclide/coc-snippets
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
+      \ pumvisible()
+      \ ? coc#_select_confirm() 
+      \ : coc#expandableOrJumpable()
+      \   ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" 
+      \   : <SID>check_back_space() 
+      \     ? "\<TAB>" 
+      \     : coc#refresh()
+
+let g:UltiSnipsExpandTrigger='<Nop>'
+let g:UltiSnipsJumpForwardTrigger = '<TAB>'
+let g:UltiSnipsJumpBackwardTrigger = '<S-TAB>'
+let g:coc_snippet_next = '<TAB>'
+let g:coc_snippet_prev = '<S-TAB>'
 
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
@@ -412,7 +427,7 @@ nnoremap <leader>fw :Rg  <C-r><C-w><enter>
 " ---------------------------------------------------
 " " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 " " let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsExpandTrigger="<leader><tab>"
+" let g:UltiSnipsExpandTrigger="<leader><tab>"
 " " let g:UltiSnipsJumpForwardTrigger="<c-b>"
 " " let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 " " If you want :UltiSnipsEdit to split your window.
@@ -432,7 +447,7 @@ let g:UltiSnipsExpandTrigger="<leader><tab>"
 "   return ""
 " endfunction
 " au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
-" " let g:UltiSnipsJumpForwardTrigger="<tab>"
+" let g:UltiSnipsJumpForwardTrigger="<tab>"
 " " let g:UltiSnipsListSnippets="<c-e>"
 " " this mapping Enter key to <C-y> to chose the current highlight item
 " " and close the selection list, same as other IDEs.
