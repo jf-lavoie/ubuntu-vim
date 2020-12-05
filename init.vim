@@ -168,8 +168,8 @@ autocmd FileType javascript,vue vmap <buffer> <F4> yoi<BS><esc>:let @m = 'consol
 " using the registers make those mapping agnostic of the plugins.
 " the 'oi<BS><esc>' is just to et leverage the automatic indentation provided by vim 'o'
 " while still returning in normal mode with the <esc>
-autocmd FileType go nmap <buffer> <F2> yiwoi<BS><esc>:let @m = 'fmt.Println("jf-debug-> ''' . @" .''': ", ' . @" . ');'<enter><esc>"mp
-autocmd FileType go vmap <buffer> <F2> yoi<BS><esc>:let @m = 'fmt.Println("jf-debug-> ''' . @" .''': ", ' . @" . ');'<enter><esc>"mp
+autocmd FileType go nmap <buffer> <F2> yiwoi<BS><esc>:let @m = 'fmt.Printf("jf-debug-> ''' . @" .''': %#v\n", ' . @" . ');'<enter><esc>"mp
+autocmd FileType go vmap <buffer> <F2> yoi<BS><esc>:let @m = 'fmt.Printf("jf-debug-> ''' . @" .''': %#v\n", ' . @" . ');'<enter><esc>"mp
 
 " ---------------------------------------------------
 " Adding batch file comment type. Used with plugin commentary
@@ -208,8 +208,22 @@ autocmd BufRead,BufNewFile *.js set suffixesadd+=.js,.json
 let g:ale_linters = {
 \   'javascript': ['eslint'],
 \   'vue': ['eslint'],
+\   'go': ['golangci_lint']
 \}
+
 let g:ale_go_golangci_lint_options = '--enable-all'
+
+" https://github.com/dense-analysis/ale/issues/591
+" let g:ale_fixers = {
+" \   'go': ['goimports']
+" \}
+" let g:ale_fix_on_save = 1
+
+" If you wish to show Vim windows for the loclist or quickfix items when a file contains warnings or errors, 
+" let g:ale_open_list=1 breaks when using terminal window...
+
+" using coc instead https://github.com/dense-analysis/ale#5iii-how-can-i-use-ale-and-cocnvim-together
+let g:ale_disable_lsp = 1
 " ---------------------------------------------------
 
 " ---------------------------------------------------
@@ -547,14 +561,6 @@ let g:closetag_close_shortcut = '<leader>>'
 " ---------------------------------------------------
 " vim-go
 " ---------------------------------------------------
-" taken here: https://medium.com/@furkanbegen/go-development-with-vim-79cfa0a928b0
-" let g:go_def_mapping_enabled = 0
-" let g:go_highlight_structs = 1 
-" https://github.com/fatih/vim-go/issues/316
-" let g:go_highlight_methods = 1
-" let g:go_highlight_functions = 1
-" let g:go_highlight_operators = 1
-" let g:go_highlight_build_constraints = 1
 let g:go_highlight_functions = 1
 let g:go_highlight_function_calls = 1
 
