@@ -72,6 +72,7 @@ function coc {
   npm install coc-tsserver --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
   npm install coc-json --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
   npm install coc-css --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
+  npm install coc-pyright --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
 
   popd # $HOME/.config/coc/extensions
 
@@ -187,7 +188,9 @@ function gitgutter {
   clone airblade/vim-gitgutter.git vim-gitgutter
   if [ "$VI_TARGET" = "nvim" ]
   then
+    nvim -u NONE -c "helptags vim-gitgutter/doc" -c q
   elif [ "$VI_TARGET" = "gvim" ]
+  then
     vim -u NONE -c "helptags vim-gitgutter/doc" -c q
   fi
 }
@@ -225,6 +228,18 @@ function vim-terraform {
   clone hashivim/vim-terraform.git vim-terraform
 }
 
+function vim-markdown {
+  echo installing vim-markdown
+  clone plasticboy/vim-markdown.git plasticboy/vim-markdown
+}
+
+function markdown-preview {
+
+  echo installing markdown-preview.nvim
+  clone iamcco/markdown-preview.nvim.git iamcco/markdown-preview.nvim
+}
+
+
 nerdtree
 fzf
 coc
@@ -255,3 +270,6 @@ jsDoc
 vim-go
 gitgutter
 vim-terraform
+
+vim-markdown
+markdown-preview

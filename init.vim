@@ -99,13 +99,12 @@ set shiftwidth=2
 set expandtab
 
 " python is special
-au BufNewFile,BufRead *.py
-    \ set tabstop=4
-    \ set softtabstop=4
-    \ set shiftwidth=4
-    \ set expandtab
-    \ set autoindent
-    \ set fileformat=unix
+au BufNewFile,BufRead *.py set tabstop=4
+                        \ set softtabstop=4
+                        \ set shiftwidth=4
+                        \ set expandtab
+                        \ set autoindent
+                        \ set fileformat=unix
 
 "----------------------------------------------------
 " Beeping
@@ -376,13 +375,35 @@ nnoremap <C-p> :call fzf#run(
   \     fzf#vim#with_preview()
   \   ))<enter>
 
+" taken here: https://github.com/junegunn/fzf.vim/issues/1081
+" linked there: https://github.com/junegunn/fzf.vim#example-advanced-ripgrep-integration
+function! RipgrepFzf(query, fullscreen)
+  let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
+  let initial_command = printf(command_fmt, shellescape(a:query))
+  let reload_command = printf(command_fmt, '{q}')
+  let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+endfunction
+command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
+
+nnoremap <leader>fr :RG<enter>
+
+" taken here: https://github.com/junegunn/fzf.vim#example-rg-command-with-preview-window
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
   \   'rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1,
   \   fzf#vim#with_preview(), <bang>0)
+
 nnoremap <leader>f :Rg<enter>
 " <C-r><C-w> returns the word under the cursor
 nnoremap <leader>fw :Rg  <C-r><C-w><enter>
+
+" todo: future improvement: add a visual selection search. Hightlight test in
+" visual mode than search for it using Rg.
+" see https://stackoverflow.com/questions/41238238/how-to-map-vim-visual-mode-to-replace-my-selected-text-parts
+" to get visual selection
+" if no selection, revert to current behavior of <C-r><C-w>
+
 " ---------------------------------------------------
 
 
@@ -454,7 +475,10 @@ let g:neoformat_enabled_vue = ['prettier'] " is this working?
 let g:neoformat_enabled_yaml = ['prettier'] " is this working?
 " let g:neoformat_try_prettier = 1
 " let g:neoformat_verbose = 1
-let g:neoformat_enabled_go = ['gofmt', 'goimports', 'gofumpt', 'gofumports']
+"
+" goimports > gofmt : https://goinbigdata.com/goimports-vs-gofmt/
+let g:neoformat_enabled_go = ['goimports', 'gofmt', 'gofumpt', 'gofumports']
+
 noremap <C-F3> :Neoformat<CR>
 :autocmd BufWritePre *.js,*.css,*.json,*.vue,*.ts,*.yml,*.yaml,*.css,*.less,*.scss,*.go :Neoformat
 
@@ -476,7 +500,7 @@ endif
 " lightline configuration
 " ---------------------------------------------------
 let g:lightline = {
-      \ 'colorscheme': 'molokai',
+      \ 'colorscheme': 'dracula',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'githunks', 'gitbranch', 'readonly', 'filename', 'modified' ] ]
@@ -495,6 +519,7 @@ set noshowmode " mode is already displayed in the status line
 " taken from here: https://gitlab.com/polyzen/dotfiles/blob/dce37955a745ee23efd247306781f8bc4a4d62bc/base/.vim/vimrc#L158
 function! LightlineGitGutter()
   if !get(g:, 'gitgutter_enabled', 0) || empty(FugitiveHead())
+    " echo "gitgutter"
     return ''
   endif
   "   echo 'returned empty'
