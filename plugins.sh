@@ -8,18 +8,34 @@ currentFolder=$PWD
 echo currentFolder $currentFolder
 
 function clone {
-  echo Cloning $2 to $dest
-  local dest=$INSTALL_VI_BUNDLEPATH
-  echo dest $dest
-  if [ -d $dest/$2 ]; then
-    rm -rf $dest/$2
+
+  # $1 repo path to clone
+  # $2 friendly name of the repo
+  # $3 -optionnal- the destination directory. uses the git clone default behavior if not provided
+
+  local defaultDest=$(basename $1 .git)
+  # echo default $defaultDest
+
+  local dest=${3:-$defaultDest}
+  # echo dest $dest
+  echo Cloning $2 to $INSTALL_VI_BUNDLEPATH/$dest
+
+  pushd $INSTALL_VI_BUNDLEPATH
+
+  if [ -d $dest ]; then
+    rm -rf $dest
   fi
+
   mkdir -p $dest
-  pushd $dest
-  git clone https://github.com/$1 $3
-  popd # $dest
+
+  git clone https://github.com/$1 $dest
+
+  popd # $INSTALL_VI_BUNDLEPATH
 }
 
+function runCommand {
+  bash -c "$INSTALL_VI_TARGET --cmd \"$1\" --cmd \"qa\""
+}
 
 function fzf {
   git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf
@@ -185,6 +201,8 @@ function vim-jsx-pretty {
 function vim-go {
   echo installing vim-go
   clone fatih/vim-go.git vim-go
+
+  runCommand "GoInstallBinaries"
 }
 function gitgutter {
   echo installing git-gutter
@@ -240,6 +258,8 @@ function markdown-preview {
 
   echo installing markdown-preview.nvim
   clone iamcco/markdown-preview.nvim.git iamcco/markdown-preview.nvim
+
+  runCommand "call mkdp#util#install_sync()"
 }
 
 

@@ -597,6 +597,8 @@ let g:closetag_shortcut = '>'
 " Add > at current position without closing the current tag, default is ''
 "
 let g:closetag_close_shortcut = '<leader>>'
+" ---------------------------------------------------
+
 
 " ---------------------------------------------------
 " vim-go
@@ -613,3 +615,4 @@ let g:go_highlight_function_calls = 1
 " " using coc for language server instead
 " let g:go_gopls_enabled = 0
 " let g:go_def_mapping_enabled = 0
+" ---------------------------------------------------
