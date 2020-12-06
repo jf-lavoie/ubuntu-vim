@@ -616,3 +616,11 @@ let g:go_highlight_function_calls = 1
 " let g:go_gopls_enabled = 0
 " let g:go_def_mapping_enabled = 0
 " ---------------------------------------------------
+
+
+" ---------------------------------------------------
+" vim-markdown
+" ---------------------------------------------------
+" default is 4
+let g:vim_markdown_new_list_item_indent = 2
+" ---------------------------------------------------
