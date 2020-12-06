@@ -1,17 +1,12 @@
 #!/bin/bash
 
+source .env.nvim
 
-installationRoot=$HOME/.config/nvim
-rm -rf $installationRoot
+rm -rf $INSTALL_VI_ROOTPATH
 
-if [ ! -d $installationRoot ]; then
-  mkdir -p $installationRoot
+if [ ! -d $INSTALL_VI_ROOTPATH ]; then
+  mkdir -p $INSTALL_VI_ROOTPATH
 fi
-
-# bundlePath=$installationRoot/bundle
-# nativeBundlePath=$HOME/.local/share/nvim/site/pack
-
-bundlePath=$HOME/.local/share/nvim/site/pack/plugins/start
 
 currentFolder=$PWD
 
@@ -35,7 +30,7 @@ pip3 --version
 pip2 install pynvim
 pip3 install pynvim
 
-VI_TARGET=nvim ./plugins.sh $installationRoot $bundlePath
+./plugins.sh
 
 # https://github.com/neovim/neovim/wiki/Installing-Neovim
 # Do I really want that?
@@ -50,7 +45,7 @@ VI_TARGET=nvim ./plugins.sh $installationRoot $bundlePath
 function vimrc {
   local dest=$currentFolder
 
-  pushd $installationRoot
+  pushd $INSTALL_VI_ROOTPATH
 
   echo Symlinking init.vim
   rm init.vim
