@@ -1,13 +1,13 @@
-installationRoot=$1
-echo installationRoot $installationRoot
-bundlePath=$2
-echo bundlePath $bundlePath
+echo INSTALL_VI_ROOTPATH $INSTALL_VI_ROOTPATH
+echo INSTALL_VI_BUNDLEPATH $INSTALL_VI_BUNDLEPATH
+echo INSTALL_VI_TARGET $INSTALL_VI_TARGET
+
 currentFolder=$PWD
 echo currentFolder $currentFolder
 
 function clone {
   echo Cloning $2 to $dest
-  local dest=$bundlePath
+  local dest=$INSTALL_VI_BUNDLEPATH
   echo dest $dest
   if [ -d $dest/$2 ]; then
     rm -rf $dest/$2
@@ -45,7 +45,7 @@ function ultisnips {
 
   # also adding custom snippets
   # in order to work, the array g:UltiSnipsSnippetDirectories must contain "jf-snippets". Done in .vimrc
-  pushd $bundlePath
+  pushd $INSTALL_VI_BUNDLEPATH
   ln -s $currentFolder/vim-jfsnippets vim-jfsnippets
   popd
 }
@@ -56,10 +56,10 @@ function coc {
   local dest=$currentFolder
 
   # source: https://github.com/neoclide/coc.nvim/wiki/Install-coc.nvim
-  mkdir -p $bundlePath
-  pushd $bundlePath
+  mkdir -p $INSTALL_VI_BUNDLEPATH
+  pushd $INSTALL_VI_BUNDLEPATH
   curl --fail -L https://github.com/neoclide/coc.nvim/archive/release.tar.gz|tar xzfv -
-  popd # $bundlePath
+  popd # $INSTALL_VI_BUNDLEPATH
 
   mkdir -p $HOME/.config/coc/extensions
   pushd $HOME/.config/coc/extensions
@@ -73,11 +73,12 @@ function coc {
   npm install coc-json --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
   npm install coc-css --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
   npm install coc-pyright --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
+  npm install coc-snippets --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
 
   popd # $HOME/.config/coc/extensions
 
 
-  pushd $installationRoot
+  pushd $INSTALL_VI_ROOTPATH
   ln -s $dest/coc-settings.json coc-settings.json
   popd
 }
@@ -186,10 +187,10 @@ function vim-go {
 function gitgutter {
   echo installing git-gutter
   clone airblade/vim-gitgutter.git vim-gitgutter
-  if [ "$VI_TARGET" = "nvim" ]
+  if [ "$INSTALL_VI_TARGET" = "nvim" ]
   then
     nvim -u NONE -c "helptags vim-gitgutter/doc" -c q
-  elif [ "$VI_TARGET" = "gvim" ]
+  elif [ "$INSTALL_VI_TARGET" = "gvim" ]
   then
     vim -u NONE -c "helptags vim-gitgutter/doc" -c q
   fi
@@ -212,8 +213,8 @@ function ale {
 
   clone dense-analysis/ale.git ale
 
-  # mkdir -p $bundlePath/ale/start
-  # pushd $bundlePath/ale/start
+  # mkdir -p $INSTALL_VI_BUNDLEPATH/ale/start
+  # pushd $INSTALL_VI_BUNDLEPATH/ale/start
   # git clone https://github.com/w0rp/ale.git
   # popd
 }

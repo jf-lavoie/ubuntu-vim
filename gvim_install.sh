@@ -1,14 +1,12 @@
 #!/bin/bash
 
-installationRoot=$HOME/.vim
-rm -rf $installationRoot
+source .env.gvim
 
-if [ ! -d $installationRoot ]; then
-  mkdir -p $installationRoot
+rm -rf $INSTALL_VI_ROOTPATH
+
+if [ ! -d $INSTALL_VI_ROOTPATH ]; then
+  mkdir -p $INSTALL_VI_ROOTPATH
 fi
-
-bundlePath=$installationRoot/pack/plugins/start
-
 
 currentFolder=$PWD
 
@@ -16,8 +14,7 @@ sudo apt update
 
 sudo apt install vim-gtk3 
 
-VI_TARGET=gvim ./plugins.sh $installationRoot $bundlePath
-
+./plugins.sh
 
 function vimrc {
   local dest=$currentFolder
