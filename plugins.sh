@@ -1,3 +1,5 @@
+# taken here: https://unix.stackexchange.com/questions/228331/avoid-running-the-script-if-a-variable-is-not-defined
+set -u # or set -o nounset
 echo INSTALL_VI_ROOTPATH $INSTALL_VI_ROOTPATH
 echo INSTALL_VI_BUNDLEPATH $INSTALL_VI_BUNDLEPATH
 echo INSTALL_VI_TARGET $INSTALL_VI_TARGET
