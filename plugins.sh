@@ -41,9 +41,9 @@ function fzf {
   git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf
   $HOME/.fzf/install
 
-  curl -LO https://github.com/BurntSushi/ripgrep/releases/download/11.0.2/ripgrep_11.0.2_amd64.deb
-  sudo dpkg -i ripgrep_11.0.2_amd64.deb
-  rm ripgrep_11.0.2_amd64.deb
+  curl -LO https://github.com/BurntSushi/ripgrep/releases/download/12.1.1/ripgrep_12.1.1_amd64.deb
+  sudo dpkg -i ripgrep_12.1.1_amd64.deb
+  rm ripgrep_12.1.1_amd64.deb
 
   grep -qxF 'export FZF_DEFAULT_OPTS="--extended"' $HOME/.bashrc || echo 'export FZF_DEFAULT_OPTS="--extended"' >> $HOME/.bashrc
   # for the quoting escape black magic fuckery : https://stackoverflow.com/questions/1250079/how-to-escape-single-quotes-within-single-quoted-strings
