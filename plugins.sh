@@ -305,10 +305,7 @@ jsDoc
 vim-go
 gitgutter
 vim-terraform
-<<<<<<< HEAD
 vim-terraform-ls
-=======
 
 vim-markdown
 markdown-preview
->>>>>>> master
