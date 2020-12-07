@@ -30,6 +30,11 @@ pip3 --version
 pip2 install pynvim
 pip3 install pynvim
 
+
+# taken from :checkhealth
+npm install -g neovim
+
+
 ./plugins.sh
 
 # https://github.com/neovim/neovim/wiki/Installing-Neovim
