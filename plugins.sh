@@ -259,6 +259,14 @@ function markdown-preview {
   echo installing markdown-preview.nvim
   clone iamcco/markdown-preview.nvim.git iamcco/markdown-preview.nvim
 
+  # when using under WSL2
+  # sources:
+  # https://github.com/iamcco/markdown-preview.nvim
+  # https://github.com/iamcco/markdown-preview.nvim/issues/199
+  if [[ $(uname -a) == *microsoft* ]]; then
+    sudo apt update && sudo apt-get install -y xdg-utils
+  fi
+
   runCommand "call mkdp#util#install_sync()"
 }
 
