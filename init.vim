@@ -625,3 +625,16 @@ let g:go_highlight_function_calls = 1
 " default is 4
 let g:vim_markdown_new_list_item_indent = 2
 " ---------------------------------------------------
+
+" ---------------------------------------------------
+" vim-subversive
+" ---------------------------------------------------
+" s for substitute
+nmap s <plug>(SubversiveSubstitute)
+nmap ss <plug>(SubversiveSubstituteLine)
+nmap S <plug>(SubversiveSubstituteToEndOfLine)
+
+nmap <leader>s <plug>(SubversiveSubstituteRange)
+xmap <leader>s <plug>(SubversiveSubstituteRange)
+nmap <leader>ss <plug>(SubversiveSubstituteWordRange)
+" ---------------------------------------------------

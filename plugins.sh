@@ -281,6 +281,13 @@ function markdown-preview {
   runCommand "call mkdp#util#install_sync()"
 }
 
+function vim-subversive {
+  echo installing vim-subversive
+
+  clone svermeulen/vim-subversive.git svermeulen/vim-subversive
+
+}
+
 
 nerdtree
 fzf
@@ -316,3 +323,4 @@ vim-terraform-lsp
 
 vim-markdown
 markdown-preview
+vim-subversive
