@@ -394,7 +394,7 @@ nnoremap <C-p> :call fzf#run(
 " taken here: https://github.com/junegunn/fzf.vim/issues/1081
 " linked there: https://github.com/junegunn/fzf.vim#example-advanced-ripgrep-integration
 function! RipgrepFzf(query, fullscreen)
-  let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case --no-filename -- %s || true'
+  let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
   let initial_command = printf(command_fmt, shellescape(a:query))
   let reload_command = printf(command_fmt, '{q}')
   let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
@@ -407,7 +407,7 @@ nnoremap <leader>fr :RG<enter>
 " taken here: https://github.com/junegunn/fzf.vim#example-rg-command-with-preview-window
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always --smart-case --no-filename -- '.shellescape(<q-args>), 1,
+  \   'rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1,
   \   fzf#vim#with_preview(), <bang>0)
 
 nnoremap <leader>f :Rg<enter>
