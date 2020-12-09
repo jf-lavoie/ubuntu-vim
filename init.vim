@@ -637,4 +637,13 @@ nmap S <plug>(SubversiveSubstituteToEndOfLine)
 nmap <leader>s <plug>(SubversiveSubstituteRange)
 xmap <leader>s <plug>(SubversiveSubstituteRange)
 nmap <leader>ss <plug>(SubversiveSubstituteWordRange)
+
+" prompt with the native vim substitute command
+let g:subversivePromptWithActualCommand=1
+
+" ie = inner entire buffer
+onoremap ie :exec "normal! ggVG"<cr>
+
+" iv = current viewable text in the buffer
+onoremap iv :exec "normal! HVL"<cr>
 " ---------------------------------------------------
