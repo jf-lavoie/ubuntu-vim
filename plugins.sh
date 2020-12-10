@@ -34,20 +34,32 @@ function clone {
 }
 
 function runCommand {
-  bash -c "$INSTALL_VI_TARGET --cmd \"$1\" --cmd \"qa\""
+  echo "Running command $1"
+  bash -c "$INSTALL_VI_TARGET -U NONE --cmd \"$1\" --cmd \"qa\""
 }
 
 function fzf {
+  echo "cloning fzf"
+
+  rm -rf $HOME/.fzf
   git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf
-  $HOME/.fzf/install
+
+  $HOME/.fzf/install --key-bindings --completion --update-rc
 
   curl -LO https://github.com/BurntSushi/ripgrep/releases/download/12.1.1/ripgrep_12.1.1_amd64.deb
+  sudo dpkg -r ripgrep
   sudo dpkg -i ripgrep_12.1.1_amd64.deb
   rm ripgrep_12.1.1_amd64.deb
 
-  grep -qxF 'export FZF_DEFAULT_OPTS="--extended"' $HOME/.bashrc || echo 'export FZF_DEFAULT_OPTS="--extended"' >> $HOME/.bashrc
+  # grep -qxF 'export FZF_DEFAULT_OPTS="--extended"' $HOME/.bashrc || echo 'export FZF_DEFAULT_OPTS="--extended"' >> $HOME/.bashrc
   # for the quoting escape black magic fuckery : https://stackoverflow.com/questions/1250079/how-to-escape-single-quotes-within-single-quoted-strings
-  grep -qxF 'export FZF_DEFAULT_COMMAND="rg --files --smart-case --hidden -g '"'"'!.git'"'"'"' $HOME/.bashrc || echo 'export FZF_DEFAULT_COMMAND="rg --files --smart-case --hidden -g '"'"'!.git'"'"'"' >> $HOME/.bashrc
+  # grep -qxF 'export FZF_DEFAULT_COMMAND="rg --files --smart-case --hidden -g '"'"'!.git'"'"'"' $HOME/.bashrc || echo 'export FZF_DEFAULT_COMMAND="rg --files --smart-case --hidden -g '"'"'!.git'"'"'"' >> $HOME/.bashrc
+
+  # for the quoting escape black magic fuckery : https://stackoverflow.com/questions/1250079/how-to-escape-single-quotes-within-single-quoted-strings
+  grep -qF 'export FZF_DEFAULT_OPTS' $HOME/.bashrc || echo 'export FZF_DEFAULT_OPTS="--extended" --preview '"'"'cat {}'"'" >> $HOME/.bashrc
+  grep -qF 'export FZF_DEFAULT_COMMAND="rg' $HOME/.bashrc || echo 'export FZF_DEFAULT_COMMAND="rg --files --smart-case --hidden -g '"'"'!.git'"'"'"' >> $HOME/.bashrc
+
+  source $HOME/.bashrc
 
   clone junegunn/fzf.vim fzf.vim
 }
@@ -71,14 +83,13 @@ function ultisnips {
 function coc {
   echo installing 'coc'
 
-  local dest=$currentFolder
-
   # source: https://github.com/neoclide/coc.nvim/wiki/Install-coc.nvim
   mkdir -p $INSTALL_VI_BUNDLEPATH
   pushd $INSTALL_VI_BUNDLEPATH
   curl --fail -L https://github.com/neoclide/coc.nvim/archive/release.tar.gz|tar xzfv -
   popd # $INSTALL_VI_BUNDLEPATH
 
+  rm -rf $HOME/.config/coc
   mkdir -p $HOME/.config/coc/extensions
   pushd $HOME/.config/coc/extensions
   if [ ! -f package.json ]
@@ -97,7 +108,8 @@ function coc {
 
 
   pushd $INSTALL_VI_ROOTPATH
-  ln -s $dest/coc-settings.json coc-settings.json
+  rm coc-settings.json
+  ln -s $currentFolder/coc-settings.json coc-settings.json
   popd
 }
 
@@ -142,7 +154,7 @@ function easyAlign {
 function fugitive {
   echo installing 'vim-fugitive'
   clone tpope/vim-fugitive.git vim-fugitive
-  vim -u NONE -c "helptags vim-fugitive/doc" -c q
+  runCommand "helptags vim-fugitive/doc" 
 }
 
 function solarized {
@@ -207,13 +219,7 @@ function vim-go {
 function gitgutter {
   echo installing git-gutter
   clone airblade/vim-gitgutter.git vim-gitgutter
-  if [ "$INSTALL_VI_TARGET" = "nvim" ]
-  then
-    nvim -u NONE -c "helptags vim-gitgutter/doc" -c q
-  elif [ "$INSTALL_VI_TARGET" = "gvim" ]
-  then
-    vim -u NONE -c "helptags vim-gitgutter/doc" -c q
-  fi
+  runCommand "helptags vim-gitgutter/doc" 
 }
 
 function ale {
@@ -270,14 +276,6 @@ function markdown-preview {
   echo installing markdown-preview.nvim
   clone iamcco/markdown-preview.nvim.git iamcco/markdown-preview.nvim
 
-  # when using under WSL2
-  # sources:
-  # https://github.com/iamcco/markdown-preview.nvim
-  # https://github.com/iamcco/markdown-preview.nvim/issues/199
-  if [[ $(uname -a) == *microsoft* ]]; then
-    sudo apt update && sudo apt-get install -y xdg-utils
-  fi
-
   runCommand "call mkdp#util#install_sync()"
 }
 
@@ -285,7 +283,6 @@ function vim-subversive {
   echo installing vim-subversive
 
   clone svermeulen/vim-subversive.git svermeulen/vim-subversive
-
 }
 
 
