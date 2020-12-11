@@ -18,7 +18,10 @@ syntax enable
 colorscheme dracula
 
 
-if $COLORTERM == "truecolor" 
+" special check for windows terminal
+" https://github.com/microsoft/terminal/issues/1040
+" https://gist.github.com/XVilka/8346728
+if $COLORTERM == "truecolor" || ($TERM == "xterm-256color" && !empty($WSL_DISTRO_NAME))
   set termguicolors
 endif
 
