@@ -1,3 +1,6 @@
+" enew|pu=execute('let')
+" enew|pu=execute('scriptnames')
+" enew|pu=execute('messages')
 set nocompatible
 
 syntax on
@@ -16,6 +19,11 @@ filetype plugin indent on
 packadd! dracula
 syntax enable
 colorscheme dracula
+
+
+if $COLORTERM == "truecolor" 
+  set termguicolors
+endif
 
 " ---------------------------------------------------
 
@@ -106,14 +114,19 @@ set noundofile
 " ---------------------------------------------------
 " Custon shortcuts
 " ---------------------------------------------------
-" taken from here: https://stackoverflow.com/questions/1236563/how-do-i-run-a-terminal-inside-of-vim
-tnoremap <ESC><ESC> <C-\><C-n>
+" taken from here: https://stackoverflow.com/questions/1236563/how-do-i-run-a-terminal-inside-of-vim/29293191#29293191
+" tnoremap <ESC><ESC> <C-\><C-n>
+" taken from here: https://github.com/junegunn/fzf.vim/issues/544#issuecomment-498202592
+tnoremap <expr> <Esc> (&filetype == "fzf") ? "<Esc>" : "<c-\><c-n>"
+
 if has('nvim')
   autocmd TermOpen * startinsert
+  " autocmd TermOpen * tnoremap <ESC><ESC> <C-\><C-n>
 else
   autocmd BufNew * if &buftype=="terminal" | startinsert | endif
 endif
 autocmd BufEnter * if &buftype=="terminal" | startinsert | endif
+
 " ---------------------------------------------------
 
 " ---------------------------------------------------
@@ -388,11 +401,34 @@ nnoremap <leader>f :Rg<enter>
 " <C-r><C-w> returns the word under the cursor
 nnoremap <leader>fw :Rg  <C-r><C-w><enter>
 
+
 " todo: future improvement: add a visual selection search. Hightlight test in
 " visual mode than search for it using Rg.
 " see https://stackoverflow.com/questions/41238238/how-to-map-vim-visual-mode-to-replace-my-selected-text-parts
 " to get visual selection
 " if no selection, revert to current behavior of <C-r><C-w>
+
+" taken here: https://github.com/dracula/vim/blob/master/colors/dracula.vim
+" modified the border
+if g:colors_name == 'dracula'
+  " echo "should I set colors of fzf"
+
+  let g:fzf_colors = {
+    \ 'fg':      ['fg', 'Normal'],
+    \ 'bg':      ['bg', 'Normal'],
+    \ 'hl':      ['fg', 'Search'],
+    \ 'fg+':     ['fg', 'Normal'],
+    \ 'bg+':     ['bg', 'Normal'],
+    \ 'hl+':     ['fg', 'DraculaOrange'],
+    \ 'info':    ['fg', 'DraculaPurple'],
+    \ 'border':  ['fg', 'DraculaPurple'],
+    \ 'prompt':  ['fg', 'DraculaGreen'],
+    \ 'pointer': ['fg', 'Exception'],
+    \ 'marker':  ['fg', 'Keyword'],
+    \ 'spinner': ['fg', 'Label'],
+    \ 'header':  ['fg', 'Comment'],
+    \}
+endif
 
 " ---------------------------------------------------
 
@@ -445,10 +481,10 @@ vmap <Enter> <Plug>(EasyAlign)
 " ---------------------------------------------------
 " When in insert mode, 'esc' does not exit multi cursor mode but rather fall
 " back to normal. A 2nd 'esc' quits multi cursors.
-let g:multi_cursor_exit_from_insert_mode=0
+" let g:multi_cursor_exit_from_insert_mode=0
 " When in visual mode, 'esc' does not exit multi cursor mode but rather fall
 " back to normal. A 2nd 'esc' quits multi cursors.
-let g:multi_cursor_exit_from_visual_mode=0
+" let g:multi_cursor_exit_from_visual_mode=0
 
 " ---------------------------------------------------
 " neoformat configs
