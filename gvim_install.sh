@@ -12,6 +12,7 @@ currentFolder=$PWD
 
 sudo apt update
 
+# https://askubuntu.com/a/1234566/353419
 sudo apt install vim-gtk3 
 
 ./plugins.sh
