@@ -59,6 +59,16 @@ set sidescrolloff=5
 " Change the current directory to the open file
 " set autochdir
 
+
+" set cursorline on entering, set nocursorline on leaving
+" source: https://vim.fandom.com/wiki/Highlight_current_line
+augroup CursorLine
+  au!
+  au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+  au WinLeave * setlocal nocursorline
+augroup END
+
+
 " ---------------------------------------------------
 " Search
 " ---------------------------------------------------
