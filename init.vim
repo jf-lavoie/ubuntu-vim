@@ -3,10 +3,7 @@
 " enew|pu=execute('messages')
 set nocompatible
 
-syntax on
 filetype plugin indent on
-
-
 
 " set color scheme
 " ---------------------------------------------------
@@ -43,13 +40,48 @@ set diffopt=vertical
 set backspace=indent,eol,start
 
 " sets trailing spaces and tabs to easily visible characters
-set list listchars=tab:->,trail:.,
+set list listchars=tab:>\ ,trail:.,
+" set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+
+" how-to see the non-visible while spaces
+" :set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
+" set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:<
+" :set list
+" but hei how-to unset the visible tabs ?!
+" :set nolist
 
 " Show all the white space character
 set list
 
+set scrolloff=4
+set sidescrolloff=5
+
 " Change the current directory to the open file
 " set autochdir
+"
+
+
+" set cursorline on entering, set nocursorline on leaving
+" source: https://vim.fandom.com/wiki/Highlight_current_line
+
+let g:cursorline_enabled = 1
+function! ToggleCursorLine()
+  let l:previous = get(g:, 'cursorline_enabled')
+  let g:cursorline_enabled = !l:previous
+  if get(g:, 'cursorline_enabled') == 1
+    setlocal cursorline
+  else
+    set nocursorline
+  endif
+endfunction
+
+augroup CursorLine
+  au!
+  au VimEnter,WinEnter,BufWinEnter * if get(g:,'cursorline_enabled') == 1 | setlocal cursorline | endif
+  au WinLeave * setlocal nocursorline
+augroup END
+
+nnoremap <leader>c :call ToggleCursorLine()<CR>
 
 " ---------------------------------------------------
 " Search
@@ -63,6 +95,10 @@ set ignorecase
 set smartcase
 " Show the search result as you type
 set incsearch
+
+if has('nvim')
+  set inccommand=nosplit
+endif
 
 " ---------------------------------------------------
 " Tabulation and identation
@@ -557,12 +593,6 @@ if has('title')
   set title titlestring="%F"
 endif
 
-" how-to see the non-visible while spaces
-" :set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
-" set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:<
-" :set list
-" but hei how-to unset the visible tabs ?!
-" :set nolist
 
 
 " ---------------------------------------------------
@@ -656,4 +686,11 @@ onoremap ie :exec "normal! ggVG"<cr>
 
 " iv = current viewable text in the buffer
 onoremap iv :exec "normal! HVL"<cr>
+" ---------------------------------------------------
+
+" ---------------------------------------------------
+" vim-highlightedyank
+" ---------------------------------------------------
+let g:highlightedyank_highlight_duration = 300
+" highlight HighlightedyankRegion cterm=reverse gui=reverse
 " ---------------------------------------------------
