@@ -154,7 +154,7 @@ function easyAlign {
 function fugitive {
   echo installing 'vim-fugitive'
   clone tpope/vim-fugitive.git vim-fugitive
-  runCommand "helptags vim-fugitive/doc" 
+  runCommand "helptags $INSTALL_VI_BUNDLEPATH/vim-fugitive/doc" 
 }
 
 function solarized {
@@ -187,6 +187,8 @@ function dracula {
 function delimitMate {
   echo insalling delimitMate
   clone Raimondi/delimitMate.git delimitMate
+
+  runCommand "helptags  $INSTALL_VI_BUNDLEPATH/delimitMate/doc"
 }
 
 function multipleCursors {
@@ -219,7 +221,7 @@ function vim-go {
 function gitgutter {
   echo installing git-gutter
   clone airblade/vim-gitgutter.git vim-gitgutter
-  runCommand "helptags vim-gitgutter/doc" 
+  runCommand "helptags $INSTALL_VI_BUNDLEPATH/vim-gitgutter/doc" 
 }
 
 function ale {
@@ -281,7 +283,7 @@ function vim-indentline {
 
   clone Yggdroot/indentLine.git Yggdroot/indentLine
 
-  runCommand "helptags  ~/.vim/pack/vendor/start/indentLine/doc"
+  runCommand "helptags  $INSTALL_VI_BUNDLEPATH/indentLine/doc"
 }
 
 function vim-highlightedyank {
