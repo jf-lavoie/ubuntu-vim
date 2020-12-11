@@ -284,6 +284,13 @@ function vim-indentline {
   runCommand "helptags  ~/.vim/pack/vendor/start/indentLine/doc"
 }
 
+function vim-highlightedyank {
+  echo installing vim-highlightedyank.git
+
+  clone machakann/vim-highlightedyank.git machakann/vim-highlightedyank
+
+}
+
 
 nerdtree
 fzf
@@ -320,3 +327,4 @@ vim-markdown
 markdown-preview
 vim-subversive
 vim-indentline
+vim-highlightedyank

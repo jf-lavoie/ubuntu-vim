@@ -663,3 +663,10 @@ onoremap ie :exec "normal! ggVG"<cr>
 " iv = current viewable text in the buffer
 onoremap iv :exec "normal! HVL"<cr>
 " ---------------------------------------------------
+
+" ---------------------------------------------------
+" vim-highlightedyank
+" ---------------------------------------------------
+let g:highlightedyank_highlight_duration = 300
+" highlight HighlightedyankRegion cterm=reverse gui=reverse
+" ---------------------------------------------------
