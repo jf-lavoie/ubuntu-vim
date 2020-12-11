@@ -275,6 +275,16 @@ function vim-subversive {
 }
 
 
+function vim-indentline {
+
+  echo installing vim-indentline
+
+  clone Yggdroot/indentLine.git Yggdroot/indentLine
+
+  runCommand "helptags  ~/.vim/pack/vendor/start/indentLine/doc"
+}
+
+
 nerdtree
 fzf
 coc
@@ -309,3 +319,4 @@ vim-terraform
 vim-markdown
 markdown-preview
 vim-subversive
+vim-indentline
