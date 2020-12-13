@@ -13,10 +13,25 @@ filetype plugin indent on
 " let g:monokai_gui_italic = 1
 " colorscheme monokai
 
+
+" debug syntax highlighting. source: https://vim.fandom.com/wiki/Identify_the_syntax_highlighting_group_used_at_the_cursor
+" map <leader>q :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+" \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+" \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+
+" function! Myfunc()
+"   for id in synstack(line("."), col("."))
+"     echo synIDattr(id, "name")
+"   endfor
+" endfunction
+
+" map <leader>q2 :call Myfunc()<CR>
+
+
+
 packadd! dracula
 syntax enable
 colorscheme dracula
-
 
 " special check for windows terminal
 " https://github.com/microsoft/terminal/issues/1040
@@ -647,8 +662,27 @@ let g:closetag_close_shortcut = '<leader>>'
 " ---------------------------------------------------
 " vim-go
 " ---------------------------------------------------
+
+" hi! link Identifier DraculaCyan
+" highlight link goBuiltins Keyword
+
 let g:go_highlight_functions = 1
 let g:go_highlight_function_calls = 1
+" let g:go_highlight_operators = 1
+"
+
+" really specific thing to my taste.
+" vim-go maps builtin to syntax 'Keyword' and map to highlight 'Identifier'
+" source: https://github.com/fatih/vim-go/blob/master/syntax/go.vim#L50
+" introduced in commit: https://github.com/fatih/vim-go/commit/25d47834bf1d8de9eb7fc9d6ad0aa995dfda8142#diff-6c12071ba887bcb758b2bb5627e5bd19705a4d45bacff48d5b26e056869aa883
+"
+" Dracula maps Identifier syntax to highlight 'DraculaFg' which is just the
+" normal color. source: https://github.com/dracula/vim/blob/master/colors/dracula.vim#L282
+"
+" I prefer to have the builtins in colors. Here I remap the goBuiltins
+if g:colors_name == 'dracula'
+  hi def link     goBuiltins                 DraculaCyanItalic
+endif
 
 " coc and vim-go competes for the same shortcuts: K and gd. (maybe more?)
 " https://github.com/fatih/vim-go/commit/8c589255cba97103b84c0c8de74d233521613195
