@@ -181,6 +181,8 @@ else
 endif
 autocmd BufEnter * if &buftype=="terminal" | startinsert | endif
 
+nmap <F4> :NERDTreeFind<CR>
+
 " ---------------------------------------------------
 
 " ---------------------------------------------------
