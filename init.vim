@@ -251,10 +251,8 @@ autocmd BufRead,BufNewFile *.js set suffixesadd+=.js,.json
 let g:ale_linters = {
 \   'javascript': ['eslint'],
 \   'vue': ['eslint'],
-\   'go': ['golangci_lint']
+\   'go': ['goimports']
 \}
-
-let g:ale_go_golangci_lint_options = '--enable-all'
 
 " https://github.com/dense-analysis/ale/issues/591
 " let g:ale_fixers = {
