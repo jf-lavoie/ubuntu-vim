@@ -251,7 +251,6 @@ autocmd BufRead,BufNewFile *.js set suffixesadd+=.js,.json
 let g:ale_linters = {
 \   'javascript': ['eslint'],
 \   'vue': ['eslint'],
-\   'go': ['goimports']
 \}
 
 " https://github.com/dense-analysis/ale/issues/591
@@ -261,7 +260,8 @@ let g:ale_linters = {
 " let g:ale_fix_on_save = 1
 
 " If you wish to show Vim windows for the loclist or quickfix items when a file contains warnings or errors, 
-" let g:ale_open_list=1 breaks when using terminal window...
+" breaks when using terminal window...
+let g:ale_open_list=1 
 
 " using coc instead https://github.com/dense-analysis/ale#5iii-how-can-i-use-ale-and-cocnvim-together
 let g:ale_disable_lsp = 1
@@ -330,6 +330,8 @@ inoremap <silent><expr> <c-space> coc#refresh()
 " inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " Or use `complete_info` if your vim support it, like:
 " inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+" inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+"                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " Use `[g` and `]g` to navigate diagnostics
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
@@ -730,4 +732,22 @@ onoremap iv :exec "normal! HVL"<cr>
 " ---------------------------------------------------
 let g:highlightedyank_highlight_duration = 300
 " highlight HighlightedyankRegion cterm=reverse gui=reverse
+" ---------------------------------------------------
+
+
+" ---------------------------------------------------
+" Yggdroot/indentLine
+" ---------------------------------------------------
+" let g:vim_json_syntax_concealcursor=0
+" otherwise, vim-json can't do its work
+" source: https://github.com/elzr/vim-json/blob/master/readme.md
+" and https://github.com/elzr/vim-json/issues/23#issuecomment-40293049
+let g:indentLine_concealcursor=""
+" let g:vim_json_syntax_concealcursor=""
+" augroup JsonCursor
+"   au!
+"   au VimEnter,WinEnter,BufWinEnter *.json set concealcursor=""
+"   " au Filetype json set concealcursor=""
+"   " au WinLeave * setlocal nocursorline
+" augroup END
 " ---------------------------------------------------
