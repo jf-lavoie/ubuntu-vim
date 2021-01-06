@@ -248,9 +248,13 @@ autocmd BufRead,BufNewFile *.js set suffixesadd+=.js,.json
 " ale configs
 " ---------------------------------------------------
 " let g:ale_linters_explicit = 1
+"
+" for go: https://github.com/dense-analysis/ale/issues/609
+" setting golint only to avoid clash between ale and vim-go
 let g:ale_linters = {
 \   'javascript': ['eslint'],
 \   'vue': ['eslint'],
+\   'go': ['golint']
 \}
 
 " https://github.com/dense-analysis/ale/issues/591
