@@ -38,6 +38,19 @@ function runCommand {
   bash -c "$INSTALL_VI_TARGET -U NONE --cmd \"$1\" --cmd \"qa\""
 }
 
+function vim-minimap {
+  echo "vim-minimap"
+
+  MINIMAPDEBFILE=code-minimap-musl_0.5.0_amd64.deb
+  # dependencies
+  curl -LO https://github.com/wfxr/code-minimap/releases/download/v0.5.0/$MINIMAPDEBFILE
+  sudo dpkg -r code-minimap-musl
+  sudo dpkg -i $MINIMAPDEBFILE
+  rm $MINIMAPDEBFILE
+
+  clone wfxr/minimap.vim minimap.vim
+}
+
 function fzf {
   echo "cloning fzf"
 
@@ -344,3 +357,6 @@ markdown-preview
 vim-subversive
 vim-indentline
 vim-highlightedyank
+
+# requires nvim <= v0.5
+# vim-minimap
