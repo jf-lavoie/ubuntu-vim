@@ -11,5 +11,8 @@
       "rootPatterns": ["go.mod", ".vim/", ".git/", ".hg/"],
       "filetypes": ["go"]
     }
+  },
+  "yaml.schemas": {
+    "kubernetes": "/**/*.yaml"
   }
 }
