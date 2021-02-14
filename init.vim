@@ -755,3 +755,10 @@ let g:indentLine_concealcursor=""
 "   " au WinLeave * setlocal nocursorline
 " augroup END
 " ---------------------------------------------------
+
+" ---------------------------------------------------
+" wfxr/minimap.vim
+" ---------------------------------------------------
+" disable minimap for specific file types  
+let g:minimap_block_filetypes = ['fugitive', 'nerdtree'] 
+" ---------------------------------------------------
