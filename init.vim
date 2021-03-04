@@ -452,10 +452,11 @@ command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 nnoremap <leader>fr :RG<enter>
 
 " taken here: https://github.com/junegunn/fzf.vim#example-rg-command-with-preview-window
+" and here: https://github.com/junegunn/fzf.vim/issues/714#issuecomment-428802659
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
   \   'rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1,
-  \   fzf#vim#with_preview(), <bang>0)
+  \   fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
 
 nnoremap <leader>f :Rg<enter>
 " <C-r><C-w> returns the word under the cursor
