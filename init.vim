@@ -166,8 +166,11 @@ set noundofile
 
 
 " ---------------------------------------------------
-" Custon shortcuts
+" Custom shortcuts
 " ---------------------------------------------------
+nmap <F6> :let @+ = expand("%:p")<cr>
+
+
 " taken from here: https://stackoverflow.com/questions/1236563/how-do-i-run-a-terminal-inside-of-vim/29293191#29293191
 " tnoremap <ESC><ESC> <C-\><C-n>
 " taken from here: https://github.com/junegunn/fzf.vim/issues/544#issuecomment-498202592
@@ -181,7 +184,7 @@ else
 endif
 autocmd BufEnter * if &buftype=="terminal" | startinsert | endif
 
-nmap <F4> :NERDTreeFind<CR>
+nmap <F5> :NERDTreeFind<CR>
 
 " ---------------------------------------------------
 
