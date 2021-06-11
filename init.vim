@@ -257,8 +257,14 @@ autocmd BufRead,BufNewFile *.js set suffixesadd+=.js,.json
 let g:ale_linters = {
 \   'javascript': ['eslint'],
 \   'vue': ['eslint'],
-\   'go': ['golint']
+\   'go': []
 \}
+
+" let g:ale_linters = {
+" \   'javascript': ['eslint'],
+" \   'vue': ['eslint'],
+" \   'go': ['golint']
+" \}
 
 " https://github.com/dense-analysis/ale/issues/591
 " let g:ale_fixers = {
@@ -693,6 +699,10 @@ let g:go_highlight_function_calls = 1
 if g:colors_name == 'dracula'
   hi def link     goBuiltins                 DraculaCyanItalic
 endif
+
+let g:go_metalinter_autosave = 1
+let g:go_metalinter_command = "golangci-lint run --fast"
+let g:go_fmt_command = 'goimports'
 
 " coc and vim-go competes for the same shortcuts: K and gd. (maybe more?)
 " https://github.com/fatih/vim-go/commit/8c589255cba97103b84c0c8de74d233521613195
