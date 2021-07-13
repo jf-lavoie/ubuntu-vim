@@ -576,7 +576,7 @@ let g:neoformat_enabled_yaml = ['prettier'] " is this working?
 let g:neoformat_enabled_go = ['goimports', 'gofmt', 'gofumpt', 'gofumports']
 
 noremap <C-F3> :Neoformat<CR>
-:autocmd BufWritePre *.js,*.css,*.json,*.vue,*.ts,*.yml,*.yaml,*.css,*.less,*.scss,*.go :Neoformat
+:autocmd BufWritePre *.js,*.css,*.json,*.vue,*.ts,*.yml,*.yaml,*.css,*.less,*.scss :Neoformat
 
 
 " ---------------------------------------------------
