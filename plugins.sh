@@ -89,6 +89,7 @@ function ultisnips {
   # also adding custom snippets
   # in order to work, the array g:UltiSnipsSnippetDirectories must contain "jf-snippets". Done in .vimrc
   pushd $INSTALL_VI_BUNDLEPATH
+  rm -f vim-jfsnippets
   ln -s $currentFolder/vim-jfsnippets vim-jfsnippets
   popd
 }
@@ -345,5 +346,5 @@ vim-subversive
 vim-indentline
 vim-highlightedyank
 
-# requires nvim <= v0.5
-# vim-minimap
+requires nvim <= v0.5
+vim-minimap
