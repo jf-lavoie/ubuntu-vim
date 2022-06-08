@@ -606,7 +606,7 @@ let g:lightline = {
       \ },
       \ 'component_function': {
       \   'githunks': 'LightlineGitGutter',
-      \   'gitbranch': 'fugitive#head'
+      \   'gitbranch': 'FugitiveHead'
       \ },
       \ }
 set noshowmode " mode is already displayed in the status line
