@@ -69,7 +69,7 @@ function fzf {
   # grep -qxF 'export FZF_DEFAULT_COMMAND="rg --files --smart-case --hidden -g '"'"'!.git'"'"'"' $HOME/.bashrc || echo 'export FZF_DEFAULT_COMMAND="rg --files --smart-case --hidden -g '"'"'!.git'"'"'"' >> $HOME/.bashrc
 
   # for the quoting escape black magic fuckery : https://stackoverflow.com/questions/1250079/how-to-escape-single-quotes-within-single-quoted-strings
-  grep -qF 'export FZF_DEFAULT_OPTS' $HOME/.bashrc || echo 'export FZF_DEFAULT_OPTS="--extended" --preview '"'"'cat {}'"'" >> $HOME/.bashrc
+  grep -qF 'export FZF_DEFAULT_OPTS' $HOME/.bashrc || echo 'export FZF_DEFAULT_OPTS="--extended --preview '"'"'cat {}'"'"'"' >> $HOME/.bashrc
   grep -qF 'export FZF_DEFAULT_COMMAND="rg' $HOME/.bashrc || echo 'export FZF_DEFAULT_COMMAND="rg --files --smart-case --hidden -g '"'"'!.git'"'"'"' >> $HOME/.bashrc
 
   source $HOME/.bashrc
