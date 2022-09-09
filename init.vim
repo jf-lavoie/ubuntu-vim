@@ -198,11 +198,11 @@ nmap <F5> :NERDTreeFind<CR>
 " using the registers make those mapping agnostic of the plugins.
 " the 'oi<BS><esc>' is just to et leverage the automatic indentation provided by vim 'o'
 " while still returning in normal mode with the <esc>
-autocmd FileType javascript,vue,typescript nmap <buffer> <F2> yiwoi<BS><esc>:let @m = 'console.log(''jf-debug-> "' . @" . '": '', ' . @" . ');'<enter><esc>"mp
-autocmd FileType javascript,vue,typescript vmap <buffer> <F2> yoi<BS><esc>:let @m = 'console.log(''jf-debug-> "' . @" . '": '', ' . @" . ');'<enter><esc>"mp
-autocmd FileType javascript,vue,typescript nmap <buffer> <F3> oi<BS><esc>:let @m = 'console.log(''jf-debug-> arguments: '', arguments);'<enter><esc>"mp<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
-autocmd FileType javascript,vue,typescript nmap <buffer> <F4> yiwoi<BS><esc>:let @m = 'console.log(''jf-debug-> "' . @" . '": '', require(''util'').inspect(' . @" . ', {depth:100, colors:false}));'<enter><esc>"mp
-autocmd FileType javascript,vue,typescript vmap <buffer> <F4> yoi<BS><esc>:let @m = 'console.log(''jf-debug-> "' . @" . '": '', require(''util'').inspect(' . @" . ', {depth:100, colors:false}));'<enter><esc>"mp
+autocmd FileType javascript,vue,typescript nmap <buffer> <F2> yiwoi<BS><esc>:let @m = 'console.log("jf-debug-> ''' . @" . ''': ", ' . @" . ');'<enter><esc>"mp
+autocmd FileType javascript,vue,typescript vmap <buffer> <F2> yoi<BS><esc>:let @m = 'console.log("jf-debug-> ''' . @" . ''': ", ' . @" . ');'<enter><esc>"mp
+autocmd FileType javascript,vue,typescript nmap <buffer> <F3> oi<BS><esc>:let @m = 'console.log("jf-debug-> arguments: ", arguments);'<enter><esc>"mp<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
+autocmd FileType javascript,vue,typescript nmap <buffer> <F4> yiwoi<BS><esc>:let @m = 'console.log("jf-debug-> ''' . @" . ''': ", require("util").inspect(' . @" . ', { depth: 100, colors: false }));'<enter><esc>"mp
+autocmd FileType javascript,vue,typescript vmap <buffer> <F4> yoi<BS><esc>:let @m = 'console.log("jf-debug-> ''' . @" . ''': ", require("util").inspect(' . @" . ', { depth: 100, colors: false }));'<enter><esc>"mp
 
 " ---------------------------------------------------
 " GO specific shortcuts
