@@ -1,3 +1,5 @@
+#!/bin/bash
+#
 # taken here: https://unix.stackexchange.com/questions/228331/avoid-running-the-script-if-a-variable-is-not-defined
 set -u # or set -o nounset
 echo INSTALL_VI_ROOTPATH $INSTALL_VI_ROOTPATH
@@ -7,7 +9,7 @@ echo INSTALL_VI_TARGET $INSTALL_VI_TARGET
 currentFolder=$PWD
 echo currentFolder $currentFolder
 
-function clone {
+clone() {
 
   # $1 repo path to clone
   # $2 friendly name of the repo
@@ -31,14 +33,15 @@ function clone {
   git clone https://github.com/$1 $dest
 
   popd # $INSTALL_VI_BUNDLEPATH
+
 }
 
-function runCommand {
+runCommand() {
   echo "Running command $1"
   bash -c "$INSTALL_VI_TARGET -U NONE --cmd \"$1\" --cmd \"qa\""
 }
 
-function vim-minimap {
+vim-minimap() {
   echo "vim-minimap"
 
   MINIMAPDEBFILE=code-minimap-musl_0.5.0_amd64.deb
@@ -51,7 +54,7 @@ function vim-minimap {
   clone wfxr/minimap.vim minimap.vim
 }
 
-function fzf {
+fzf() {
   echo "cloning fzf"
 
   rm -rf $HOME/.fzf
@@ -77,7 +80,7 @@ function fzf {
   clone junegunn/fzf.vim fzf.vim
 }
 
-function ultisnips {
+ultisnips() {
   echo installing 'ultisnips'
   clone SirVer/ultisnips.git ultisnips
 
@@ -89,7 +92,7 @@ function ultisnips {
   popd
 }
 
-function coc {
+coc() {
   echo installing 'coc'
 
   # source: https://github.com/neoclide/coc.nvim/wiki/Install-coc.nvim
@@ -125,17 +128,17 @@ function coc {
   popd
 }
 
-function snippets {
+snippets() {
   echo installing 'snippets'
   clone honza/vim-snippets.git vim-snippets
 }
 
-function commentary {
+commentary() {
   echo installing 'commentary'
   clone tpope/vim-commentary.git vim-commentary
 }
 
-function neoformat {
+neoformat() {
   echo installing 'neoformat'
   echo installer npm prettier globally first
   npm -g install prettier
@@ -148,28 +151,28 @@ function neoformat {
   clone sbdchd/neoformat.git neoformat
 }
 
-function jsDoc {
+jsDoc() {
   echo installing 'jsDoc'
   clone heavenshell/vim-jsdoc.git vim-jsdoc
 }
 
-function json {
+json() {
   echo installing 'json'
   clone elzr/vim-json.git vim-json
 }
 
-function easyAlign {
+easyAlign() {
   echo installing 'easyAlign'
   clone junegunn/vim-easy-align.git vim-easy-align
 }
 
-function fugitive {
+fugitive() {
   echo installing 'vim-fugitive'
   clone tpope/vim-fugitive.git vim-fugitive
   runCommand "helptags $INSTALL_VI_BUNDLEPATH/vim-fugitive/doc" 
 }
 
-function solarized {
+solarized() {
   # command to put in vimrc if I want to switch to solarized
   #
   # set background=dark
@@ -181,62 +184,62 @@ function solarized {
   clone altercation/vim-colors-solarized.git vim-colors-solarized
 }
 
-function monokai-tasty {
+monokai-tasty() {
   echo installing 'monokai-tasty' color scheme
   clone patstockwell/vim-monokai-tasty.git vim-monokai-tasty.vim
 }
 
-function vim-monokai {
+vim-monokai() {
   echo installing 'vim-monokai' color scheme
   clone crusoexia/vim-monokai.git vim-monokai
 }
 
-function dracula {
+dracula() {
   echo installing 'dracula' color scheme
   clone dracula/vim.git dracula dracula
 }
 
-function delimitMate {
+delimitMate() {
   echo insalling delimitMate
   clone Raimondi/delimitMate.git delimitMate
 
   runCommand "helptags  $INSTALL_VI_BUNDLEPATH/delimitMate/doc"
 }
 
-function multipleCursors {
+multipleCursors() {
   echo installing vim-multiple-cursors
   clone terryma/vim-multiple-cursors.git vim-multiple-cursors
 }
 
-function lightline {
+lightline() {
   echo installing lightline
   clone itchyny/lightline.vim.git lightline.vim
 }
 
-function vim-javascript {
+vim-javascript() {
   echo installing vim-javasript
   clone pangloss/vim-javascript.git vim-javascript
 }
 
-function vim-jsx-pretty {
+vim-jsx-pretty() {
   echo installing vim-jsx-pretty
   clone MaxMEllon/vim-jsx-pretty.git vim-jsx-pretty
 }
 
 
-function vim-go {
+vim-go() {
   echo installing vim-go
   clone fatih/vim-go.git vim-go
 
   runCommand "GoInstallBinaries"
 }
-function gitgutter {
+gitgutter() {
   echo installing git-gutter
   clone airblade/vim-gitgutter.git vim-gitgutter
   runCommand "helptags $INSTALL_VI_BUNDLEPATH/vim-gitgutter/doc" 
 }
 
-function ale {
+ale() {
   echo installing ale
   echo first, installing eslint
   npm -g install eslint
@@ -259,22 +262,22 @@ function ale {
   # popd
 }
 
-function vim-closetag {
+vim-closetag() {
   echo installing vim-closetag
   clone alvan/vim-closetag.git vim-closetag
 }
 
-function vim-terraform {
+vim-terraform() {
   echo installing vim-terraform
   clone hashivim/vim-terraform.git vim-terraform
 }
 
-function vim-markdown {
+vim-markdown() {
   echo installing vim-markdown
   clone plasticboy/vim-markdown.git plasticboy/vim-markdown
 }
 
-function markdown-preview {
+markdown-preview() {
 
   echo installing markdown-preview.nvim
   clone iamcco/markdown-preview.nvim.git iamcco/markdown-preview.nvim
@@ -282,14 +285,14 @@ function markdown-preview {
   runCommand "call mkdp#util#install_sync()"
 }
 
-function vim-subversive {
+vim-subversive() {
   echo installing vim-subversive
 
   clone svermeulen/vim-subversive.git svermeulen/vim-subversive
 }
 
 
-function vim-indentline {
+vim-indentline() {
 
   echo installing vim-indentline
 
@@ -298,56 +301,64 @@ function vim-indentline {
   runCommand "helptags  $INSTALL_VI_BUNDLEPATH/indentLine/doc"
 }
 
-function vim-highlightedyank {
+vim-highlightedyank() {
   echo installing vim-highlightedyank.git
 
   clone machakann/vim-highlightedyank.git machakann/vim-highlightedyank
 }
 
-funcion nvim-packer {
+nvim-packer() {
   echo installing wbthomason/packer.nvim
 
   clone wbthomason/packer.nvim.git wbthomason/packer.nvim
+
 }
 
+pyright() {
+  echo installing pyright, python language server
 
-nvim-packer
-fzf
-coc
-ale
-commentary
-neoformat
+  npm i -g pyright@latest
+}
 
-easyAlign
-ultisnips
-snippets
-fugitive
-delimitMate
-multipleCursors
-lightline
-vim-closetag
+pyright
 
-# those 3 are required to work together
-vim-javascript
-# vim-jsx-pretty over vim-jsx for this reason: https://github.com/mxw/vim-jsx/issues/183
-vim-jsx-pretty
+# nvim-packer
+# fzf
+# coc
+# ale
+# commentary
+# neoformat
 
-monokai-tasty
-vim-monokai
-dracula
+# easyAlign
+# ultisnips
+# snippets
+# fugitive
+# delimitMate
+# multipleCursors
+# lightline
+# vim-closetag
 
-json
-jsDoc
+# # those 3 are required to work together
+# vim-javascript
+# # vim-jsx-pretty over vim-jsx for this reason: https://github.com/mxw/vim-jsx/issues/183
+# vim-jsx-pretty
 
-vim-go
-gitgutter
-vim-terraform
+# monokai-tasty
+# vim-monokai
+# dracula
 
-vim-markdown
-markdown-preview
-vim-subversive
-vim-indentline
-vim-highlightedyank
+# json
+# jsDoc
 
-# requires nvim <= v0.5
-vim-minimap
+# vim-go
+# gitgutter
+# vim-terraform
+
+# vim-markdown
+# markdown-preview
+# vim-subversive
+# vim-indentline
+# vim-highlightedyank
+
+# # requires nvim <= v0.5
+# vim-minimap

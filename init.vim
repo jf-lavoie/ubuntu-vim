@@ -4,7 +4,7 @@
 set nocompatible
 
 let s:luaconfigfile=stdpath('config').'/init.vim.lua'
-echo s:luaconfigfile
+echo "sourcing: ".s:luaconfigfile
 execute "source ".s:luaconfigfile
 
 

@@ -34,9 +34,16 @@ function vimrc {
   echo Symlinking init.lua
   ln -sf $dest/init.lua init.vim.lua
 
-  echo Symlinking lua/plugins.lua
-  mkdir -p ~/.config/nvim/lua
-  ln -sfv ~/ubuntu-vim/lua/plugins.lua ~/.config/nvim/lua/plugins.lua
+  # lua files
+  mkdir -p lua
+  pushd lua
+  for f in $(ls $dest/lua)
+  do
+    echo Symlinking lua/$f
+    ln -sfv $dest/lua/plugins.lua $f
+  done
+  popd # lua
+
 
   popd
 }
@@ -50,4 +57,4 @@ python3 -m pip install --upgrade pynvim
 npm install -g neovim
 
 
-# ./plugins.sh
+./plugins.sh
