@@ -100,7 +100,9 @@ function coc {
   # source: https://github.com/neoclide/coc.nvim/wiki/Install-coc.nvim
   mkdir -p $INSTALL_VI_BUNDLEPATH
   pushd $INSTALL_VI_BUNDLEPATH
-  curl --fail -L https://github.com/neoclide/coc.nvim/archive/release.tar.gz|tar xzfv -
+  rm -rf coc.nvim coc.nvim-release
+  git clone --branch release https://github.com/neoclide/coc.nvim.git --depth=1
+  nvim.appimage -c "helptags coc.nvim/doc/ | q"
   popd # $INSTALL_VI_BUNDLEPATH
 
   rm -rf $HOME/.config/coc
@@ -112,18 +114,18 @@ function coc {
   fi
 
   # Change extension names to the extensions you need
-  npm install coc-tsserver --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
-  npm install coc-json --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
-  npm install coc-css --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
-  npm install coc-pyright --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
-  npm install coc-snippets --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
-  npm install coc-yaml --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
+  npm install coc-tsserver@latest --global-style --ignore-scripts --no-bin-links --no-package-lock --omit=dev
+  npm install coc-json@latest  --global-style --ignore-scripts --no-bin-links --no-package-lock --omit=dev
+  npm install coc-css@latest  --global-style --ignore-scripts --no-bin-links --no-package-lock --omit=dev
+  npm install coc-pyright@latest  --global-style --ignore-scripts --no-bin-links --no-package-lock --omit=dev
+  npm install coc-snippets@latest  --global-style --ignore-scripts --no-bin-links --no-package-lock --omit=dev
+  npm install coc-yaml@latest  --global-style --ignore-scripts --no-bin-links --no-package-lock --omit=dev
 
   popd # $HOME/.config/coc/extensions
 
 
   pushd $INSTALL_VI_ROOTPATH
-  rm coc-settings.json
+  rm -f coc-settings.json
   ln -s $currentFolder/coc-settings.json coc-settings.json
   popd
 }
@@ -346,5 +348,5 @@ vim-subversive
 vim-indentline
 vim-highlightedyank
 
-requires nvim <= v0.5
+# requires nvim <= v0.5
 vim-minimap
