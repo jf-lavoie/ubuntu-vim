@@ -29,8 +29,14 @@ function vimrc {
   pushd $INSTALL_VI_ROOTPATH
 
   echo Symlinking init.vim
-  rm -f init.vim
   ln -s $dest/init.vim init.vim
+
+  echo Symlinking init.lua
+  ln -sf $dest/init.lua init.vim.lua
+
+  echo Symlinking lua/plugins.lua
+  mkdir -p ~/.config/nvim/lua
+  ln -sfv ~/ubuntu-vim/lua/plugins.lua ~/.config/nvim/lua/plugins.lua
 
   popd
 }

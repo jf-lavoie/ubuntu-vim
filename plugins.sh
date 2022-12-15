@@ -77,11 +77,6 @@ function fzf {
   clone junegunn/fzf.vim fzf.vim
 }
 
-function nerdtree {
-  echo installing 'nerdtree'
-  clone scrooloose/nerdtree.git nerdtree
-}
-
 function ultisnips {
   echo installing 'ultisnips'
   clone SirVer/ultisnips.git ultisnips
@@ -307,11 +302,16 @@ function vim-highlightedyank {
   echo installing vim-highlightedyank.git
 
   clone machakann/vim-highlightedyank.git machakann/vim-highlightedyank
+}
 
+funcion nvim-packer {
+  echo installing wbthomason/packer.nvim
+
+  clone wbthomason/packer.nvim.git wbthomason/packer.nvim
 }
 
 
-nerdtree
+nvim-packer
 fzf
 coc
 ale
@@ -331,6 +331,7 @@ vim-closetag
 vim-javascript
 # vim-jsx-pretty over vim-jsx for this reason: https://github.com/mxw/vim-jsx/issues/183
 vim-jsx-pretty
+
 monokai-tasty
 vim-monokai
 dracula

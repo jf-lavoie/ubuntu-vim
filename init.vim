@@ -3,6 +3,11 @@
 " enew|pu=execute('messages')
 set nocompatible
 
+let s:luaconfigfile=stdpath('config').'/init.vim.lua'
+echo s:luaconfigfile
+execute "source ".s:luaconfigfile
+
+
 filetype plugin indent on
 
 " set color scheme
