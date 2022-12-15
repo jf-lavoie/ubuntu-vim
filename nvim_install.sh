@@ -20,8 +20,7 @@ chmod u+x nvim.appimage
 
 mv nvim.appimage $INSTALL_NVIM_APPIMAGE_PATH
 
-echo "aliasing nvim to nvim.appimage in ~/.bash_aliases"
-grep -qxF 'alias nvim=''nvim.appimage''' $HOME/.bash_aliases || echo 'alias nvim=''nvim.appimage''' >> $HOME/.bash_aliases
+ln -vfs $INSTALL_NVIM_APPIMAGE_PATH/nvim.appimage  $INSTALL_NVIM_APPIMAGE_PATH/nvim
 
 function vimrc {
 
@@ -45,10 +44,4 @@ python3 -m pip install --upgrade pynvim
 npm install -g neovim
 
 
-./plugins.sh
-
-echo "Source your bash rc to enable 'nvim'"
-
-
-
-
+# ./plugins.sh
