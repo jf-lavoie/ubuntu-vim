@@ -18,6 +18,7 @@ clone() {
   local defaultDest=$(basename $1 .git)
   # echo default $defaultDest
 
+  # substiture 3rd parameter if not provided
   local dest=${3:-$defaultDest}
   # echo dest $dest
   echo Cloning $2 to $INSTALL_VI_BUNDLEPATH/$dest
@@ -89,42 +90,6 @@ ultisnips() {
   pushd $INSTALL_VI_BUNDLEPATH
   rm -f vim-jfsnippets
   ln -s $currentFolder/vim-jfsnippets vim-jfsnippets
-  popd
-}
-
-coc() {
-  echo installing 'coc'
-
-  # source: https://github.com/neoclide/coc.nvim/wiki/Install-coc.nvim
-  mkdir -p $INSTALL_VI_BUNDLEPATH
-  pushd $INSTALL_VI_BUNDLEPATH
-  rm -rf coc.nvim coc.nvim-release
-  git clone --branch release https://github.com/neoclide/coc.nvim.git --depth=1
-  nvim.appimage -c "helptags coc.nvim/doc/ | q"
-  popd # $INSTALL_VI_BUNDLEPATH
-
-  rm -rf $HOME/.config/coc
-  mkdir -p $HOME/.config/coc/extensions
-  pushd $HOME/.config/coc/extensions
-  if [ ! -f package.json ]
-  then
-    echo '{"dependencies":{}}'> package.json
-  fi
-
-  # Change extension names to the extensions you need
-  npm install coc-tsserver@latest --global-style --ignore-scripts --no-bin-links --no-package-lock --omit=dev
-  npm install coc-json@latest  --global-style --ignore-scripts --no-bin-links --no-package-lock --omit=dev
-  npm install coc-css@latest  --global-style --ignore-scripts --no-bin-links --no-package-lock --omit=dev
-  npm install coc-pyright@latest  --global-style --ignore-scripts --no-bin-links --no-package-lock --omit=dev
-  npm install coc-snippets@latest  --global-style --ignore-scripts --no-bin-links --no-package-lock --omit=dev
-  npm install coc-yaml@latest  --global-style --ignore-scripts --no-bin-links --no-package-lock --omit=dev
-
-  popd # $HOME/.config/coc/extensions
-
-
-  pushd $INSTALL_VI_ROOTPATH
-  rm -f coc-settings.json
-  ln -s $currentFolder/coc-settings.json coc-settings.json
   popd
 }
 
@@ -320,45 +285,71 @@ pyright() {
   npm i -g pyright@latest
 }
 
+sumneko_lua() {
+  echo installing sumneko_lua, lua language server
+
+  # required by the language server
+  sudo apt update
+  sudo apt-get install -y ninja-build
+
+  clone sumneko/lua-language-server.git sumneko/lua-language-server
+
+
+  pushd $INSTALL_VI_BUNDLEPATH/lua-language-server
+
+  git submodule update --depth 1 --init --recursive
+
+  cd 3rd/luamake
+  echo +++++++++++++++++ Building lua language server +++++++++++++++++
+  ./compile/install.sh
+  cd ../..
+  echo +++++++++++++++++ Re-Building lua language server +++++++++++++++++
+  ./3rd/luamake/luamake rebuild
+
+  ln -sfv $(pwd)/bin/lua-language-server $HOME/bin/lua-language-server
+
+  popd #$INSTALL_VI_BUNDLEPATH\lua-language-server
+}
+
 pyright
+sumneko_lua
 
-# nvim-packer
-# fzf
-# coc
-# ale
-# commentary
-# neoformat
+nvim-packer
+fzf
+ale
+commentary
+neoformat
 
-# easyAlign
-# ultisnips
-# snippets
-# fugitive
-# delimitMate
-# multipleCursors
-# lightline
-# vim-closetag
+easyAlign
+ultisnips
+snippets
+fugitive
+delimitMate
+multipleCursors
+lightline
+vim-closetag
 
-# # those 3 are required to work together
-# vim-javascript
-# # vim-jsx-pretty over vim-jsx for this reason: https://github.com/mxw/vim-jsx/issues/183
-# vim-jsx-pretty
+# those 3 are required to work together
+vim-javascript
+# vim-jsx-pretty over vim-jsx for this reason: https://github.com/mxw/vim-jsx/issues/183
+vim-jsx-pretty
 
-# monokai-tasty
-# vim-monokai
-# dracula
+monokai-tasty
+vim-monokai
+dracula
 
-# json
-# jsDoc
+json
+jsDoc
 
-# vim-go
-# gitgutter
-# vim-terraform
+vim-go
+gitgutter
+vim-terraform
 
-# vim-markdown
-# markdown-preview
-# vim-subversive
-# vim-indentline
-# vim-highlightedyank
+vim-markdown
+markdown-preview
+vim-subversive
+vim-indentline
+vim-highlightedyank
 
-# # requires nvim <= v0.5
-# vim-minimap
+# requires nvim <= v0.5
+vim-minimap

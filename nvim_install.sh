@@ -40,7 +40,7 @@ function vimrc {
   for f in $(ls $dest/lua)
   do
     echo Symlinking lua/$f
-    ln -sfv $dest/lua/plugins.lua $f
+    ln -sfv $dest/lua/$f $f
   done
   popd # lua
 
