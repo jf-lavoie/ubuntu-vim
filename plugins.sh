@@ -311,10 +311,18 @@ sumneko_lua() {
   popd #$INSTALL_VI_BUNDLEPATH\lua-language-server
 }
 
-pyright
-sumneko_lua
+tsserver() {
+
+  echo installier tsserver
+
+  npm install -g typescript@latest typescript-language-server@latest
+}
 
 nvim-packer
+pyright
+sumneko_lua
+tsserver
+
 fzf
 ale
 commentary
