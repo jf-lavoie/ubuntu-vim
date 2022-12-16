@@ -279,49 +279,9 @@ nvim-packer() {
 
 }
 
-pyright() {
-  echo installing pyright, python language server
 
-  npm i -g pyright@latest
-}
-
-sumneko_lua() {
-  echo installing sumneko_lua, lua language server
-
-  # required by the language server
-  sudo apt update
-  sudo apt-get install -y ninja-build
-
-  clone sumneko/lua-language-server.git sumneko/lua-language-server
-
-
-  pushd $INSTALL_VI_BUNDLEPATH/lua-language-server
-
-  git submodule update --depth 1 --init --recursive
-
-  cd 3rd/luamake
-  echo +++++++++++++++++ Building lua language server +++++++++++++++++
-  ./compile/install.sh
-  cd ../..
-  echo +++++++++++++++++ Re-Building lua language server +++++++++++++++++
-  ./3rd/luamake/luamake rebuild
-
-  ln -sfv $(pwd)/bin/lua-language-server $HOME/bin/lua-language-server
-
-  popd #$INSTALL_VI_BUNDLEPATH\lua-language-server
-}
-
-tsserver() {
-
-  echo installier tsserver
-
-  npm install -g typescript@latest typescript-language-server@latest
-}
 
 nvim-packer
-pyright
-sumneko_lua
-tsserver
 
 fzf
 ale
