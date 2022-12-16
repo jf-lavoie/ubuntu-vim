@@ -4,5 +4,3 @@ print( "loading init.lua")
 -- https://github.com/nanotee/nvim-lua-guide
 -- and : packer.nvim quickstart guide
 require'plugins'
-
-require'lsp-configs'

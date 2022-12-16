@@ -204,28 +204,28 @@ gitgutter() {
   runCommand "helptags $INSTALL_VI_BUNDLEPATH/vim-gitgutter/doc" 
 }
 
-ale() {
-  echo installing ale
-  echo first, installing eslint
-  npm -g install eslint
-  # npm -g install eslint-plugin-prettier
-  # npm -g install eslint-config-prettier
+# ale() {
+#   echo installing ale
+#   echo first, installing eslint
+#   npm -g install eslint
+#   # npm -g install eslint-plugin-prettier
+#   # npm -g install eslint-config-prettier
 
 
-  # local dest=$currentFolder
-  # pushd $HOME
-  # ln -s $dest/.eslintrc .eslintrc
-  # popd
+#   # local dest=$currentFolder
+#   # pushd $HOME
+#   # ln -s $dest/.eslintrc .eslintrc
+#   # popd
 
-  echo clonig ale
+#   echo clonig ale
 
-  clone dense-analysis/ale.git ale
+#   clone dense-analysis/ale.git ale
 
-  # mkdir -p $INSTALL_VI_BUNDLEPATH/ale/start
-  # pushd $INSTALL_VI_BUNDLEPATH/ale/start
-  # git clone https://github.com/w0rp/ale.git
-  # popd
-}
+#   # mkdir -p $INSTALL_VI_BUNDLEPATH/ale/start
+#   # pushd $INSTALL_VI_BUNDLEPATH/ale/start
+#   # git clone https://github.com/w0rp/ale.git
+#   # popd
+# }
 
 vim-closetag() {
   echo installing vim-closetag
@@ -284,7 +284,7 @@ nvim-packer() {
 nvim-packer
 
 fzf
-ale
+# ale
 commentary
 neoformat
 

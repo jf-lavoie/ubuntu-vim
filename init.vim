@@ -88,23 +88,23 @@ set sidescrolloff=5
 " source: https://vim.fandom.com/wiki/Highlight_current_line
 
 let g:cursorline_enabled = 1
-function! ToggleCursorLine()
-  let l:previous = get(g:, 'cursorline_enabled')
-  let g:cursorline_enabled = !l:previous
-  if get(g:, 'cursorline_enabled') == 1
-    setlocal cursorline
-  else
-    set nocursorline
-  endif
-endfunction
+" function! ToggleCursorLine()
+"   let l:previous = get(g:, 'cursorline_enabled')
+"   let g:cursorline_enabled = !l:previous
+"   if get(g:, 'cursorline_enabled') == 1
+"     setlocal cursorline
+"   else
+"     set nocursorline
+"   endif
+" endfunction
 
-augroup CursorLine
-  au!
-  au VimEnter,WinEnter,BufWinEnter * if get(g:,'cursorline_enabled') == 1 | setlocal cursorline | endif
-  au WinLeave * setlocal nocursorline
-augroup END
+" augroup CursorLine
+"   au!
+"   au VimEnter,WinEnter,BufWinEnter * if get(g:,'cursorline_enabled') == 1 | setlocal cursorline | endif
+"   au WinLeave * setlocal nocursorline
+" augroup END
 
-nnoremap <leader>c :call ToggleCursorLine()<CR>
+" nnoremap <leader>c :call ToggleCursorLine()<CR>
 
 " ---------------------------------------------------
 " Search

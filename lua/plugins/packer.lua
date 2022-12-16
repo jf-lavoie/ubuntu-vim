@@ -1,4 +1,4 @@
-print("loading plugins.lua")
+print("loading packer.lua")
 
 local use = require('packer').use
 
@@ -11,6 +11,14 @@ require('packer').startup(function()
     "williamboman/mason-lspconfig.nvim",
     'neovim/nvim-lspconfig'
   }
+
+  use({
+      "jose-elias-alvarez/null-ls.nvim",
+      config = function()
+          require("null-ls").setup()
+      end,
+      requires = { "nvim-lua/plenary.nvim" },
+  })
 
   use 'scrooloose/nerdtree' -- File Tree Explorer
 

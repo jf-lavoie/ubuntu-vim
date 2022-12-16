@@ -1,18 +1,19 @@
 print('loading lsp-configs.lua')
 
-require'mason'.setup()
-require'mason-lspconfig'.setup()
-require'mason-lspconfig'.setup({
-    ensure_installed = { 'sumneko_lua', 'tsserver', 'jsonls', 'pyright' }
+require 'mason'.setup()
+require 'mason-lspconfig'.setup()
+require 'mason-lspconfig'.setup({
+  ensure_installed = { 'sumneko_lua', 'tsserver', 'jsonls', 'pyright' }
 })
 
 -- copy/paste from https://github.com/neovim/nvim-lspconfig
 -- Mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
-local opts = { noremap=true, silent=true }
+local opts = { noremap = true, silent = true }
 vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
+vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
 vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
 
 -- Use an on_attach function to only map the following keys
@@ -23,7 +24,7 @@ local on_attach = function(_, bufnr) -- _ = client
 
   -- Mappings.
   -- See `:help vim.lsp.*` for documentation on any of the below functions
-  local bufopts = { noremap=true, silent=true, buffer=bufnr }
+  local bufopts = { noremap = true, silent = true, buffer = bufnr }
   vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
   vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
@@ -39,6 +40,9 @@ local on_attach = function(_, bufnr) -- _ = client
   vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
   vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
   vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
+
+  -- taken from: https://smarttech101.com/nvim-lsp-configure-language-servers-shortcuts-highlights/#code_actions_in_nvim_lsp
+  -- vim.keymap.set('n', '<leader>lc', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
 end
 
 local lsp_flags = {
@@ -49,7 +53,7 @@ local lsp_flags = {
 vim.lsp.set_log_level('debug')
 
 -- taken from: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#sumneko_lua
-require'lspconfig'['sumneko_lua'].setup {
+require 'lspconfig'['sumneko_lua'].setup {
   settings = {
     Lua = {
       runtime = {
@@ -58,7 +62,7 @@ require'lspconfig'['sumneko_lua'].setup {
       },
       diagnostics = {
         -- Get the language server to recognize the `vim` global
-        globals = {'vim'},
+        globals = { 'vim' },
       },
       workspace = {
         -- Make the server aware of Neovim runtime files
@@ -75,13 +79,13 @@ require'lspconfig'['sumneko_lua'].setup {
   flags = lsp_flags,
 }
 
-require'lspconfig'['pyright'].setup{
-    on_attach = on_attach,
-    flags = lsp_flags,
+require 'lspconfig'['pyright'].setup {
+  on_attach = on_attach,
+  flags = lsp_flags,
 }
-require'lspconfig'['tsserver'].setup{
-    on_attach = on_attach,
-    flags = lsp_flags,
+require 'lspconfig'['tsserver'].setup {
+  on_attach = on_attach,
+  flags = lsp_flags,
 }
 
-require'lspconfig'['jsonls'].setup{}
+require 'lspconfig'['jsonls'].setup {}

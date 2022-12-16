@@ -2,10 +2,10 @@
 
 source .env.gvim
 
-rm -rf $INSTALL_VI_ROOTPATH
+rm -rf "$INSTALL_VI_ROOTPATH"
 
-if [ ! -d $INSTALL_VI_ROOTPATH ]; then
-  mkdir -p $INSTALL_VI_ROOTPATH
+if [ ! -d "$INSTALL_VI_ROOTPATH" ]; then
+  mkdir -p "$INSTALL_VI_ROOTPATH"
 fi
 
 currentFolder=$PWD
@@ -20,13 +20,13 @@ sudo apt install vim-gtk3
 function vimrc {
   local dest=$currentFolder
 
-  pushd $HOME
+  pushd "$HOME" || exit
 
   echo Symlinking .vimrc
   rm .vimrc
-  ln -s $dest/init.vim .vimrc
+  ln -s "$dest"/init.vim .vimrc
 
-  popd
+  popd || exit
 }
 
 vimrc
