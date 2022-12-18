@@ -3,58 +3,52 @@
 source .env.nvim
 currentFolder=$PWD
 
-# rm -rf $INSTALL_VI_ROOTPATH
+rm -rf $INSTALL_VI_ROOTPATH
 
-# if [ ! -d $INSTALL_VI_ROOTPATH ]; then
-#   mkdir -p $INSTALL_VI_ROOTPATH
-# fi
+if [ ! -d $INSTALL_VI_ROOTPATH ]; then
+	mkdir -p $INSTALL_VI_ROOTPATH
+fi
 
+if [ -f $INSTALL_NVIM_APPIMAGE_PATH/nvim.appimage ]; then
+	rm $INSTALL_NVIM_APPIMAGE_PATH/nvim.appimage
+fi
 
+curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
+chmod u+x nvim.appimage
 
-# if [ -f $INSTALL_NVIM_APPIMAGE_PATH/nvim.appimage ]; then
-#   rm $INSTALL_NVIM_APPIMAGE_PATH/nvim.appimage
-# fi
+mv nvim.appimage $INSTALL_NVIM_APPIMAGE_PATH
 
-# curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
-# chmod u+x nvim.appimage
-
-# mv nvim.appimage $INSTALL_NVIM_APPIMAGE_PATH
-
-# ln -vfs $INSTALL_NVIM_APPIMAGE_PATH/nvim.appimage  $INSTALL_NVIM_APPIMAGE_PATH/nvim
+ln -vfs $INSTALL_NVIM_APPIMAGE_PATH/nvim.appimage $INSTALL_NVIM_APPIMAGE_PATH/nvim
 
 function vimrc {
 
-  local dest=$currentFolder
+	local dest=$currentFolder
 
-  pushd $INSTALL_VI_ROOTPATH
+	pushd $INSTALL_VI_ROOTPATH
 
-  echo Symlinking init.vim
-  ln -sf $dest/init.vim init.vim
+	echo Symlinking init.vim
+	ln -sf $dest/init.vim init.vim
 
-  echo Symlinking init.lua
-  ln -sf $dest/init.lua init.vim.lua
+	echo Symlinking init.lua
+	ln -sf $dest/init.lua init.vim.lua
 
-  # lua files
-  mkdir -p lua/plugins
-  pushd lua/plugins
-  for f in $(ls $dest/lua/plugins)
-  do
-    echo Symlinking lua/$f
-    ln -sfv $dest/lua/plugins/$f $f
-  done
-  popd # lua/plugins
+	# lua files
+	mkdir -p lua/jf
+	pushd lua/jf
+	for f in $(ls $dest/lua/jf); do
+		echo Symlinking lua/$f
+		ln -sfv $dest/lua/jf/$f $f
+	done
+	popd # lua/jf
 
-
-  popd # $INSTALL_VI_ROOTPATH
+	popd # $INSTALL_VI_ROOTPATH
 }
 
 vimrc
 
-# python3 -m pip install --upgrade pynvim
-
+python3 -m pip install --upgrade pynvim
 
 # taken from :checkhealth
-# npm install -g neovim
+npm install -g neovim
 
-
-# ./plugins.sh
+./plugins.sh

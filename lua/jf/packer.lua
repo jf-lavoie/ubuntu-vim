@@ -17,7 +17,7 @@ require('packer').startup(function()
       config = function()
           require("null-ls").setup()
       end,
-      requires = { "nvim-lua/plenary.nvim" },
+      requires = { "nvim-lua/plenary.nvim", "jay-babu/mason-null-ls.nvim" },
   })
 
   use 'scrooloose/nerdtree' -- File Tree Explorer

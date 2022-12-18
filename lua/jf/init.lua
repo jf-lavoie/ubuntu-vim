@@ -1,0 +1,6 @@
+
+print('loading lua/plugins/init.lua')
+
+require'jf/packer'
+require'jf/lsp-configs'
+require'jf/null-ls'
