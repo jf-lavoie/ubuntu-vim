@@ -20,6 +20,13 @@ require('packer').startup(function()
       requires = { "nvim-lua/plenary.nvim", "jay-babu/mason-null-ls.nvim" },
   })
 
+  use 'folke/which-key.nvim' -- show leader menu
+  -- others:
+  -- https://github.com/liuchengxu/vim-which-key
+  -- https://github.com/hecal3/vim-leader-guide
+  -- https://github.com/spinks/vim-leader-guide
+  -- https://github.com/folke/which-key.nvim
+  --
   use 'scrooloose/nerdtree' -- File Tree Explorer
 
 end)
