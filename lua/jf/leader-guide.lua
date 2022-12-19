@@ -8,7 +8,10 @@ require("which-key").setup {
 
   window = {
     border = "shadow", -- none, single, double, shadow
-  }
+  },
+  layout = {
+    align = "center", -- align columns left, center or right
+  },
 }
 
 
