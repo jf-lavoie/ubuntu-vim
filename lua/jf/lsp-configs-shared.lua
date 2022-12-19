@@ -40,11 +40,11 @@ shared.on_attach = function(_, bufnr) -- _ = client
   -- Mappings.
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   local bufopts = { noremap = true, silent = true, buffer = bufnr }
-  local definition = { vim.lsp.buf.definition, "Go to definition" }
-  local declaration = { vim.lsp.buf.declaration, "Go to declaration" }
-  local implementation = { vim.lsp.buf.implementation, "Go to implementation" }
-  local hover = { vim.lsp.buf.hover, "Open hover" }
-  local signature = { vim.lsp.buf.signature_help, "Signature help" }
+  local definition = { vim.lsp.buf.definition, "Go to definition (vim.lsp.buf.definition)" }
+  local declaration = { vim.lsp.buf.declaration, "Go to declaration (vim.lsp.buf.declaration)" }
+  local implementation = { vim.lsp.buf.implementation, "Go to implementation (vim.lsp.buf.implementation)" }
+  local hover = { vim.lsp.buf.hover, "Open hover (vim.lsp.buf.hover)" }
+  local signature = { vim.lsp.buf.signature_help, "Signature help (vim.lsp.buf.signature_help)" }
 
 
   vim.keymap.set('n', 'K', hover[1], merge(bufopts, { desc = hover[2] }))
@@ -84,15 +84,15 @@ shared.on_attach = function(_, bufnr) -- _ = client
       k = signature,
       i = implementation,
 
-      t = { vim.lsp.buf.type_definition, "Type definition" },
-      r = { vim.lsp.buf.references, "References" },
+      t = { vim.lsp.buf.type_definition, "Type definition (vim.lsp.buf.type_definition)" },
+      r = { vim.lsp.buf.references, "References (vim.lsp.buf.references)" },
     },
 
     ["<leader>la"] = {
       name = "LSP-Action", -- optional group name
-      r = { vim.lsp.buf.rename, "Rename" },
-      a = { vim.lsp.buf.code_action, "Code Actions" },
-      f = { function() vim.lsp.buf.format { async = true } end, "Format" }
+      r = { vim.lsp.buf.rename, "Rename (vim.lsp.buf.rename)" },
+      a = { vim.lsp.buf.code_action, "Code Actions (vim.lsp.buf.code_action)" },
+      f = { function() vim.lsp.buf.format { async = true } end, "Format (vim.lsp.buf.format { async = true })" }
 
     },
   }, bufopts)
