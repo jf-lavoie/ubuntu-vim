@@ -18,8 +18,11 @@ end
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 local opts = { noremap = true, silent = true }
 
+local lspGroupKey = "<leader>l"
+
+
 wk.register({
-  ["<leader>d"] = {
+  [lspGroupKey] = {
     name = "Diagnostic", -- optional group name
     -- n = { "Test" },
     v = { vim.diagnostic.open_float, "View diagnostic (vim.diagnostic.open_float)" },
@@ -71,7 +74,7 @@ shared.on_attach = function(_, bufnr) -- _ = client
       i = implementation,
     },
 
-    ["<leader>l"] = {
+    [lspGroupKey] = {
       name = "LSP", -- optional group name
       -- n = { "Test" },
 

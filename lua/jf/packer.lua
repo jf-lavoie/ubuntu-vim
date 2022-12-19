@@ -26,6 +26,7 @@ require('packer').startup(function()
   -- https://github.com/hecal3/vim-leader-guide
   -- https://github.com/spinks/vim-leader-guide
   -- https://github.com/folke/which-key.nvim
+
   --
   use 'scrooloose/nerdtree' -- File Tree Explorer
 
