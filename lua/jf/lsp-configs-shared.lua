@@ -1,3 +1,5 @@
+print('loading lsp-configs-shared.lua')
+
 local shared = {}
 
 shared.on_attach = function(_, bufnr) -- _ = client
