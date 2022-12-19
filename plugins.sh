@@ -171,10 +171,6 @@ delimitMate() {
   runCommand "helptags  $INSTALL_VI_BUNDLEPATH/delimitMate/doc"
 }
 
-multipleCursors() {
-  echo installing vim-multiple-cursors
-  clone terryma/vim-multiple-cursors.git vim-multiple-cursors
-}
 
 lightline() {
   echo installing lightline
@@ -293,7 +289,6 @@ ultisnips
 snippets
 fugitive
 delimitMate
-multipleCursors
 lightline
 vim-closetag
 
