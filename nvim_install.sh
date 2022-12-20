@@ -20,7 +20,7 @@ mv nvim.appimage "$INSTALL_NVIM_APPIMAGE_PATH"
 
 ln -vfs "$INSTALL_NVIM_APPIMAGE_PATH"/nvim.appimage "$INSTALL_NVIM_APPIMAGE_PATH"/nvim
 
-function vimrc {
+function links {
 
 	local dest="$currentFolder"
 
@@ -42,10 +42,13 @@ function vimrc {
 	done
 	popd || exit # lua/jf
 
+  ln -sfv "$dest"/vim-jfsnippets vim-jfsnippets
+
 	popd || exit # $INSTALL_VI_ROOTPATH
 }
 
-vimrc
+links
+
 
 python3 -m pip install --upgrade pynvim
 

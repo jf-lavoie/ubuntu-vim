@@ -542,7 +542,7 @@ endif
 
 " UltiSnips is the default bundle used by UltiSnips. It is installed via
 " 'vim-snippets' plugin
-let g:UltiSnipsSnippetDirectories=["UltiSnips", "jfsnippets", "gosnippets/UltiSnips"]
+let g:UltiSnipsSnippetDirectories=["UltiSnips", "vim-jfsnippets/jfsnippets"]
 
 
 " ---------------------------------------------------

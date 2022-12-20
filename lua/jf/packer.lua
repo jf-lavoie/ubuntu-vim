@@ -13,11 +13,11 @@ require('packer').startup(function()
   }
 
   use({
-      "jose-elias-alvarez/null-ls.nvim",
-      config = function()
-          require("null-ls").setup()
-      end,
-      requires = { "nvim-lua/plenary.nvim", "jay-babu/mason-null-ls.nvim" },
+    "jose-elias-alvarez/null-ls.nvim",
+    config = function()
+      require("null-ls").setup()
+    end,
+    requires = { "nvim-lua/plenary.nvim", "jay-babu/mason-null-ls.nvim" },
   })
 
   use 'folke/which-key.nvim' -- show leader menu
@@ -26,6 +26,18 @@ require('packer').startup(function()
   -- https://github.com/hecal3/vim-leader-guide
   -- https://github.com/spinks/vim-leader-guide
   -- https://github.com/folke/which-key.nvim
+
+
+  use "hrsh7th/nvim-cmp"
+  use "hrsh7th/cmp-nvim-lsp"
+  use "hrsh7th/cmp-buffer"
+  use "hrsh7th/cmp-path"
+  use "hrsh7th/cmp-cmdline"
+
+  -- for ultisnips users.
+  use "SirVer/ultisnips"
+  use "honza/vim-snippets"
+  use "quangnguyen30192/cmp-nvim-ultisnips"
 
   --
   use 'scrooloose/nerdtree' -- File Tree Explorer

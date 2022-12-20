@@ -44,13 +44,21 @@ require 'lspconfig'['sumneko_lua'].setup {
   flags = lsp_flags,
 }
 
+
+-- Set up lspconfig.
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
 require 'lspconfig'['pyright'].setup {
   on_attach = on_attach,
   flags = lsp_flags,
+  capabilities = capabilities,
 }
 require 'lspconfig'['tsserver'].setup {
   on_attach = on_attach,
   flags = lsp_flags,
+  capabilities = capabilities,
 }
 
-require 'lspconfig'['jsonls'].setup {}
+require 'lspconfig'['jsonls'].setup {
+  capabilities = capabilities,
+}

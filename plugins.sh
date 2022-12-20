@@ -81,22 +81,22 @@ fzf() {
   clone junegunn/fzf.vim fzf.vim
 }
 
-ultisnips() {
-  echo installing 'ultisnips'
-  clone SirVer/ultisnips.git ultisnips
+# ultisnips() {
+#   echo installing 'ultisnips'
+#   clone SirVer/ultisnips.git ultisnips
 
-  # also adding custom snippets
-  # in order to work, the array g:UltiSnipsSnippetDirectories must contain "jf-snippets". Done in .vimrc
-  pushd $INSTALL_VI_BUNDLEPATH
-  rm -f vim-jfsnippets
-  ln -s $currentFolder/vim-jfsnippets vim-jfsnippets
-  popd
-}
+#   # also adding custom snippets
+#   # in order to work, the array g:UltiSnipsSnippetDirectories must contain "jf-snippets". Done in .vimrc
+#   pushd $INSTALL_VI_BUNDLEPATH
+#   rm -f vim-jfsnippets
+#   ln -s $currentFolder/vim-jfsnippets vim-jfsnippets
+#   popd
+# }
 
-snippets() {
-  echo installing 'snippets'
-  clone honza/vim-snippets.git vim-snippets
-}
+# snippets() {
+#   echo installing 'snippets'
+#   clone honza/vim-snippets.git vim-snippets
+# }
 
 commentary() {
   echo installing 'commentary'
@@ -285,8 +285,8 @@ commentary
 neoformat
 
 easyAlign
-ultisnips
-snippets
+# ultisnips
+# snippets
 fugitive
 delimitMate
 lightline
