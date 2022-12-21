@@ -1,8 +1,34 @@
 print("loading packer.lua")
 
 local use = require('packer').use
+local util = require 'packer.util'
 
-require('packer').startup(function()
+
+-- this is the default: https://github.com/wbthomason/packer.nvim#custom-initialization
+local packagePath = util.join_paths(vim.fn.stdpath('data'), 'site', 'pack')
+
+local runHelptags = function(...)
+
+  local packed = { ... }
+
+  return function()
+    local docPath = util.join_paths(packagePath, 'packer', 'start', unpack(packed))
+
+    local status, value = pcall(vim.api.nvim_command, 'helptags ' .. docPath)
+    if status then
+      print('no error', value)
+    else
+      print('error: ', value)
+    end
+    print(value)
+  end
+
+end
+
+
+
+require('packer').startup({ function()
+
   use 'wbthomason/packer.nvim' -- Package manager
 
   -- Configurations for Nvim LSP
@@ -28,11 +54,15 @@ require('packer').startup(function()
   -- https://github.com/folke/which-key.nvim
 
 
-  use "hrsh7th/nvim-cmp"
-  use "hrsh7th/cmp-nvim-lsp"
-  use "hrsh7th/cmp-buffer"
-  use "hrsh7th/cmp-path"
-  use "hrsh7th/cmp-cmdline"
+  use {
+    "hrsh7th/nvim-cmp",
+    requires = {
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-cmdline"
+    }
+  }
 
   -- for ultisnips users.
   use "SirVer/ultisnips"
@@ -42,7 +72,57 @@ require('packer').startup(function()
   --
   use 'scrooloose/nerdtree' -- File Tree Explorer
 
-end)
+  -- git related
+  use {
+    "tpope/vim-fugitive",
+    run = runHelptags('vim-fugitive', 'doc')
+  }
+  use {
+    "airblade/vim-gitgutter",
+    run = runHelptags('vim-gitgutter', 'doc')
+  }
+
+  -- additionanl utilities
+  use "tpope/vim-commentary"
+  use {
+    "Raimondi/delimitMate",
+    run = runHelptags('delimitMate', 'doc')
+  }
+  use "alvan/vim-closetag"
+  use {
+    "Yggdroot/indentLine",
+    run = runHelptags('indentLine', 'doc')
+  }
+  use "svermeulen/vim-subversive"
+  use "machakann/vim-highlightedyank"
+  use "junegunn/fzf.vim"
+
+  -- markdown
+  use "plasticboy/vim-markdown"
+  use {
+    "iamcco/markdown-preview.nvim",
+    run = function() vim.fn["mkdp#util#install"]() end,
+  }
+  -- expects that code-minimap is available in the environment
+  use "wfxr/minimap.vim"
+
+  -- ui related
+  use "dracula/vim" -- colorsheme
+  use "itchyny/lightline.vim" -- status line
+
+  -- language specifics
+  use "pangloss/vim-javascript"
+  use "MaxMEllon/vim-jsx-pretty"
+  use {
+    "fatih/vim-go",
+    run = ':GoInstallBinaries'
+  }
+  use "hashivim/vim-terraform"
+
+end,
+  config = {
+    package_root = packagePath
+  } })
 
 
 -- re-source plugins.lua on change
@@ -50,6 +130,6 @@ end)
 vim.cmd([[
     augroup packer_user_config
       autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerCompile
+      autocmd BufWritePost *packer.lua source <afile> | PackerCompile
   augroup end
 ]])

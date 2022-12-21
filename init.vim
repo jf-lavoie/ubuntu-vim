@@ -34,7 +34,7 @@ filetype plugin indent on
 
 
 
-packadd! dracula
+" packadd! dracula
 syntax enable
 colorscheme dracula
 

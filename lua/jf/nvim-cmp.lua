@@ -1,15 +1,16 @@
 -- vim.o.completeopt="menu,menuone,noselect"
--- vim.o.completeopt = "menu,menuone,noinsert"
--- vim.o.completeopt = "menu,menuone"
+-- vim.o.completeopt = "menu,menuone,noselect"
+vim.o.completeopt = "menu,menuone"
 -- vim.o.completeopt = "menuone,noinsert"
 
 local cmp = require "cmp"
 
+
 cmp.setup({
 
   completion = {
-    -- from: https://github.com/hrsh7th/nvim-cmp/issues/209#issuecomment-921635222
-    completeopt = 'menu,menuone,noinsert'
+  -- from: https://github.com/hrsh7th/nvim-cmp/issues/209#issuecomment-921635222
+    completeopt = 'menu,menuone'
   },
   snippet = {
     -- REQUIRED - you must specify a snippet engine
@@ -25,6 +26,15 @@ cmp.setup({
     -- documentation = cmp.config.window.bordered(),
   },
   mapping = cmp.mapping.preset.insert({
+    -- defaults
+    -- from: https://github.com/hrsh7th/nvim-cmp/blob/8523568448d0be7cfda4fedd3041849120c9c6c9/lua/cmp/config/mapping.lua#L37
+    -- ['<Down>'] = { i = mapping.select_next_item({ behavior = types.cmp.SelectBehavior.Select }), },
+    -- ['<Up>'] = { i = mapping.select_prev_item({ behavior = types.cmp.SelectBehavior.Select }), },
+    -- ['<C-n>'] = { i = mapping.select_next_item({ behavior = types.cmp.SelectBehavior.Insert }), },
+    -- ['<C-p>'] = { i = mapping.select_prev_item({ behavior = types.cmp.SelectBehavior.Insert }), },
+    -- ['<C-y>'] = { i = mapping.confirm({ select = false }), },
+    -- ['<C-e>'] = { i = mapping.abort(), },
+
     ["<C-b>"] = cmp.mapping.scroll_docs(-4),
     ["<C-f>"] = cmp.mapping.scroll_docs(4),
     ["<C-Space>"] = cmp.mapping.complete(),
