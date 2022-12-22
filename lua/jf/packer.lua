@@ -1,4 +1,4 @@
-print("loading packer.lua")
+-- print("loading packer.lua")
 
 local use = require('packer').use
 local util = require 'packer.util'
@@ -70,7 +70,17 @@ require('packer').startup({ function()
   use "quangnguyen30192/cmp-nvim-ultisnips"
 
   --
-  use 'scrooloose/nerdtree' -- File Tree Explorer
+  -- use 'scrooloose/nerdtree' -- File Tree Explorer
+
+  use {
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v2.x",
+    requires = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+      "MunifTanjim/nui.nvim",
+    }
+  }
 
   -- git related
   use {

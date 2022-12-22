@@ -1,4 +1,4 @@
-print('loading null-ls.lua')
+-- print('loading null-ls.lua')
 
 local null_ls = require('null-ls')
 

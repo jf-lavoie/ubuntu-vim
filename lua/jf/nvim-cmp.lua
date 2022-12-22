@@ -1,3 +1,5 @@
+-- print('loading nvim-cmp.lua')
+
 -- vim.o.completeopt="menu,menuone,noselect"
 -- vim.o.completeopt = "menu,menuone,noselect"
 vim.o.completeopt = "menu,menuone"

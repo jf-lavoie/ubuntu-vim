@@ -1,4 +1,4 @@
-print('loading lsp-configs-shared.lua')
+-- print('loading lsp-configs-shared.lua')
 
 local shared = {}
 

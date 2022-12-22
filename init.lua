@@ -1,4 +1,4 @@
-print( "loading init.lua")
+-- print( "loading init.lua")
 
 -- joint from
 -- https://github.com/nanotee/nvim-lua-guide

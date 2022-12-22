@@ -2,25 +2,26 @@
 #
 # taken here: https://unix.stackexchange.com/questions/228331/avoid-running-the-script-if-a-variable-is-not-defined
 set -u # or set -o nounset
-echo INSTALL_VI_ROOTPATH $INSTALL_VI_ROOTPATH
-echo INSTALL_VI_BUNDLEPATH $INSTALL_VI_BUNDLEPATH
-echo INSTALL_VI_TARGET $INSTALL_VI_TARGET
+echo INSTALL_VI_ROOTPATH "$INSTALL_VI_ROOTPATH"
+echo INSTALL_VI_BUNDLEPATH "$INSTALL_VI_BUNDLEPATH"
+echo INSTALL_VI_TARGET "$INSTALL_VI_TARGET"
 
 currentFolder=$PWD
-echo currentFolder $currentFolder
+echo currentFolder "$currentFolder"
 
 clone() {
 
-  # $1 repo path to clone
-  # $2 friendly name of the repo
-  # $3 -optionnal- the destination directory. uses the git clone default behavior if not provided
+  # "$1" repo path to clone
+  # "$2" friendly name of the repo
+  # "$3" -optionnal- the destination directory. uses the git clone default behavior if not provided
 
+  # shellcheck disable=2155
   local defaultDest="$(basename "$1" .git)"
-  # echo default $defaultDest
+  # echo default "$defaultDest"
 
   # substiture 3rd parameter if not provided
   local dest=${3:-$defaultDest}
-  # echo dest $dest
+  # echo dest "$dest"
   #
   # shellcheck disable=2086
   echo Cloning $2 to "$INSTALL_VI_BUNDLEPATH/$dest"
@@ -64,25 +65,25 @@ vim-minimap() {
 fzf() {
   echo "cloning fzf"
 
-  rm -rf $HOME/.fzf
-  git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf
+  rm -rf "$HOME"/.fzf
+  git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME"/.fzf
 
-  $HOME/.fzf/install --key-bindings --completion --update-rc
+  "$HOME"/.fzf/install --key-bindings --completion --update-rc
 
   curl -LO https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb
   sudo dpkg -r ripgrep
   sudo dpkg -i ripgrep_13.0.0_amd64.deb
   rm ripgrep_13.0.0_amd64.deb
 
-  # grep -qxF 'export FZF_DEFAULT_OPTS="--extended"' $HOME/.bashrc || echo 'export FZF_DEFAULT_OPTS="--extended"' >> $HOME/.bashrc
+  # grep -qxF 'export FZF_DEFAULT_OPTS="--extended"' "$HOME"/.bashrc || echo 'export FZF_DEFAULT_OPTS="--extended"' >> "$HOME"/.bashrc
   # for the quoting escape black magic fuckery : https://stackoverflow.com/questions/1250079/how-to-escape-single-quotes-within-single-quoted-strings
-  # grep -qxF 'export FZF_DEFAULT_COMMAND="rg --files --smart-case --hidden -g '"'"'!.git'"'"'"' $HOME/.bashrc || echo 'export FZF_DEFAULT_COMMAND="rg --files --smart-case --hidden -g '"'"'!.git'"'"'"' >> $HOME/.bashrc
+  # grep -qxF 'export FZF_DEFAULT_COMMAND="rg --files --smart-case --hidden -g '"'"'!.git'"'"'"' "$HOME"/.bashrc || echo 'export FZF_DEFAULT_COMMAND="rg --files --smart-case --hidden -g '"'"'!.git'"'"'"' >> "$HOME"/.bashrc
 
   # for the quoting escape black magic fuckery : https://stackoverflow.com/questions/1250079/how-to-escape-single-quotes-within-single-quoted-strings
-  grep -qF 'export FZF_DEFAULT_OPTS' $HOME/.bashrc || echo 'export FZF_DEFAULT_OPTS="--extended --preview '"'"'cat {}'"'"'"' >> $HOME/.bashrc
-  grep -qF 'export FZF_DEFAULT_COMMAND="rg' $HOME/.bashrc || echo 'export FZF_DEFAULT_COMMAND="rg --files --smart-case --hidden -g '"'"'!.git'"'"'"' >> $HOME/.bashrc
+  grep -qF 'export FZF_DEFAULT_OPTS' "$HOME"/.bashrc || echo 'export FZF_DEFAULT_OPTS="--extended --preview '"'"'cat {}'"'"'"' >> "$HOME"/.bashrc
+  grep -qF 'export FZF_DEFAULT_COMMAND="rg' "HOME/."bashrc || echo 'export FZF_DEFAULT_COMMAND="rg --files --smart-case --hidden -g '"'"'!.git'"'"'"' >> "HOME/."bashrc
 
-  source $HOME/.bashrc
+  source "$HOME"/.bashrc
 }
 
 # ultisnips() {
@@ -91,9 +92,9 @@ fzf() {
 
 #   # also adding custom snippets
 #   # in order to work, the array g:UltiSnipsSnippetDirectories must contain "jf-snippets". Done in .vimrc
-#   pushd $INSTALL_VI_BUNDLEPATH
+#   pushd "$INSTALL_VI_BUNDLEPATH"
 #   rm -f vim-jfsnippets
-#   ln -s $currentFolder/vim-jfsnippets vim-jfsnippets
+#   ln -s "$currentFolder"/vim-jfsnippets vim-jfsnippets
 #   popd
 # }
 
@@ -108,9 +109,9 @@ fzf() {
 #   echo installer npm prettier globally first
 #   npm -g install prettier
 
-#   # local dest=$currentFolder
-#   # pushd $HOME
-#   # ln -s $dest/.prettierrc .prettierrc
+#   # local dest="$currentFolder"
+#   # pushd "$HOME"
+#   # ln -s "$dest"/.prettierrc .prettierrc
 #   # popd
 
 #   clone sbdchd/neoformat.git neoformat
@@ -130,7 +131,7 @@ fzf() {
 # fugitive() {
 #   echo installing 'vim-fugitive'
 #   clone tpope/vim-fugitive.git vim-fugitive
-#   runCommand "helptags $INSTALL_VI_BUNDLEPATH/vim-fugitive/doc" 
+#   runCommand "helptags "$INSTALL_VI_BUNDLEPATH"/vim-fugitive/doc" 
 # }
 
 #solarized() {
@@ -154,7 +155,7 @@ fzf() {
 #   echo insalling delimitMate
 #   clone Raimondi/delimitMate.git delimitMate
 
-#   runCommand "helptags  $INSTALL_VI_BUNDLEPATH/delimitMate/doc"
+#   runCommand "helptags  "$INSTALL_VI_BUNDLEPATH"/delimitMate/doc"
 # }
 
 
@@ -183,7 +184,7 @@ fzf() {
 # gitgutter() {
 #   echo installing git-gutter
 #   clone airblade/vim-gitgutter.git vim-gitgutter
-#   runCommand "helptags $INSTALL_VI_BUNDLEPATH/vim-gitgutter/doc" 
+#   runCommand "helptags "$INSTALL_VI_BUNDLEPATH"/vim-gitgutter/doc" 
 # }
 
 # ale() {
@@ -194,17 +195,17 @@ fzf() {
 #   # npm -g install eslint-config-prettier
 
 
-#   # local dest=$currentFolder
-#   # pushd $HOME
-#   # ln -s $dest/.eslintrc .eslintrc
+#   # local dest="$currentFolder"
+#   # pushd "$HOME"
+#   # ln -s "$dest"/.eslintrc .eslintrc
 #   # popd
 
 #   echo clonig ale
 
 #   clone dense-analysis/ale.git ale
 
-#   # mkdir -p $INSTALL_VI_BUNDLEPATH/ale/start
-#   # pushd $INSTALL_VI_BUNDLEPATH/ale/start
+#   # mkdir -p "$INSTALL_VI_BUNDLEPATH"/ale/start
+#   # pushd "$INSTALL_VI_BUNDLEPATH"/ale/start
 #   # git clone https://github.com/w0rp/ale.git
 #   # popd
 # }
@@ -245,7 +246,7 @@ fzf() {
 
 #   clone Yggdroot/indentLine.git Yggdroot/indentLine
 
-#   runCommand "helptags  $INSTALL_VI_BUNDLEPATH/indentLine/doc"
+#   runCommand "helptags  "$INSTALL_VI_BUNDLEPATH"/indentLine/doc"
 # }
 
 # vim-highlightedyank() {
@@ -261,10 +262,22 @@ nvim-packer() {
 
 }
 
+fonts() {
+  echo installing fonts
+
+  git clone --depth 1 https://github.com/ryanoasis/nerd-fonts.git
+  pushd nerd-fonts || exit
+
+  ./install.sh
+
+  popd || exit
+}
 
 
-nvim-packer
+
+# nvim-packer
 
 # environment related
-fzf
-vim-minimap
+# fzf
+fonts # for neotree
+# vim-minimap

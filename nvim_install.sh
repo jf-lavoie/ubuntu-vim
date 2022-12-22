@@ -3,22 +3,22 @@
 source .env.nvim
 currentFolder="$PWD"
 
-rm -rf "$INSTALL_VI_ROOTPATH"
+# rm -rf "$INSTALL_VI_ROOTPATH"
 
-if [ ! -d "$INSTALL_VI_ROOTPATH" ]; then
-	mkdir -p "$INSTALL_VI_ROOTPATH"
-fi
+# if [ ! -d "$INSTALL_VI_ROOTPATH" ]; then
+# 	mkdir -p "$INSTALL_VI_ROOTPATH"
+# fi
 
-if [ -f "$INSTALL_NVIM_APPIMAGE_PATH"/nvim.appimage ]; then
-	rm "$INSTALL_NVIM_APPIMAGE_PATH"/nvim.appimage
-fi
+# if [ -f "$INSTALL_NVIM_APPIMAGE_PATH"/nvim.appimage ]; then
+# 	rm "$INSTALL_NVIM_APPIMAGE_PATH"/nvim.appimage
+# fi
 
-curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
-chmod u+x nvim.appimage
+# curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
+# chmod u+x nvim.appimage
 
-mv nvim.appimage "$INSTALL_NVIM_APPIMAGE_PATH"
+# mv nvim.appimage "$INSTALL_NVIM_APPIMAGE_PATH"
 
-ln -vfs "$INSTALL_NVIM_APPIMAGE_PATH"/nvim.appimage "$INSTALL_NVIM_APPIMAGE_PATH"/nvim
+# ln -vfs "$INSTALL_NVIM_APPIMAGE_PATH"/nvim.appimage "$INSTALL_NVIM_APPIMAGE_PATH"/nvim
 
 function links {
 
@@ -50,9 +50,9 @@ function links {
 links
 
 
-python3 -m pip install --upgrade pynvim
+# python3 -m pip install --upgrade pynvim
 
-# taken from :checkhealth
-npm install -g neovim
+# # taken from :checkhealth
+# npm install -g neovim
 
-./plugins.sh
+# ./plugins.sh

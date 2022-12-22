@@ -1,4 +1,4 @@
-print('loading lsp-configs.lua')
+-- print('loading lsp-configs.lua')
 
 require 'mason'.setup()
 require 'mason-lspconfig'.setup()
