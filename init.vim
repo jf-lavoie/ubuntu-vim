@@ -229,6 +229,17 @@ if has('mac')
 endif
 
 
+" from: https://neovide.dev/configuration.html
+if exists("g:neovide")
+    " Put anything you want to happen only in Neovide here
+  " let g:neovide_transparency = 0.8
+  " let g:transparency = 0.1
+  " let g:neovide_background_color = '#0f1117'.printf('%x', float2nr(255 * g:transparency))
+  " let g:neovide_floating_blur_amount_x = 2.0
+  " let g:neovide_floating_blur_amount_y = 2.0
+endif
+
+
 
 " generic solution to let syntastic, neoformat, ...
 " find locally installed node_modules and not requiring a global installation.

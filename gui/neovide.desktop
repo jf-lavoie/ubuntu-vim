@@ -6,4 +6,5 @@ Terminal=false
 Exec=neovide
 Name=Neovide
 Comment=Neovide - A gui on top of NVim
-Icon=/usr/share/Icon/neovide-icon.png
+Icon=/usr/share/icons/neovide-icon.png
+StartupNotify=true

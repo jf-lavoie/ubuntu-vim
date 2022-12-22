@@ -17,8 +17,9 @@ curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
 chmod u+x nvim.appimage
 
 mv nvim.appimage "$INSTALL_NVIM_APPIMAGE_PATH"
+chmod 755 "$INSTALL_NVIM_APPIMAGE_PATH"/nvim.appimage
 
-ln -vfs "$INSTALL_NVIM_APPIMAGE_PATH"/nvim.appimage "$INSTALL_NVIM_APPIMAGE_PATH"/nvim
+sudo ln -sfv "$INSTALL_NVIM_APPIMAGE_PATH"/nvim.appimage /usr/bin/nvim
 
 function links {
 
@@ -31,12 +32,12 @@ function links {
 
 	echo Symlinking init.lua
 	ln -sf "$dest"/init.lua init.vim.lua
-  
-  echo Symlinking custom snippets
-  if [ ! -L vim-jfsnippets ]; then
-    echo link did not exists
-    ln -sfv "$dest"/vim-jfsnippets vim-jfsnippets
-  fi
+
+	echo Symlinking custom snippets
+	if [ ! -L vim-jfsnippets ]; then
+		echo link did not exists
+		ln -sfv "$dest"/vim-jfsnippets vim-jfsnippets
+	fi
 
 	# lua files
 	mkdir -p lua/jf
@@ -47,7 +48,6 @@ function links {
 		ln -sfv "$dest"/lua/jf/"$f" "$f"
 	done
 	popd || exit # lua/jf
-
 
 	popd || exit # $INSTALL_VI_ROOTPATH
 }

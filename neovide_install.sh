@@ -11,6 +11,9 @@ curl --proto '=https' --tlsv1.2 -sSf "https://sh.rustup.rs" | sh
 
 cargo install --git https://github.com/neovide/neovide
 
+sudo ln -sfv "$HOME"/.cargo/bin/neovide /usr/bin/neovide
+
 sudo cp "$(pwd)"/gui/neovide-icon.png /usr/share/icons/neovide-icon.png
 
-sudo cp "$(pwd)"/gui/neovide.desktop /usr/share/applications/neovide.desktop
+# sudo cp "$(pwd)"/gui/neovide.desktop /usr/share/applications/neovide.desktop
+sudo desktop-file-install "$(pwd)"/gui/neovide.desktop
