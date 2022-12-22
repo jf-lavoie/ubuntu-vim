@@ -128,6 +128,7 @@ require('packer').startup({ function()
     run = ':GoInstallBinaries'
   }
   use "hashivim/vim-terraform"
+  use "folke/neodev.nvim" -- lua lsp hover and signature help
 
 end,
   config = {
