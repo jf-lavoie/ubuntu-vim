@@ -54,7 +54,6 @@ function links {
 
 links
 
-
 python3 -m pip install --upgrade pynvim
 
 # taken from :checkhealth

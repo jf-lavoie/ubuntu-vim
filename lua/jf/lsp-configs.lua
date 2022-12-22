@@ -3,7 +3,7 @@
 require 'mason'.setup()
 require 'mason-lspconfig'.setup()
 require 'mason-lspconfig'.setup({
-  ensure_installed = { 'sumneko_lua', 'tsserver', 'jsonls', 'pyright' }
+  ensure_installed = { 'sumneko_lua', 'tsserver', 'jsonls', 'pyright', 'terraformls' }
 })
 
 -- Use an on_attach function to only map the following keys
