@@ -31,6 +31,12 @@ function links {
 
 	echo Symlinking init.lua
 	ln -sf "$dest"/init.lua init.vim.lua
+  
+  echo Symlinking custom snippets
+  if [ ! -L vim-jfsnippets ]; then
+    echo link did not exists
+    ln -sfv "$dest"/vim-jfsnippets vim-jfsnippets
+  fi
 
 	# lua files
 	mkdir -p lua/jf
@@ -42,7 +48,6 @@ function links {
 	done
 	popd || exit # lua/jf
 
-  ln -sfv "$dest"/vim-jfsnippets vim-jfsnippets
 
 	popd || exit # $INSTALL_VI_ROOTPATH
 }
