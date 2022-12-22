@@ -15,7 +15,26 @@ null_ls.setup({
 })
 
 require("mason-null-ls").setup({
-    ensure_installed = {"shellcheck", "shfmt", "prettier" },
-    automatic_installation = true,
-    automatic_setup = false,
+  ensure_installed = { "shellcheck", "shfmt", "prettier" },
+  automatic_installation = true,
+  automatic_setup = false,
+})
+
+vim.api.nvim_create_augroup('formatOnSave', {})
+vim.api.nvim_create_autocmd('BufWritePre', {
+  desc = "Format buffer on save",
+  pattern = {
+    -- shfmt
+    '*.sh', '*.bash',
+    -- prettier
+    "*.js", '*.mjs', '*.jsx', '*.ts', '*.tsx', '*.vue', '*.css', '*.scss', '*.less', '*.html', '*.htm', '*.json',
+    '*.jsonc', "*.yaml", '*.yml', "*.markdown", '*.md', "*.mdx", "*.graphql", '*.gql', "*.handlebars", '*.hbs',
+
+    -- works? but from where?
+    '*.lua'
+  },
+  group = "formatOnSave",
+  callback = function()
+    vim.lsp.buf.format { async = true }
+  end
 })

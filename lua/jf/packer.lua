@@ -106,13 +106,12 @@ require('packer').startup({ function()
   use "svermeulen/vim-subversive"
   use "machakann/vim-highlightedyank"
   use "junegunn/fzf.vim"
+  use {
+    "mbbill/undotree",
+    run = runHelptags('undotree', 'doc')
+  }
 
   -- markdown
-  use "plasticboy/vim-markdown"
-  use {
-    "iamcco/markdown-preview.nvim",
-    run = function() vim.fn["mkdp#util#install"]() end,
-  }
   -- expects that code-minimap is available in the environment
   use "wfxr/minimap.vim"
 
@@ -129,6 +128,11 @@ require('packer').startup({ function()
   }
   use "hashivim/vim-terraform"
   use "folke/neodev.nvim" -- lua lsp hover and signature help
+  use "plasticboy/vim-markdown"
+  use {
+    "iamcco/markdown-preview.nvim",
+    run = function() vim.fn["mkdp#util#install"]() end,
+  }
 
 end,
   config = {
