@@ -11,79 +11,79 @@ echo currentFolder "$currentFolder"
 
 clone() {
 
-  # "$1" repo path to clone
-  # "$2" friendly name of the repo
-  # "$3" -optionnal- the destination directory. uses the git clone default behavior if not provided
+	# "$1" repo path to clone
+	# "$2" friendly name of the repo
+	# "$3" -optionnal- the destination directory. uses the git clone default behavior if not provided
 
-  # shellcheck disable=2155
-  local defaultDest="$(basename "$1" .git)"
-  # echo default "$defaultDest"
+	# shellcheck disable=2155
+	local defaultDest="$(basename "$1" .git)"
+	# echo default "$defaultDest"
 
-  # substiture 3rd parameter if not provided
-  local dest=${3:-$defaultDest}
-  # echo dest "$dest"
-  #
-  # shellcheck disable=2086
-  echo Cloning $2 to "$INSTALL_VI_BUNDLEPATH/$dest"
+	# substiture 3rd parameter if not provided
+	local dest=${3:-$defaultDest}
+	# echo dest "$dest"
+	#
+	# shellcheck disable=2086
+	echo Cloning $2 to "$INSTALL_VI_BUNDLEPATH/$dest"
 
-  pushd "$INSTALL_VI_BUNDLEPATH" || exit
+	pushd "$INSTALL_VI_BUNDLEPATH" || exit
 
-  if [ -d "$dest" ]; then
-    rm -rf "$dest"
-  fi
+	if [ -d "$dest" ]; then
+		rm -rf "$dest"
+	fi
 
-  mkdir -p "$dest"
+	mkdir -p "$dest"
 
-  # shellcheck disable=2086
-  git clone https://github.com/$1 "$dest"
+	# shellcheck disable=2086
+	git clone https://github.com/$1 "$dest"
 
-  popd || exit # $INSTALL_VI_BUNDLEPATH
+	popd || exit # $INSTALL_VI_BUNDLEPATH
 
 }
 
 runCommand() {
-  echo "Running command $1"
-  bash -c "$INSTALL_VI_TARGET -U NONE --cmd \"$1\" --cmd \"qa\""
+	echo "Running command $1"
+	bash -c "$INSTALL_VI_TARGET -U NONE --cmd \"$1\" --cmd \"qa\""
 }
 
 vim-minimap() {
-  echo "vim-minimap"
+	echo "vim-minimap"
 
-  # MINIMAPDEBFILE=code-minimap-musl_0.5.0_amd64.deb
-  local MINIMAPVERSION="0.6.4"
-  # shellcheck disable=2027
-  local MINIMAPDEBFILE="code-minimap_"$MINIMAPVERSION"_amd64.deb"
-  # dependencies
-  curl -LO "https://github.com/wfxr/code-minimap/releases/download/v$MINIMAPVERSION/$MINIMAPDEBFILE"
-  sudo dpkg -r code-minimap
-  sudo dpkg -i "$MINIMAPDEBFILE"
-  rm "$MINIMAPDEBFILE"
+	# MINIMAPDEBFILE=code-minimap-musl_0.5.0_amd64.deb
+	local MINIMAPVERSION="0.6.4"
+	# shellcheck disable=2027
+	local MINIMAPDEBFILE="code-minimap_"$MINIMAPVERSION"_amd64.deb"
+	# dependencies
+	curl -LO "https://github.com/wfxr/code-minimap/releases/download/v$MINIMAPVERSION/$MINIMAPDEBFILE"
+	sudo dpkg -r code-minimap
+	sudo dpkg -i "$MINIMAPDEBFILE"
+	rm "$MINIMAPDEBFILE"
 
-  # clone wfxr/minimap.vim minimap.vim
+	# clone wfxr/minimap.vim minimap.vim
 }
 
 fzf() {
-  echo "cloning fzf"
+	echo "cloning fzf"
 
-  rm -rf "$HOME"/.fzf
-  git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME"/.fzf
+	rm -rf "$HOME"/.fzf
+	git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME"/.fzf
 
-  "$HOME"/.fzf/install --key-bindings --completion --update-rc
+	"$HOME"/.fzf/install --key-bindings --completion --update-rc
 
-  curl -LO https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb
-  sudo dpkg -r ripgrep
-  sudo dpkg -i ripgrep_13.0.0_amd64.deb
-  rm ripgrep_13.0.0_amd64.deb
+	curl -LO https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb
+	sudo dpkg -r ripgrep
+	sudo dpkg -i ripgrep_13.0.0_amd64.deb
+	rm ripgrep_13.0.0_amd64.deb
 
-  # grep -qxF 'export FZF_DEFAULT_OPTS="--extended"' "$HOME"/.bashrc || echo 'export FZF_DEFAULT_OPTS="--extended"' >> "$HOME"/.bashrc
-  # for the quoting escape black magic fuckery : https://stackoverflow.com/questions/1250079/how-to-escape-single-quotes-within-single-quoted-strings
-  # grep -qxF 'export FZF_DEFAULT_COMMAND="rg --files --smart-case --hidden -g '"'"'!.git'"'"'"' "$HOME"/.bashrc || echo 'export FZF_DEFAULT_COMMAND="rg --files --smart-case --hidden -g '"'"'!.git'"'"'"' >> "$HOME"/.bashrc
+	# grep -qxF 'export FZF_DEFAULT_OPTS="--extended"' "$HOME"/.bashrc || echo 'export FZF_DEFAULT_OPTS="--extended"' >> "$HOME"/.bashrc
+	# for the quoting escape black magic fuckery : https://stackoverflow.com/questions/1250079/how-to-escape-single-quotes-within-single-quoted-strings
+	# grep -qxF 'export FZF_DEFAULT_COMMAND="rg --files --smart-case --hidden -g '"'"'!.git'"'"'"' "$HOME"/.bashrc || echo 'export FZF_DEFAULT_COMMAND="rg --files --smart-case --hidden -g '"'"'!.git'"'"'"' >> "$HOME"/.bashrc
 
-  # for the quoting escape black magic fuckery : https://stackoverflow.com/questions/1250079/how-to-escape-single-quotes-within-single-quoted-strings
-  grep -qF 'export FZF_DEFAULT_OPTS' "$HOME"/.bashrc || echo 'export FZF_DEFAULT_OPTS="--extended --preview '"'"'cat {}'"'"'"' >> "$HOME"/.bashrc
-  grep -qF 'export FZF_DEFAULT_COMMAND="rg' "HOME/."bashrc || echo 'export FZF_DEFAULT_COMMAND="rg --files --smart-case --hidden -g '"'"'!.git'"'"'"' >> "HOME/."bashrc
+	# for the quoting escape black magic fuckery : https://stackoverflow.com/questions/1250079/how-to-escape-single-quotes-within-single-quoted-strings
+	grep -qF 'export FZF_DEFAULT_OPTS' "$HOME"/.bashrc || echo 'export FZF_DEFAULT_OPTS="--extended --preview '"'"'cat {}'"'"'"' >>"$HOME"/.bashrc
+	grep -qF 'export FZF_DEFAULT_COMMAND="rg' "HOME/."bashrc || echo 'export FZF_DEFAULT_COMMAND="rg --files --smart-case --hidden -g '"'"'!.git'"'"'"' >>"HOME/."bashrc
 
-  source "$HOME"/.bashrc
+	source "$HOME"/.bashrc
 }
 
 # ultisnips() {
@@ -103,7 +103,6 @@ fzf() {
 #   clone honza/vim-snippets.git vim-snippets
 # }
 
-
 # neoformat() {
 #   echo installing 'neoformat'
 #   echo installer npm prettier globally first
@@ -116,7 +115,6 @@ fzf() {
 
 #   clone sbdchd/neoformat.git neoformat
 # }
-
 
 # json() {
 #   echo installing 'json'
@@ -131,7 +129,7 @@ fzf() {
 # fugitive() {
 #   echo installing 'vim-fugitive'
 #   clone tpope/vim-fugitive.git vim-fugitive
-#   runCommand "helptags "$INSTALL_VI_BUNDLEPATH"/vim-fugitive/doc" 
+#   runCommand "helptags "$INSTALL_VI_BUNDLEPATH"/vim-fugitive/doc"
 # }
 
 #solarized() {
@@ -158,7 +156,6 @@ fzf() {
 #   runCommand "helptags  "$INSTALL_VI_BUNDLEPATH"/delimitMate/doc"
 # }
 
-
 # lightline() {
 #   echo installing lightline
 #   clone itchyny/lightline.vim.git lightline.vim
@@ -174,7 +171,6 @@ fzf() {
 #   clone MaxMEllon/vim-jsx-pretty.git vim-jsx-pretty
 # }
 
-
 # vim-go() {
 #   echo installing vim-go
 #   clone fatih/vim-go.git vim-go
@@ -184,7 +180,7 @@ fzf() {
 # gitgutter() {
 #   echo installing git-gutter
 #   clone airblade/vim-gitgutter.git vim-gitgutter
-#   runCommand "helptags "$INSTALL_VI_BUNDLEPATH"/vim-gitgutter/doc" 
+#   runCommand "helptags "$INSTALL_VI_BUNDLEPATH"/vim-gitgutter/doc"
 # }
 
 # ale() {
@@ -193,7 +189,6 @@ fzf() {
 #   npm -g install eslint
 #   # npm -g install eslint-plugin-prettier
 #   # npm -g install eslint-config-prettier
-
 
 #   # local dest="$currentFolder"
 #   # pushd "$HOME"
@@ -239,7 +234,6 @@ fzf() {
 #   clone svermeulen/vim-subversive.git svermeulen/vim-subversive
 # }
 
-
 # vim-indentline() {
 
 #   echo installing vim-indentline
@@ -256,24 +250,26 @@ fzf() {
 # }
 
 nvim-packer() {
-  echo installing wbthomason/packer.nvim
+	echo installing wbthomason/packer.nvim
 
-  clone wbthomason/packer.nvim.git wbthomason/packer.nvim
+	clone wbthomason/packer.nvim.git wbthomason/packer.nvim
 
 }
 
 fonts() {
-  echo installing fonts
+	echo installing fonts
 
-  git clone --depth 1 https://github.com/ryanoasis/nerd-fonts.git
-  pushd nerd-fonts || exit
+	git clone --depth 1 https://github.com/ryanoasis/nerd-fonts.git
+	pushd nerd-fonts || exit
 
-  ./install.sh
+	./install.sh
 
-  popd || exit
+	popd || exit
 }
 
-
+tree-sitter() {
+	echo installing tree-sitter
+}
 
 # nvim-packer
 

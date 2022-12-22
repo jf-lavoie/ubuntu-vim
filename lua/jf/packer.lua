@@ -1,6 +1,7 @@
 -- print("loading packer.lua")
 
-local use = require('packer').use
+local packer = require 'packer'
+local use = packer.use
 local util = require 'packer.util'
 
 
@@ -25,8 +26,6 @@ local runHelptags = function(...)
 
 end
 
-
-
 require('packer').startup({ function()
 
   use 'wbthomason/packer.nvim' -- Package manager
@@ -36,6 +35,12 @@ require('packer').startup({ function()
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
     'neovim/nvim-lspconfig'
+  }
+
+  -- tree-sitter, synxtax highlight and incremental searches?
+  use {
+    'nvim-treesitter/nvim-treesitter',
+    run = ':TSUpdate'
   }
 
   use({
@@ -136,7 +141,13 @@ require('packer').startup({ function()
 
 end,
   config = {
-    package_root = packagePath
+    package_root = packagePath,
+
+    -- display = {
+    --   open_fn = function()
+    --     require 'packer.util'.float { border = "rounded" }
+    --   end
+    -- }
   } })
 
 
