@@ -11,7 +11,7 @@ local cmp = require "cmp"
 cmp.setup({
 
   completion = {
-  -- from: https://github.com/hrsh7th/nvim-cmp/issues/209#issuecomment-921635222
+    -- from: https://github.com/hrsh7th/nvim-cmp/issues/209#issuecomment-921635222
     completeopt = 'menu,menuone'
   },
   snippet = {
@@ -51,6 +51,8 @@ cmp.setup({
     -- { name = "snippy" }, -- For snippy users.
   }, {
     { name = "buffer" },
+  }, {
+    { name = 'path' },
   })
 })
 
