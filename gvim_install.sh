@@ -10,23 +10,16 @@ fi
 
 currentFolder=$PWD
 
-sudo apt update
 
-# https://askubuntu.com/a/1234566/353419
-sudo apt install vim-gtk3
+sudo apt install -y curl \
+    gnupg ca-certificates git \
+    gcc-multilib g++-multilib cmake libssl-dev pkg-config \
+    libfreetype6-dev libasound2-dev libexpat1-dev libxcb-composite0-dev \
+    libbz2-dev libsndio-dev freeglut3-dev libxmu-dev libxi-dev libfontconfig1-dev \
+    libxcursor-dev
 
-./plugins.sh
 
-function vimrc {
-	local dest=$currentFolder
+curl --proto '=https' --tlsv1.2 -sSf "https://sh.rustup.rs" | sh
 
-	pushd "$HOME" || exit
 
-	echo Symlinking .vimrc
-	rm .vimrc
-	ln -s "$dest"/init.vim .vimrc
-
-	popd || exit
-}
-
-vimrc
+cargo install --git https://github.com/neovide/neovide

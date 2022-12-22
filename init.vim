@@ -10,14 +10,6 @@ execute "source ".s:luaconfigfile
 
 filetype plugin indent on
 
-" set color scheme
-" ---------------------------------------------------
-"  vim-monokai-tasty configs
-" ---------------------------------------------------
-" let g:monokai_term_italic = 1
-" let g:monokai_gui_italic = 1
-" colorscheme monokai
-
 
 " debug syntax highlighting. source: https://vim.fandom.com/wiki/Identify_the_syntax_highlighting_group_used_at_the_cursor
 " map <leader>q :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
@@ -356,45 +348,6 @@ let g:UltiSnipsSnippetDirectories=["UltiSnips", "vim-jfsnippets/jfsnippets"]
 
 
 " ---------------------------------------------------
-" EasyAlign setup
-" ---------------------------------------------------
-" Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
-" vmap <Enter> <Plug>(EasyAlign)
-
-" ---------------------------------------------------
-" terryma/vim-multiple-cursors setup
-" ---------------------------------------------------
-" When in insert mode, 'esc' does not exit multi cursor mode but rather fall
-" back to normal. A 2nd 'esc' quits multi cursors.
-" let g:multi_cursor_exit_from_insert_mode=0
-" When in visual mode, 'esc' does not exit multi cursor mode but rather fall
-" back to normal. A 2nd 'esc' quits multi cursors.
-" let g:multi_cursor_exit_from_visual_mode=0
-
-" ---------------------------------------------------
-" neoformat configs
-" ---------------------------------------------------
-"let g:neoformat_enabled_javascript = ['prettier']
-"let g:neoformat_enabled_css = ['prettier']
-"let g:neoformat_enabled_js = ['prettier']
-"let g:neoformat_enabled_json = ['prettier']
-"let g:neoformat_enabled_less = ['prettier']
-"let g:neoformat_enabled_markdown = ['prettier']
-"let g:neoformat_enabled_scss = ['prettier']
-"let g:neoformat_enabled_typescript = ['prettier'] " is this working?
-"let g:neoformat_enabled_vue = ['prettier'] " is this working?
-"let g:neoformat_enabled_yaml = ['prettier'] " is this working?
-"" let g:neoformat_try_prettier = 1
-"" let g:neoformat_verbose = 1
-""
-"" goimports > gofmt : https://goinbigdata.com/goimports-vs-gofmt/
-"let g:neoformat_enabled_go = ['goimports', 'gofmt', 'gofumpt', 'gofumports']
-
-"noremap <C-F3> :Neoformat<CR>
-":autocmd BufWritePre *.js,*.css,*.json,*.vue,*.ts,*.yml,*.yaml,*.css,*.less,*.scss :Neoformat
-
-
-" ---------------------------------------------------
 " NERDTree configuration
 " ---------------------------------------------------
 " if !&diff " do not open nerdtree on diff mode
@@ -589,5 +542,5 @@ let g:indentLine_concealcursor=""
 " wfxr/minimap.vim
 " ---------------------------------------------------
 " disable minimap for specific file types  
-let g:minimap_block_filetypes = ['fugitive', 'nerdtree'] 
+let g:minimap_block_filetypes = ['fugitive', 'nerdtree', 'neo-tree'] 
 " ---------------------------------------------------
