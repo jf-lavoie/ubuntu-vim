@@ -1,14 +1,15 @@
 " enew|pu=execute('let')
 " enew|pu=execute('scriptnames')
 " enew|pu=execute('messages')
-set nocompatible
+" nvim is always nocompatible
+" set nocompatible
 
 let s:luaconfigfile=stdpath('config').'/init.vim.lua'
 echo "sourcing: ".s:luaconfigfile
 execute "source ".s:luaconfigfile
 
 
-filetype plugin indent on
+" filetype plugin indent on
 
 
 " debug syntax highlighting. source: https://vim.fandom.com/wiki/Identify_the_syntax_highlighting_group_used_at_the_cursor
@@ -27,49 +28,49 @@ filetype plugin indent on
 
 
 " packadd! dracula
-syntax enable
-colorscheme dracula
+" syntax enable
+" colorscheme dracula
 
-" special check for windows terminal
-" https://github.com/microsoft/terminal/issues/1040
-" https://gist.github.com/XVilka/8346728
-if $COLORTERM == "truecolor" || ($TERM == "xterm-256color" && !empty($WSL_DISTRO_NAME))
-  set termguicolors
-endif
+" " special check for windows terminal
+" " https://github.com/microsoft/terminal/issues/1040
+" " https://gist.github.com/XVilka/8346728
+" if $COLORTERM == "truecolor" || ($TERM == "xterm-256color" && !empty($WSL_DISTRO_NAME))
+"   set termguicolors
+" endif
 
 " ---------------------------------------------------
 
 
-" do not resize windows when closing a window
-" source: https://stackoverflow.com/questions/486027/close-a-split-window-in-vim-without-resizing-other-windows
-set noequalalways
+" " do not resize windows when closing a window
+" " source: https://stackoverflow.com/questions/486027/close-a-split-window-in-vim-without-resizing-other-windows
+" set noequalalways
 
-" Display line number
-set number
-set relativenumber
+" " Display line number
+" set number
+" set relativenumber
 
-" Diff always vertical
-set diffopt=vertical
+" " Diff always vertical
+" set diffopt=vertical
 
-" make backspace work like most other apps
-set backspace=indent,eol,start
+" " make backspace work like most other apps
+" set backspace=indent,eol,start
 
-" sets trailing spaces and tabs to easily visible characters
-set list listchars=tab:>\ ,trail:.,
-" set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+" " sets trailing spaces and tabs to easily visible characters
+" set list listchars=tab:>\ ,trail:.,
+" " set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
 
-" how-to see the non-visible while spaces
-" :set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
-" set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:<
-" :set list
-" but hei how-to unset the visible tabs ?!
-" :set nolist
+" " how-to see the non-visible while spaces
+" " :set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
+" " set listchars=eol:$,tab:>-,trail:~,extends:>,precedes:<
+" " :set list
+" " but hei how-to unset the visible tabs ?!
+" " :set nolist
 
-" Show all the white space character
-set list
+" " Show all the white space character
+" set list
 
-set scrolloff=4
-set sidescrolloff=5
+" set scrolloff=4
+" set sidescrolloff=5
 
 " Change the current directory to the open file
 " set autochdir
@@ -79,7 +80,7 @@ set sidescrolloff=5
 " set cursorline on entering, set nocursorline on leaving
 " source: https://vim.fandom.com/wiki/Highlight_current_line
 
-let g:cursorline_enabled = 1
+" let g:cursorline_enabled = 1
 " function! ToggleCursorLine()
 "   let l:previous = get(g:, 'cursorline_enabled')
 "   let g:cursorline_enabled = !l:previous
@@ -98,63 +99,63 @@ let g:cursorline_enabled = 1
 
 " nnoremap <leader>c :call ToggleCursorLine()<CR>
 
-" ---------------------------------------------------
-" Search
-" ---------------------------------------------------
-set hlsearch
-" Press F3 to toggle highlighting on/off.
-:noremap <F3> :set hls!<CR>
-" Ignore case when searching
-set ignorecase
-" use case-sensitive search if your search contains an uppercase character
-set smartcase
-" Show the search result as you type
-set incsearch
+" " ---------------------------------------------------
+" " Search
+" " ---------------------------------------------------
+" " set hlsearch
+" " Press F3 to toggle highlighting on/off.
+" " :noremap <F3> :set hls!<CR>
+" " Ignore case when searching
+" set ignorecase
+" " use case-sensitive search if your search contains an uppercase character
+" set smartcase
+" " Show the search result as you type
+" set incsearch
 
-if has('nvim')
-  set inccommand=nosplit
-endif
+" if has('nvim')
+"   set inccommand=nosplit
+" endif
 
-" ---------------------------------------------------
-" Tabulation and identation
-" ---------------------------------------------------
-" preserve current indent on new lines
-set autoindent
-" Do not wrap lines
-set nowrap
-" indent/outdent to nearest tabstops
-set shiftround
-" indentation levels every two columns
-set tabstop=2
-" "number of space characters inserted for indentation
-set shiftwidth=2
-" this is to make sure vim replaces tabs by spaces
-set expandtab
+" " ---------------------------------------------------
+" " Tabulation and identation
+" " ---------------------------------------------------
+" " preserve current indent on new lines
+" set autoindent
+" " Do not wrap lines
+" set nowrap
+" " indent/outdent to nearest tabstops
+" set shiftround
+" " indentation levels every two columns
+" set tabstop=2
+" " "number of space characters inserted for indentation
+" set shiftwidth=2
+" " this is to make sure vim replaces tabs by spaces
+" set expandtab
 
-" python is special
-au BufNewFile,BufRead *.py set
-      \ tabstop=4
-      \ softtabstop=4
-      \ shiftwidth=4
-      \ expandtab
-      \ autoindent
-      \ fileformat=unix
+" " python is special
+" au BufNewFile,BufRead *.py set
+"       \ tabstop=4
+"       \ softtabstop=4
+"       \ shiftwidth=4
+"       \ expandtab
+"       \ autoindent
+"       \ fileformat=unix
 
-"----------------------------------------------------
-" Beeping
-"----------------------------------------------------
-" Do not ring the bell for error messages
-set noerrorbells
-" Use visual bell and remove flash
-autocmd VimEnter * set vb t_vb=
+""----------------------------------------------------
+"" Beeping
+""----------------------------------------------------
+"" Do not ring the bell for error messages
+"set noerrorbells
+"" Use visual bell and remove flash
+"autocmd VimEnter * set vb t_vb=
 
-" ---------------------------------------------------
-" Remove the backup option (~ and .swp files)
-" ---------------------------------------------------
-set nobackup
-set nowritebackup
-set noswapfile
-set noundofile
+" " ---------------------------------------------------
+" " Remove the backup option (~ and .swp files)
+" " ---------------------------------------------------
+" set nobackup
+" set nowritebackup
+" set noswapfile
+" set noundofile
 
 " ---------------------------------------------------
 " Trim extra white spaces at end of lines
@@ -165,21 +166,21 @@ set noundofile
 " ---------------------------------------------------
 " Custom shortcuts
 " ---------------------------------------------------
-nmap <F6> :let @+ = expand("%:p")<cr>
+" nmap <F6> :let @+ = expand("%:p")<cr>
 
 
 " taken from here: https://stackoverflow.com/questions/1236563/how-do-i-run-a-terminal-inside-of-vim/29293191#29293191
 " tnoremap <ESC><ESC> <C-\><C-n>
 " taken from here: https://github.com/junegunn/fzf.vim/issues/544#issuecomment-498202592
-tnoremap <expr> <Esc> (&filetype == "fzf") ? "<Esc>" : "<c-\><c-n>"
+" tnoremap <expr> <Esc> (&filetype == "fzf") ? "<Esc>" : "<c-\><c-n>"
 
-if has('nvim')
-  autocmd TermOpen * startinsert
-  " autocmd TermOpen * tnoremap <ESC><ESC> <C-\><C-n>
-else
-  autocmd BufNew * if &buftype=="terminal" | startinsert | endif
-endif
-autocmd BufEnter * if &buftype=="terminal" | startinsert | endif
+" if has('nvim')
+"   autocmd TermOpen * startinsert
+"   " autocmd TermOpen * tnoremap <ESC><ESC> <C-\><C-n>
+" else
+"   autocmd BufNew * if &buftype=="terminal" | startinsert | endif
+" endif
+" autocmd BufEnter * if &buftype=="terminal" | startinsert | endif
 
 " nmap <F5> :NERDTreeFind<CR>
 
@@ -195,11 +196,11 @@ autocmd BufEnter * if &buftype=="terminal" | startinsert | endif
 " using the registers make those mapping agnostic of the plugins.
 " the 'oi<BS><esc>' is just to et leverage the automatic indentation provided by vim 'o'
 " while still returning in normal mode with the <esc>
-autocmd FileType javascript,vue,typescript nmap <buffer> <F2> yiwoi<BS><esc>:let @m = 'console.log("jf-debug-> ''' . @" . ''': ", ' . @" . ');'<enter><esc>"mp
-autocmd FileType javascript,vue,typescript vmap <buffer> <F2> yoi<BS><esc>:let @m = 'console.log("jf-debug-> ''' . @" . ''': ", ' . @" . ');'<enter><esc>"mp
-autocmd FileType javascript,vue,typescript nmap <buffer> <F3> oi<BS><esc>:let @m = 'console.log("jf-debug-> arguments: ", arguments);'<enter><esc>"mp<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
-autocmd FileType javascript,vue,typescript nmap <buffer> <F4> yiwoi<BS><esc>:let @m = 'console.log("jf-debug-> ''' . @" . ''': ", require("util").inspect(' . @" . ', { depth: 100, colors: false }));'<enter><esc>"mp
-autocmd FileType javascript,vue,typescript vmap <buffer> <F4> yoi<BS><esc>:let @m = 'console.log("jf-debug-> ''' . @" . ''': ", require("util").inspect(' . @" . ', { depth: 100, colors: false }));'<enter><esc>"mp
+" autocmd FileType javascript,vue,typescript nmap <buffer> <F2> yiwoi<BS><esc>:let @m = 'console.log("jf-debug-> ''' . @" . ''': ", ' . @" . ');'<enter><esc>"mp
+" autocmd FileType javascript,vue,typescript vmap <buffer> <F2> yoi<BS><esc>:let @m = 'console.log("jf-debug-> ''' . @" . ''': ", ' . @" . ');'<enter><esc>"mp
+" autocmd FileType javascript,vue,typescript nmap <buffer> <F3> oi<BS><esc>:let @m = 'console.log("jf-debug-> arguments: ", arguments);'<enter><esc>"mp<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>
+" autocmd FileType javascript,vue,typescript nmap <buffer> <F4> yiwoi<BS><esc>:let @m = 'console.log("jf-debug-> ''' . @" . ''': ", require("util").inspect(' . @" . ', { depth: 100, colors: false }));'<enter><esc>"mp
+" autocmd FileType javascript,vue,typescript vmap <buffer> <F4> yoi<BS><esc>:let @m = 'console.log("jf-debug-> ''' . @" . ''': ", require("util").inspect(' . @" . ', { depth: 100, colors: false }));'<enter><esc>"mp
 
 " ---------------------------------------------------
 " GO specific shortcuts
@@ -211,47 +212,47 @@ autocmd FileType javascript,vue,typescript vmap <buffer> <F4> yoi<BS><esc>:let @
 " using the registers make those mapping agnostic of the plugins.
 " the 'oi<BS><esc>' is just to et leverage the automatic indentation provided by vim 'o'
 " while still returning in normal mode with the <esc>
-autocmd FileType go nmap <buffer> <F2> yiwoi<BS><esc>:let @m = 'fmt.Printf("jf-debug-> ''' . @" .''': %#v\n", ' . @" . ');'<enter><esc>"mp
-autocmd FileType go vmap <buffer> <F2> yoi<BS><esc>:let @m = 'fmt.Printf("jf-debug-> ''' . @" .''': %#v\n", ' . @" . ');'<enter><esc>"mp
+" autocmd FileType go nmap <buffer> <F2> yiwoi<BS><esc>:let @m = 'fmt.Printf("jf-debug-> ''' . @" .''': %#v\n", ' . @" . ');'<enter><esc>"mp
+" autocmd FileType go vmap <buffer> <F2> yoi<BS><esc>:let @m = 'fmt.Printf("jf-debug-> ''' . @" .''': %#v\n", ' . @" . ');'<enter><esc>"mp
 
 " ---------------------------------------------------
 " Adding batch file comment type. Used with plugin commentary
 " ---------------------------------------------------
-autocmd FileType dosbatch set commentstring=::\ %s
+" autocmd FileType dosbatch set commentstring=::\ %s
 
 " ---------------------------------------------------
 " Chaning the font for MAC only because the base font is too small.
 " ---------------------------------------------------
-if has('mac')
-  set guifont=Menlo\ Regular:h13
-" elseif has('unix')
-"   set guifont=Droid\ Sans\ Mono\ 11
-endif
+" if has('mac')
+"   set guifont=Menlo\ Regular:h13
+" " elseif has('unix')
+" "   set guifont=Droid\ Sans\ Mono\ 11
+" endif
 
 
 " from: https://neovide.dev/configuration.html
-if exists("g:neovide")
+" if exists("g:neovide")
     " Put anything you want to happen only in Neovide here
   " let g:neovide_transparency = 0.8
   " let g:transparency = 0.1
   " let g:neovide_background_color = '#0f1117'.printf('%x', float2nr(255 * g:transparency))
   " let g:neovide_floating_blur_amount_x = 2.0
   " let g:neovide_floating_blur_amount_y = 2.0
-endif
+" endif
 
 
 
 " generic solution to let syntastic, neoformat, ...
 " find locally installed node_modules and not requiring a global installation.
 " find here: https://github.com/npm/npm/issues/957
-let $PATH = './node_modules/.bin:'.$PATH
+" let $PATH = './node_modules/.bin:'.$PATH
 
 " when using gf in javascript file, the extension is not set most of the time.
 " :help path
 " :help suffixesadd
 " found here: https://stackoverflow.com/questions/1932604/vim-problem-with-gf-command
 " https://til.hashrocket.com/posts/fef382f93e-use-suffixadd-to-save-yourself-some-life
-autocmd BufRead,BufNewFile *.js set suffixesadd+=.js,.json
+" autocmd BufRead,BufNewFile *.js set suffixesadd+=.js,.json
 
 
 
@@ -259,11 +260,11 @@ autocmd BufRead,BufNewFile *.js set suffixesadd+=.js,.json
 " FZF configs
 " ---------------------------------------------------
 
-set rtp+=~/.fzf
-nnoremap <C-p> :call fzf#run(
-  \   fzf#wrap(
-  \     fzf#vim#with_preview()
-  \   ))<enter>
+" set rtp+=~/.fzf
+" nnoremap <C-p> :call fzf#run(
+"   \   fzf#wrap(
+"   \     fzf#vim#with_preview()
+"   \   ))<enter>
 
 " taken here: https://github.com/junegunn/fzf.vim/issues/1081
 " linked there: https://github.com/junegunn/fzf.vim#example-advanced-ripgrep-integration

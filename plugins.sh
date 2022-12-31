@@ -271,9 +271,9 @@ tree-sitter() {
 	echo installing tree-sitter
 }
 
-# nvim-packer
+nvim-packer
 
 # environment related
-# fzf
+fzf
 fonts # for neotree
-# vim-minimap
+vim-minimap
