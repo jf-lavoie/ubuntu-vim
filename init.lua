@@ -202,10 +202,22 @@ vim.opt.undofile = false
 --------------------------------------------------------------------------------------
 -- Custom shortcuts
 --------------------------------------------------------------------------------------
-vim.keymap.set('n', '<F5>', ':NeoTreeRevealToggle<CR>', {
-  desc = "ReveaNeoTreeRevealTogglwe"
+
+vim.keymap.set('n', '<F1>', ':h <C-r><C-w><enter>', {
+  desc = "Help for word under cursor"
 })
-vim.keymap.set('n', '<F6>', function() vim.fn.setreg("+", vim.fn.expand('%:p')) end, {
+vim.keymap.set('v', '<F1>', 'y<esc>:h <C-r>"<enter>', {
+  desc = "Help for visual selection"
+})
+
+vim.keymap.set('n', '<F5>', ':NeoTreeRevealToggle<CR>', {
+  desc = "ReveaNeoTreeRevealToggle"
+})
+
+vim.keymap.set('n', '<F6>', ':UndotreeToggle<CR>', {
+  desc = "UndotreeToggle"
+})
+vim.keymap.set('n', '<F7>', function() vim.fn.setreg("+", vim.fn.expand('%:p')) end, {
   desc = "copy file path to clipboard"
 })
 
@@ -213,10 +225,6 @@ vim.keymap.set('n', '<F6>', function() vim.fn.setreg("+", vim.fn.expand('%:p')) 
 
 -- taken from here: https://stackoverflow.com/questions/1236563/how-do-i-run-a-terminal-inside-of-vim/29293191#29293191
 -- tnoremap <ESC><ESC> <C-\><C-n>
--- taken from here: https://github.com/junegunn/fzf.vim/issues/544#issuecomment-498202592
-vim.keymap.set('t', '<Esc>', '(&filetype == "fzf") ? "<Esc>" : "<c-\\><c-n>"', {})
--- tnoremap <expr> <Esc> (&filetype == "fzf") ? "<Esc>" : "<c-\><c-n>"
-
 vim.api.nvim_create_autocmd('TermOpen', {
   pattern = '*',
   desc = "sets <esc><esc> to return to normal mode in terminal",
@@ -228,6 +236,17 @@ vim.api.nvim_create_autocmd('TermOpen', {
 })
 -- required?
 -- autocmd BufEnter * if &buftype=="terminal" | startinsert | endif
+
+
+-- taken from here: https://github.com/junegunn/fzf.vim/issues/544#issuecomment-498202592
+-- tnoremap <expr> <Esc> (&filetype == "fzf") ? "<Esc>" : "<c-\\><c-n>"
+-- vim.keymap.set('t', '<Esc>', '(&filetype == "fzf") ? "<Esc>" : "<c-\\><c-n>"', {
+--   desc = "terminal <esc> to go back to normal mode",
+--   expr = true,
+--   replace_keycodes = true
+-- })
+-- from here: https://github.com/junegunn/fzf.vim/issues/544#issuecomment-457456166
+vim.api.nvim_exec('autocmd FileType fzf tunmap <Esc><Esc>', false)
 
 ----------------------- JS specific shortcuts ---------------------------
 -- in order to prevent some plugins (like delimiter) to interfer with the typed
@@ -242,7 +261,7 @@ vim.api.nvim_create_autocmd(
   { pattern = { "javascript", "typescript", "vue" },
     callback = function(info)
       vim.keymap.set('n', '<F2>',
-        "yoi<BS><esc>:let @m = 'console.log(\"jf-debug-> ''' . @\" . ''': \", ' . @\" . ');'<enter><esc>\"mp", {
+        "yiwoi<BS><esc>:let @m = 'console.log(\"jf-debug-> ''' . @\" . ''': \", ' . @\" . ');'<enter><esc>\"mp", {
         desc = "console.log jf",
         buffer = info.buf
       })
@@ -287,7 +306,7 @@ vim.api.nvim_create_autocmd(
   { pattern = { "go" },
     callback = function(info)
       vim.keymap.set('n', '<F2>',
-        "yoi<BS><esc>:let @m = 'fmt.Printf(\"jf-debug-> ''' . @\" . ''': %#v\n\", ' . @\" . ');'<enter><esc>\"mp", {
+        "yiwoi<BS><esc>:let @m = 'fmt.Printf(\"jf-debug-> ''' . @\" . ''': %#v\n\", ' . @\" . ');'<enter><esc>\"mp", {
         desc = "console.log jf",
         buffer = info.buf
       })
@@ -296,6 +315,39 @@ vim.api.nvim_create_autocmd(
         "yoi<BS><esc>:let @m = 'fmt.Printf(\"jf-debug-> ''' . @\" . ''': %#v\n\", ' . @\" . ');'<enter><esc>\"mp", {
         desc = "visual console.log jf",
       })
+
+    end
+  })
+
+----------------------- lua specific shortcuts ---------------------------
+vim.api.nvim_create_autocmd(
+  "FileType",
+  { pattern = { "lua" },
+    callback = function(info)
+      vim.keymap.set('n', '<F2>',
+        "yiwoi<BS><esc>:let @m = 'print(\"jf-debug-> ''' . @\" . ''': \"..'. @\" .');'<enter><esc>\"mp", {
+        desc = "print jf",
+        buffer = info.buf
+      })
+
+      vim.keymap.set('v', '<F2>',
+        "yoi<BS><esc>:let @m = 'print(\"jf-debug-> ''' . @\" . ''': \"..'. @\" .');'<enter><esc>\"mp", {
+        desc = "print jf",
+        buffer = info.buf
+      })
+
+      vim.keymap.set('n', '<F4>',
+        "yiwoi<BS><esc>:let @m = 'print(\"jf-debug-> ''' . @\" . ''': \" .. vim.inspect(' . @\" . '));'<enter><esc>\"mp"
+        ,
+        {
+          desc = "visual console.log jf",
+        })
+
+      vim.keymap.set('v', '<F4>',
+        "yoi<BS><esc>:let @m = 'print(\"jf-debug-> ''' . @\" . ''': \" .. vim.inspect(' . @\" . '));'<enter><esc>\"mp",
+        {
+          desc = "visual console.log jf",
+        })
 
     end
   })
@@ -367,34 +419,48 @@ vim.api.nvim_create_autocmd(
 
 vim.opt.rtp:append(os.getenv('HOME') .. '/.fzf')
 vim.keymap.set('n', '<C-p>', ":call fzf#run(fzf#wrap(fzf#vim#with_preview()))<enter>", {})
--- nnoremap <C-p> :call fzf#run(
---   \   fzf#wrap(
---   \     fzf#vim#with_preview()
---   \   ))<enter>
 
 -- " taken here: https://github.com/junegunn/fzf.vim/issues/1081
 -- " linked there: https://github.com/junegunn/fzf.vim#example-advanced-ripgrep-integration
--- function! RipgrepFzf(query, fullscreen)
---   let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
---   let initial_command = printf(command_fmt, shellescape(a:query))
---   let reload_command = printf(command_fmt, '{q}')
---   let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
---   call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
--- endfunction
--- command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
+RipgrepFzf = function(query, fullscreen)
 
--- nnoremap <leader>fr :RG<enter>
+  local command_fmt = "rg --column --line-number --no-heading --color=always --smart-case -- %s || true"
+  local initial_command = string.format("'" .. command_fmt .. "'", string.format("%q", query))
+  local reload_command = string.format(command_fmt, '{q}')
 
--- " taken here: https://github.com/junegunn/fzf.vim#example-rg-command-with-preview-window
--- " and here: https://github.com/junegunn/fzf.vim/issues/714#issuecomment-428802659
--- command! -bang -nargs=* Rg
---   \ call fzf#vim#grep(
---   \   'rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1,
---   \   fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
+  local spec = "[ '--phony', '--query', '" ..
+      query .. "', '--bind', 'change:reload:" .. reload_command .. "']"
 
--- nnoremap <leader>f :Rg<enter>
--- " <C-r><C-w> returns the word under the cursor
--- nnoremap <leader>fw :Rg  <C-r><C-w><enter>
+  local cmd = string.format("call fzf#vim#grep(%s, 1, fzf#vim#with_preview({'options':%s}), %s)",
+    initial_command,
+    spec,
+    fullscreen)
+  print("jf-debug-> 'cmd': " .. cmd);
+  vim.api.nvim_exec(cmd, true)
+end
+
+vim.api.nvim_create_user_command('RG', function(data)
+  RipgrepFzf(data.args, 0)
+end, {
+  nargs = '*',
+  bang = true,
+  desc = "Fzf using Ripgrep"
+})
+
+vim.keymap.set('n', '<leader>fr', ':RG<enter>', {})
+
+-- taken here: https://github.com/junegunn/fzf.vim#example-rg-command-with-preview-window
+-- and here: https://github.com/junegunn/fzf.vim/issues/714#issuecomment-428802659
+vim.api.nvim_exec([[
+  command! -bang -nargs=* Rg
+    \ call fzf#vim#grep(
+    \   'rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1,
+    \   fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
+
+  nnoremap <leader>f :Rg<enter>
+  " <C-r><C-w> returns the word under the cursor
+  nnoremap <leader>fw :Rg  <C-r><C-w><enter>
+]], false)
 
 
 -- " todo: future improvement: add a visual selection search. Hightlight test in
@@ -403,24 +469,107 @@ vim.keymap.set('n', '<C-p>', ":call fzf#run(fzf#wrap(fzf#vim#with_preview()))<en
 -- " to get visual selection
 -- " if no selection, revert to current behavior of <C-r><C-w>
 
--- " taken here: https://github.com/dracula/vim/blob/master/colors/dracula.vim
--- " modified the border
--- if g:colors_name == 'dracula'
---   " echo "should I set colors of fzf"
+-- taken here: https://github.com/dracula/vim/blob/master/colors/dracula.vim
+-- modified the border
+if vim.api.nvim_cmd({
+  cmd = 'colorscheme'
+}, {
+  output = true
+}) == "dracula" then
 
---   let g:fzf_colors = {
---     \ 'fg':      ['fg', 'Normal'],
---     \ 'bg':      ['bg', 'Normal'],
---     \ 'hl':      ['fg', 'Search'],
---     \ 'fg+':     ['fg', 'Normal'],
---     \ 'bg+':     ['bg', 'Normal'],
---     \ 'hl+':     ['fg', 'DraculaOrange'],
---     \ 'info':    ['fg', 'DraculaPurple'],
---     \ 'border':  ['fg', 'DraculaPurple'],
---     \ 'prompt':  ['fg', 'DraculaGreen'],
---     \ 'pointer': ['fg', 'Exception'],
---     \ 'marker':  ['fg', 'Keyword'],
---     \ 'spinner': ['fg', 'Label'],
---     \ 'header':  ['fg', 'Comment'],
---     \}
--- endif
+  vim.api.nvim_exec([[
+
+  let g:fzf_colors = {
+    \ 'fg':      ['fg', 'Normal'],
+    \ 'bg':      ['bg', 'Normal'],
+    \ 'hl':      ['fg', 'Search'],
+    \ 'fg+':     ['fg', 'Normal'],
+    \ 'bg+':     ['bg', 'Normal'],
+    \ 'hl+':     ['fg', 'DraculaOrange'],
+    \ 'info':    ['fg', 'DraculaPurple'],
+    \ 'border':  ['fg', 'DraculaPurple'],
+    \ 'prompt':  ['fg', 'DraculaGreen'],
+    \ 'pointer': ['fg', 'Exception'],
+    \ 'marker':  ['fg', 'Keyword'],
+    \ 'spinner': ['fg', 'Label'],
+    \ 'header':  ['fg', 'Comment'],
+    \}
+   ]], false)
+end
+
+-----------------------------------------------------
+-- UtilsSnip configs
+-----------------------------------------------------
+-- -- Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+-- -- let g:UltiSnipsExpandTrigger=--<tab>--
+-- let g:UltiSnipsExpandTrigger=--<leader><tab>--
+-- -- let g:UltiSnipsJumpForwardTrigger=--<c-b>--
+-- -- let g:UltiSnipsJumpBackwardTrigger=--<c-z>--
+-- -- If you want :UltiSnipsEdit to split your window.
+-- -- let g:UltiSnipsEditSplit=--vertical--
+-- function! g:UltiSnips_Complete()
+--   call UltiSnips#ExpandSnippet()
+--   if g:ulti_expand_res == 0
+--     if pumvisible()
+--       return --\<C-n>--
+--     else
+--       call UltiSnips#JumpForwards()
+--       if g:ulti_jump_forwards_res == 0
+--         return --\<TAB>--
+--       endif
+--     endif
+--   endif
+--   return ----
+-- endfunction
+-- au BufEnter * exec --inoremap <silent> -- . g:UltiSnipsExpandTrigger . -- <C-R>=g:UltiSnips_Complete()<cr>--
+-- let g:UltiSnipsJumpForwardTrigger=--<tab>--
+-- -- let g:UltiSnipsListSnippets=--<c-e>--
+-- -- this mapping Enter key to <C-y> to chose the current highlight item
+-- -- and close the selection list, same as other IDEs.
+-- -- CONFLICT with some plugins like tpope/Endwise
+-- inoremap <expr> <CR> pumvisible() ? --\<C-y>-- : --\<C-g>u\<CR>--
+
+-- UltiSnips is the default bundle used by UltiSnips. It is installed via
+-- 'vim-snippets' plugin
+vim.api.nvim_set_var('UltiSnipsSnippetDirectories', { "UltiSnips", "vim-jfsnippets/jfsnippets" })
+
+
+------------------------------------------------------
+---lightline configuration
+------------------------------------------------------
+
+-- -- mode is already displayed in the status line
+-- vim.opt.showmode = false
+
+-- vim.api.nvim_set_var('lightline', {
+--   colorscheme = 'dracula',
+--   active = {
+--     left = { { 'mode', 'paste' },
+--       { 'githunks', 'gitbranch', 'readonly', 'filename', 'modified' } }
+--   },
+--   component = {
+--     filename = '%f:%n'
+--   },
+--   component_function = {
+--     githunks = 'LightlineGitGutter',
+--     gitbranch = 'FugitiveHead'
+--   },
+-- })
+
+-- -- " solutions to include git-gutter in lightline: https://github.com/airblade/vim-gitgutter/issues/674
+-- -- " taken from here: https://gitlab.com/polyzen/dotfiles/blob/dce37955a745ee23efd247306781f8bc4a4d62bc/base/.vim/vimrc#L158
+-- vim.api.nvim_exec([[
+--   function! LightlineGitGutter()
+--   if !get(g:, 'gitgutter_enabled', 0) || empty(FugitiveHead())
+--     " echo "gitgutter"
+--     return ''
+--   endif
+--   "   echo 'returned empty'
+--   let [ l:added, l:modified, l:removed ] = GitGutterGetHunkSummary()
+--   return printf('+%d ~%d -%d', l:added, l:modified, l:removed)
+-- endfunction]], false)
+
+-- if vim.fn.has('title') then
+--   vim.opt.title = true
+--   vim.opt.titlestring = "%F"
+-- end

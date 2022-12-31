@@ -268,27 +268,27 @@ execute "source ".s:luaconfigfile
 
 " taken here: https://github.com/junegunn/fzf.vim/issues/1081
 " linked there: https://github.com/junegunn/fzf.vim#example-advanced-ripgrep-integration
-function! RipgrepFzf(query, fullscreen)
-  let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
-  let initial_command = printf(command_fmt, shellescape(a:query))
-  let reload_command = printf(command_fmt, '{q}')
-  let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
-  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
-endfunction
-command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
+" function! RipgrepFzf(query, fullscreen)
+"   let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
+"   let initial_command = printf(command_fmt, shellescape(a:query))
+"   let reload_command = printf(command_fmt, '{q}')
+"   let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+"   call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+" endfunction
+" command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 
-nnoremap <leader>fr :RG<enter>
+" nnoremap <leader>fr :RG<enter>
 
 " taken here: https://github.com/junegunn/fzf.vim#example-rg-command-with-preview-window
 " and here: https://github.com/junegunn/fzf.vim/issues/714#issuecomment-428802659
-command! -bang -nargs=* Rg
-  \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1,
-  \   fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
+" command! -bang -nargs=* Rg
+"   \ call fzf#vim#grep(
+"   \   'rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1,
+"   \   fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
 
-nnoremap <leader>f :Rg<enter>
-" <C-r><C-w> returns the word under the cursor
-nnoremap <leader>fw :Rg  <C-r><C-w><enter>
+" nnoremap <leader>f :Rg<enter>
+" " <C-r><C-w> returns the word under the cursor
+" nnoremap <leader>fw :Rg  <C-r><C-w><enter>
 
 
 " todo: future improvement: add a visual selection search. Hightlight test in
@@ -299,25 +299,25 @@ nnoremap <leader>fw :Rg  <C-r><C-w><enter>
 
 " taken here: https://github.com/dracula/vim/blob/master/colors/dracula.vim
 " modified the border
-if g:colors_name == 'dracula'
-  " echo "should I set colors of fzf"
+" if g:colors_name == 'dracula'
+"   " echo "should I set colors of fzf"
 
-  let g:fzf_colors = {
-    \ 'fg':      ['fg', 'Normal'],
-    \ 'bg':      ['bg', 'Normal'],
-    \ 'hl':      ['fg', 'Search'],
-    \ 'fg+':     ['fg', 'Normal'],
-    \ 'bg+':     ['bg', 'Normal'],
-    \ 'hl+':     ['fg', 'DraculaOrange'],
-    \ 'info':    ['fg', 'DraculaPurple'],
-    \ 'border':  ['fg', 'DraculaPurple'],
-    \ 'prompt':  ['fg', 'DraculaGreen'],
-    \ 'pointer': ['fg', 'Exception'],
-    \ 'marker':  ['fg', 'Keyword'],
-    \ 'spinner': ['fg', 'Label'],
-    \ 'header':  ['fg', 'Comment'],
-    \}
-endif
+"   let g:fzf_colors = {
+"     \ 'fg':      ['fg', 'Normal'],
+"     \ 'bg':      ['bg', 'Normal'],
+"     \ 'hl':      ['fg', 'Search'],
+"     \ 'fg+':     ['fg', 'Normal'],
+"     \ 'bg+':     ['bg', 'Normal'],
+"     \ 'hl+':     ['fg', 'DraculaOrange'],
+"     \ 'info':    ['fg', 'DraculaPurple'],
+"     \ 'border':  ['fg', 'DraculaPurple'],
+"     \ 'prompt':  ['fg', 'DraculaGreen'],
+"     \ 'pointer': ['fg', 'Exception'],
+"     \ 'marker':  ['fg', 'Keyword'],
+"     \ 'spinner': ['fg', 'Label'],
+"     \ 'header':  ['fg', 'Comment'],
+"     \}
+" endif
 
 " ---------------------------------------------------
 
@@ -356,7 +356,7 @@ endif
 
 " UltiSnips is the default bundle used by UltiSnips. It is installed via
 " 'vim-snippets' plugin
-let g:UltiSnipsSnippetDirectories=["UltiSnips", "vim-jfsnippets/jfsnippets"]
+" let g:UltiSnipsSnippetDirectories=["UltiSnips", "vim-jfsnippets/jfsnippets"]
 
 
 " ---------------------------------------------------

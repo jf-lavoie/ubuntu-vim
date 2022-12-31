@@ -22,4 +22,4 @@ require("which-key").setup {
 
 -- https://neovim.io/doc/user/options.html#'ttimeoutlen'
 -- default: 50
-vim.o.timeoutlen = 500
+vim.o.timeoutlen = 200
