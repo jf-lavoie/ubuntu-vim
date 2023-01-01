@@ -9,13 +9,14 @@ null_ls.setup({
     null_ls.builtins.diagnostics.shellcheck,
     null_ls.builtins.formatting.shfmt,
     null_ls.builtins.formatting.prettierd,
+    null_ls.builtins.formatting.goimports,
   },
   on_attach = require 'jf/lsp-configs-shared'.on_attach
 
 })
 
 require("mason-null-ls").setup({
-  ensure_installed = { "shellcheck", "shfmt", "prettier" },
+  ensure_installed = { "shellcheck", "shfmt", "prettier", "goimports", "golangci_lint" },
   automatic_installation = true,
   automatic_setup = false,
 })
@@ -29,6 +30,9 @@ vim.api.nvim_create_autocmd('BufWritePre', {
     -- prettier
     "*.js", '*.mjs', '*.jsx', '*.ts', '*.tsx', '*.vue', '*.css', '*.scss', '*.less', '*.html', '*.htm', '*.json',
     '*.jsonc', "*.yaml", '*.yml', "*.markdown", '*.md', "*.mdx", "*.graphql", '*.gql', "*.handlebars", '*.hbs',
+
+    -- golang related
+    "*.go", "go.mod",
 
     -- works? but from where?
     '*.lua'

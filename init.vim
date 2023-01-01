@@ -359,176 +359,123 @@ execute "source ".s:luaconfigfile
 " let g:UltiSnipsSnippetDirectories=["UltiSnips", "vim-jfsnippets/jfsnippets"]
 
 
-" ---------------------------------------------------
-" NERDTree configuration
-" ---------------------------------------------------
-" if !&diff " do not open nerdtree on diff mode
-"   " automatically open NERDTree when vim opens, even when no files are specified.
-"   " source: https://github.com/scrooloose/nerdtree
-"   autocmd StdinReadPre * let s:std_in=1
-"   autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | wincmd l  | endif
-"   " automatically open NERDTree when a file is specified at command line
-"   autocmd vimenter * NERDTree | wincmd l
-" endif
-
 
 " ---------------------------------------------------
 " lightline configuration
 " ---------------------------------------------------
-let g:lightline = {
-      \ 'colorscheme': 'dracula',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'githunks', 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-      \ },
-      \ 'component': {
-      \   'filename': '%f:%n'
-      \ },
-      \ 'component_function': {
-      \   'githunks': 'LightlineGitGutter',
-      \   'gitbranch': 'FugitiveHead'
-      \ },
-      \ }
-set noshowmode " mode is already displayed in the status line
+" let g:lightline = {
+"       \ 'colorscheme': 'dracula',
+"       \ 'active': {
+"       \   'left': [ [ 'mode', 'paste' ],
+"       \             [ 'githunks', 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+"       \ },
+"       \ 'component': {
+"       \   'filename': '%f:%n'
+"       \ },
+"       \ 'component_function': {
+"       \   'githunks': 'LightlineGitGutter',
+"       \   'gitbranch': 'FugitiveHead'
+"       \ },
+"       \ }
+" set noshowmode " mode is already displayed in the status line
 
-" solutions to include git-gutter in lightline: https://github.com/airblade/vim-gitgutter/issues/674
-" taken from here: https://gitlab.com/polyzen/dotfiles/blob/dce37955a745ee23efd247306781f8bc4a4d62bc/base/.vim/vimrc#L158
-function! LightlineGitGutter()
-  if !get(g:, 'gitgutter_enabled', 0) || empty(FugitiveHead())
-    " echo "gitgutter"
-    return ''
-  endif
-  "   echo 'returned empty'
-  let [ l:added, l:modified, l:removed ] = GitGutterGetHunkSummary()
-  return printf('+%d ~%d -%d', l:added, l:modified, l:removed)
-endfunction
+" " solutions to include git-gutter in lightline: https://github.com/airblade/vim-gitgutter/issues/674
+" " taken from here: https://gitlab.com/polyzen/dotfiles/blob/dce37955a745ee23efd247306781f8bc4a4d62bc/base/.vim/vimrc#L158
+" function! LightlineGitGutter()
+"   echo 'test' . FugitiveHead()
+"   if !get(g:, 'gitgutter_enabled', 0) || empty(FugitiveHead())
+"     " echo "gitgutter"
+"     return ''
+"   endif
+"   let [ l:added, l:modified, l:removed ] = GitGutterGetHunkSummary()
+"   return printf('+%d ~%d -%d', l:added, l:modified, l:removed)
+" endfunction
 
-if has('title')
-  set title titlestring="%F"
-endif
-
-
-
-" ---------------------------------------------------
-" vim-closetag
-" ---------------------------------------------------
-" filenames like *.xml, *.html, *.xhtml, ...
-" These are the file extensions where this plugin is enabled.
-"
-let g:closetag_filenames = '*.html,*.xhtml,*.phtml'
-
-" filenames like *.xml, *.xhtml, ...
-" This will make the list of non-closing tags self-closing in the specified files.
-"
-let g:closetag_xhtml_filenames = '*.xhtml,*.jsx,*.js'
-
-" filetypes like xml, html, xhtml, ...
-" These are the file types where this plugin is enabled.
-"
-let g:closetag_filetypes = 'html,xhtml,phtml,javascript'
-
-" filetypes like xml, xhtml, ...
-" This will make the list of non-closing tags self-closing in the specified files.
-"
-let g:closetag_xhtml_filetypes = 'xhtml,jsx,js'
-
-" integer value [0|1]
-" This will make the list of non-closing tags case-sensitive (e.g. `<Link>` will be closed while `<link>` won't.)
-"
-let g:closetag_emptyTags_caseSensitive = 1
-
-" dict
-" Disables auto-close if not in a "valid" region (based on filetype)
-"
-let g:closetag_regions = {
-    \ 'typescript.tsx': 'jsxRegion,tsxRegion',
-    \ 'javascript.jsx': 'jsxRegion',
-    \ }
-
-" Shortcut for closing tags, default is '>'
-"
-let g:closetag_shortcut = '>'
-
-" Add > at current position without closing the current tag, default is ''
-"
-let g:closetag_close_shortcut = '<leader>>'
-" ---------------------------------------------------
+" if has('title')
+"   set title titlestring="%F"
+" endif
 
 
-" ---------------------------------------------------
-" vim-go
+
+"" ---------------------------------------------------
+"" vim-closetag
+"" ---------------------------------------------------
+"" filenames like *.xml, *.html, *.xhtml, ...
+"" These are the file extensions where this plugin is enabled.
+""
+"let g:closetag_filenames = '*.html,*.xhtml,*.phtml'
+
+"" filenames like *.xml, *.xhtml, ...
+"" This will make the list of non-closing tags self-closing in the specified files.
+""
+"let g:closetag_xhtml_filenames = '*.xhtml,*.jsx,*.js'
+
+"" filetypes like xml, html, xhtml, ...
+"" These are the file types where this plugin is enabled.
+""
+"let g:closetag_filetypes = 'html,xhtml,phtml,javascript'
+
+"" filetypes like xml, xhtml, ...
+"" This will make the list of non-closing tags self-closing in the specified files.
+""
+"let g:closetag_xhtml_filetypes = 'xhtml,jsx,js'
+
+"" integer value [0|1]
+"" This will make the list of non-closing tags case-sensitive (e.g. `<Link>` will be closed while `<link>` won't.)
+""
+"let g:closetag_emptyTags_caseSensitive = 1
+
+"" dict
+"" Disables auto-close if not in a "valid" region (based on filetype)
+""
+"let g:closetag_regions = {
+"    \ 'typescript.tsx': 'jsxRegion,tsxRegion',
+"    \ 'javascript.jsx': 'jsxRegion',
+"    \ }
+
+"" Shortcut for closing tags, default is '>'
+""
+"let g:closetag_shortcut = '>'
+
+"" Add > at current position without closing the current tag, default is ''
+""
+"let g:closetag_close_shortcut = '<leader>>'
 " ---------------------------------------------------
 
-" hi! link Identifier DraculaCyan
-" highlight link goBuiltins Keyword
+" " ---------------------------------------------------
+" " vim-markdown
+" " ---------------------------------------------------
+" " default is 4
+" let g:vim_markdown_new_list_item_indent = 2
 
-let g:go_highlight_functions = 1
-let g:go_highlight_function_calls = 1
-" let g:go_highlight_operators = 1
-"
-
-" really specific thing to my taste.
-" vim-go maps builtin to syntax 'Keyword' and map to highlight 'Identifier'
-" source: https://github.com/fatih/vim-go/blob/master/syntax/go.vim#L50
-" introduced in commit: https://github.com/fatih/vim-go/commit/25d47834bf1d8de9eb7fc9d6ad0aa995dfda8142#diff-6c12071ba887bcb758b2bb5627e5bd19705a4d45bacff48d5b26e056869aa883
-"
-" Dracula maps Identifier syntax to highlight 'DraculaFg' which is just the
-" normal color. source: https://github.com/dracula/vim/blob/master/colors/dracula.vim#L282
-"
-" I prefer to have the builtins in colors. Here I remap the goBuiltins
-if g:colors_name == 'dracula'
-  hi def link     goBuiltins                 DraculaCyanItalic
-endif
-
-let g:go_metalinter_autosave = 1
-let g:go_metalinter_command = "golangci-lint run --fast"
-let g:go_fmt_command = 'goimports'
-
-" coc and vim-go competes for the same shortcuts: K and gd. (maybe more?)
-" https://github.com/fatih/vim-go/commit/8c589255cba97103b84c0c8de74d233521613195
-" https://github.com/fatih/vim-go/blob/d2dfc048a07c81d016ee97f7eb8a297d0f1c6aeb/ftplugin/go.vim
-" they both start a gopls server
-" unable to make them work nicely togheter....using both with their own
-" server.
-" " using coc for language server instead
-" let g:go_gopls_enabled = 0
-" let g:go_def_mapping_enabled = 0
-" ---------------------------------------------------
-
-
-" ---------------------------------------------------
-" vim-markdown
-" ---------------------------------------------------
-" default is 4
-let g:vim_markdown_new_list_item_indent = 2
-" ---------------------------------------------------
+" " ---------------------------------------------------
 
 " ---------------------------------------------------
 " vim-subversive
 " ---------------------------------------------------
 " s for substitute
-nmap s <plug>(SubversiveSubstitute)
-nmap ss <plug>(SubversiveSubstituteLine)
-nmap S <plug>(SubversiveSubstituteToEndOfLine)
+" nmap s <plug>(SubversiveSubstitute)
+" nmap ss <plug>(SubversiveSubstituteLine)
+" nmap S <plug>(SubversiveSubstituteToEndOfLine)
 
-nmap <leader>s <plug>(SubversiveSubstituteRange)
-xmap <leader>s <plug>(SubversiveSubstituteRange)
-nmap <leader>ss <plug>(SubversiveSubstituteWordRange)
+" nmap <leader>s <plug>(SubversiveSubstituteRange)
+" xmap <leader>s <plug>(SubversiveSubstituteRange)
+" nmap <leader>ss <plug>(SubversiveSubstituteWordRange)
 
-" prompt with the native vim substitute command
-let g:subversivePromptWithActualCommand=1
+" " prompt with the native vim substitute command
+" let g:subversivePromptWithActualCommand=1
 
-" ie = inner entire buffer
-onoremap ie :exec "normal! ggVG"<cr>
+" " ie = inner entire buffer
+" onoremap ie :exec "normal! ggVG"<cr>
 
-" iv = current viewable text in the buffer
-onoremap iv :exec "normal! HVL"<cr>
+" " iv = current viewable text in the buffer
+" onoremap iv :exec "normal! HVL"<cr>
 " ---------------------------------------------------
 
 " ---------------------------------------------------
 " vim-highlightedyank
 " ---------------------------------------------------
-let g:highlightedyank_highlight_duration = 300
+" let g:highlightedyank_highlight_duration = 300
 " highlight HighlightedyankRegion cterm=reverse gui=reverse
 " ---------------------------------------------------
 
@@ -540,7 +487,7 @@ let g:highlightedyank_highlight_duration = 300
 " otherwise, vim-json can't do its work
 " source: https://github.com/elzr/vim-json/blob/master/readme.md
 " and https://github.com/elzr/vim-json/issues/23#issuecomment-40293049
-let g:indentLine_concealcursor=""
+" let g:indentLine_concealcursor=""
 " let g:vim_json_syntax_concealcursor=""
 " augroup JsonCursor
 "   au!
@@ -554,5 +501,5 @@ let g:indentLine_concealcursor=""
 " wfxr/minimap.vim
 " ---------------------------------------------------
 " disable minimap for specific file types  
-let g:minimap_block_filetypes = ['fugitive', 'nerdtree', 'neo-tree'] 
+" let g:minimap_block_filetypes = ['fugitive', 'nerdtree', 'neo-tree'] 
 " ---------------------------------------------------

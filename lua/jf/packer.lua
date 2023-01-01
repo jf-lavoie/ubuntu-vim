@@ -128,10 +128,10 @@ require('packer').startup({ function()
   -- language specifics
   use "pangloss/vim-javascript"
   use "MaxMEllon/vim-jsx-pretty"
-  use {
-    "fatih/vim-go",
-    run = ':GoInstallBinaries'
-  }
+  -- use {
+  --   "fatih/vim-go",
+  --   run = ':GoInstallBinaries'
+  -- }
   use "hashivim/vim-terraform"
   use "folke/neodev.nvim" -- lua lsp hover and signature help
   use "plasticboy/vim-markdown"

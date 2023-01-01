@@ -535,41 +535,165 @@ vim.api.nvim_set_var('UltiSnipsSnippetDirectories', { "UltiSnips", "vim-jfsnippe
 
 
 ------------------------------------------------------
----lightline configuration
+-- lightline configuration
 ------------------------------------------------------
 
--- -- mode is already displayed in the status line
--- vim.opt.showmode = false
+-- mode is already displayed in the status line
+vim.opt.showmode = false
 
--- vim.api.nvim_set_var('lightline', {
---   colorscheme = 'dracula',
---   active = {
---     left = { { 'mode', 'paste' },
---       { 'githunks', 'gitbranch', 'readonly', 'filename', 'modified' } }
---   },
---   component = {
---     filename = '%f:%n'
---   },
---   component_function = {
---     githunks = 'LightlineGitGutter',
---     gitbranch = 'FugitiveHead'
---   },
--- })
+vim.api.nvim_set_var('lightline', {
+  colorscheme = 'dracula',
+  active = {
+    left = { { 'mode', 'paste' },
+      { 'githunks', 'gitbranch', 'readonly', 'filename', 'modified' } }
+  },
+  component = {
+    filename = '%f:%n'
+  },
+  component_function = {
+    githunks = 'LightlineGitGutter',
+    gitbranch = 'FugitiveHead'
+  },
+})
 
--- -- " solutions to include git-gutter in lightline: https://github.com/airblade/vim-gitgutter/issues/674
--- -- " taken from here: https://gitlab.com/polyzen/dotfiles/blob/dce37955a745ee23efd247306781f8bc4a4d62bc/base/.vim/vimrc#L158
--- vim.api.nvim_exec([[
---   function! LightlineGitGutter()
---   if !get(g:, 'gitgutter_enabled', 0) || empty(FugitiveHead())
---     " echo "gitgutter"
---     return ''
---   endif
---   "   echo 'returned empty'
---   let [ l:added, l:modified, l:removed ] = GitGutterGetHunkSummary()
---   return printf('+%d ~%d -%d', l:added, l:modified, l:removed)
--- endfunction]], false)
+-- " solutions to include git-gutter in lightline: https://github.com/airblade/vim-gitgutter/issues/674
+-- " taken from here: https://gitlab.com/polyzen/dotfiles/blob/dce37955a745ee23efd247306781f8bc4a4d62bc/base/.vim/vimrc#L158
+vim.api.nvim_exec([[
+  function! LightlineGitGutter()
+  if !get(g:, 'gitgutter_enabled', 0) || empty(FugitiveHead())
+    " echo "gitgutter"
+    return ''
+  endif
+  "   echo 'returned empty'
+  let [ l:added, l:modified, l:removed ] = GitGutterGetHunkSummary()
+  return printf('+%d ~%d -%d', l:added, l:modified, l:removed)
+endfunction]], false)
 
--- if vim.fn.has('title') then
---   vim.opt.title = true
---   vim.opt.titlestring = "%F"
--- end
+if vim.fn.has('title') then
+  vim.opt.title = true
+  vim.opt.titlestring = "%F"
+end
+
+-----------------------------------------------------
+-- vim-closetag
+------------------------------------------------------
+-- filenames like *.xml, *.html, *.xhtml, ...
+-- These are the file extensions where this plugin is enabled.
+vim.api.nvim_set_var('closetag_filenames', '*.html,*.xhtml,*.phtml')
+
+-- filenames like *.xml, *.xhtml, ...
+-- This will make the list of non-closing tags self-closing in the specified files.
+vim.api.nvim_set_var('closetag_xhtml_filenames', '*.xhtml,*.jsx,*.js')
+
+-- filetypes like xml, html, xhtml, ...
+-- These are the file types where this plugin is enabled.
+vim.api.nvim_set_var('closetag_filetypes', 'html,xhtml,phtml,javascript')
+
+-- filetypes like xml, xhtml, ...
+-- This will make the list of non-closing tags self-closing in the specified files.
+vim.api.nvim_set_var('closetag_xhtml_filetypes', 'xhtml,jsx,js')
+
+-- integer value [0|1]
+-- This will make the list of non-closing tags case-sensitive (e.g. `<Link>` will be closed while `<link>` won't.)
+vim.api.nvim_set_var('closetag_emptyTags_caseSensitive', 1)
+
+-- dict
+-- Disables auto-close if not in a --valid-- region (based on filetype)
+vim.api.nvim_set_var('closetag_regions', {
+  ['typescript.tsx'] = 'jsxRegion,tsxRegion',
+  ['javascript.jsx'] = 'jsxRegion',
+})
+
+-- Shortcut for closing tags, default is '>'
+vim.api.nvim_set_var('closetag_shortcut', '>')
+
+-- Add > at current position without closing the current tag, default is ''
+vim.api.nvim_set_var('closetag_close_shortcut', '<leader>>')
+
+
+
+----------------------------------------------------
+-- vim-markdown
+----------------------------------------------------
+-- default is 4
+vim.api.nvim_set_var('vim_markdown_new_list_item_indent', 2)
+
+
+-----------------------------------------------------
+-- vim-subversive
+-----------------------------------------------------
+-- s for substitute
+vim.keymap.set('n', 's', '<plug>(SubversiveSubstitute)', {
+  desc = "s<motion> to substitute the text object provided by the motion with the contents of the default register (or an explicit register if provided)",
+  remap = true
+})
+vim.keymap.set('n', 'ss', '<plug>(SubversiveSubstituteLine)', {
+  desc = "ss<motion> to substitute the text object provided by the motion with the contents of the default register (or an explicit register if provided)",
+  remap = true
+})
+vim.keymap.set('n', 'S', '<plug>(SubversiveSubstituteToEndOfLine)', {
+  desc = "S<motion> to substitute the text object provided by the motion with the contents of the default register (or an explicit register if provided)",
+  remap = true
+})
+
+vim.keymap.set('n', '<leader>s', '<plug>(SubversiveSubstituteRange)', {
+  desc = "<leader>s<motion1><motion2> replace text selected in motion1 within range of motion2",
+  remap = true
+})
+
+vim.keymap.set('x', '<leader>s', '<plug>(SubversiveSubstituteRange)', {
+  desc = "<leader>s<motion1> replace visually selected text within range of motion1",
+  remap = true
+})
+vim.keymap.set('n', '<leader>ss', '<plug>(SubversiveSubstituteWordRange)', {
+  desc = "<leader>ss<motion1> mapping is used as a shortcut to replace the current word under the cursor within range of motion1",
+  remap = true
+})
+
+
+-- prompt with the native vim substitute command
+vim.api.nvim_set_var('subversivePromptWithActualCommand', 1)
+
+-- ie = inner entire buffer
+vim.keymap.set('o', 'ie', ':exec normal! ggVG<cr>', {
+  desc = "select entire buffer"
+})
+
+-- iv = current viewable text in the buffer
+vim.keymap.set('o', 'iv', ':exec normal! HVL<cr>', {
+  desc = "select current viewable text in buffer"
+})
+-----------------------------------------------------
+
+------------------------------------------------------
+-- vim-highlightedyank
+------------------------------------------------------
+vim.api.nvim_set_var('highlightedyank_highlight_duration', 300)
+-- highlight HighlightedyankRegion cterm=reverse gui=reverse
+------------------------------------------------------
+
+
+------------------------------------------------------
+-- Yggdroot/indentLine
+------------------------------------------------------
+-- let g:vim_json_syntax_concealcursor=0
+-- otherwise, vim-json can't do its work
+-- source: https://github.com/elzr/vim-json/blob/master/readme.md
+-- and https://github.com/elzr/vim-json/issues/23#issuecomment-40293049
+-- vim.api.nvim_set_var('indentLine_concealcursor', "")
+vim.api.nvim_set_var('vim_json_syntax_conceal', 0)
+-- vim.api.nvim_set_var('indentLine_showFirstIndentLevel', 1)
+-- augroup JsonCursor
+--   au!
+--   au VimEnter,WinEnter,BufWinEnter *.json set concealcursor=""
+--   " au Filetype json set concealcursor=""
+--   " au WinLeave * setlocal nocursorline
+-- augroup END
+------------------------------------------------------
+
+------------------------------------------------------
+-- wfxr/minimap.vim
+------------------------------------------------------
+-- disable minimap for specific file types
+vim.api.nvim_set_var('minimap_block_filetypes', { 'fugitive', 'nerdtree', 'neo-tree' })
+-- ---------------------------------------------------

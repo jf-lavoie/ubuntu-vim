@@ -62,3 +62,16 @@ require 'lspconfig'['tsserver'].setup {
 require 'lspconfig'['jsonls'].setup {
   capabilities = capabilities,
 }
+
+require 'lspconfig'['gopls'].setup {
+  settings = {
+    gopls = {
+      analyses = {
+        unusedparams = true,
+      },
+      staticcheck = true,
+    },
+  },
+  on_attach = on_attach,
+  capabilities = capabilities,
+}
