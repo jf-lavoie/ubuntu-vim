@@ -1,9 +1,24 @@
 -- print('loading lsp-configs.lua')
 
 require 'mason'.setup()
-require 'mason-lspconfig'.setup()
 require 'mason-lspconfig'.setup({
-  ensure_installed = { 'sumneko_lua', 'tsserver', 'jsonls', 'pyright', 'terraformls' }
+  ensure_installed = {
+    'sumneko_lua', -- lua
+    'tsserver', -- javascript/typescript
+    'jsonls', --jsonls
+    'pyright', -- python
+    'terraformls', --terraform
+    -- 'delve', -- golang
+  }
+})
+
+require("mason-nvim-dap").setup({
+  ensure_installed = {
+    "delve", -- golang, delve
+    "node2", -- node-debug2-adapter'
+    "bash", -- bash-debug-adapter'
+    "debugpy", -- debugpy
+  }
 })
 
 -- Use an on_attach function to only map the following keys

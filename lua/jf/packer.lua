@@ -1,46 +1,48 @@
 -- print("loading packer.lua")
+--
 
-local packer = require 'packer'
+local packer = require "packer"
 local use = packer.use
-local util = require 'packer.util'
+local util = require "packer.util"
 
 
 -- this is the default: https://github.com/wbthomason/packer.nvim#custom-initialization
-local packagePath = util.join_paths(vim.fn.stdpath('data'), 'site', 'pack')
+local packagePath = util.join_paths(vim.fn.stdpath("data"), "site", "pack")
 
 local runHelptags = function(...)
 
   local packed = { ... }
 
   return function()
-    local docPath = util.join_paths(packagePath, 'packer', 'start', unpack(packed))
+    local docPath = util.join_paths(packagePath, "packer", "start", unpack(packed))
 
-    local status, value = pcall(vim.api.nvim_command, 'helptags ' .. docPath)
+    local status, value = pcall(vim.api.nvim_command, "helptags " .. docPath)
     if status then
-      print('no error', value)
+      print("no error", value)
     else
-      print('error: ', value)
+      print("error: ", value)
     end
     print(value)
   end
 
 end
 
-require('packer').startup({ function()
+require("packer").startup({ function()
 
-  use 'wbthomason/packer.nvim' -- Package manager
+  use "wbthomason/packer.nvim" -- Package manager
 
   -- Configurations for Nvim LSP
   use {
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
-    'neovim/nvim-lspconfig'
+    "neovim/nvim-lspconfig",
+    "jayp0521/mason-nvim-dap.nvim",
   }
 
   -- tree-sitter, synxtax highlight and incremental searches?
   use {
-    'nvim-treesitter/nvim-treesitter',
-    run = ':TSUpdate'
+    "nvim-treesitter/nvim-treesitter",
+    run = ":TSUpdate"
   }
 
   use({
@@ -51,13 +53,26 @@ require('packer').startup({ function()
     requires = { "nvim-lua/plenary.nvim", "jay-babu/mason-null-ls.nvim" },
   })
 
-  use 'folke/which-key.nvim' -- show leader menu
+  use "folke/which-key.nvim" -- show leader menu
   -- others:
   -- https://github.com/liuchengxu/vim-which-key
   -- https://github.com/hecal3/vim-leader-guide
   -- https://github.com/spinks/vim-leader-guide
   -- https://github.com/folke/which-key.nvim
 
+  -- debugging
+  use {
+    "rcarriga/nvim-dap-ui",
+    -- "jbyuki/one-small-step-for-vimkind" -- lua
+    -- use "mfussenegger/nvim-dap-python" -- python specific dap adaptor
+    "leoluz/nvim-dap-go", -- golang
+
+    requires = {
+      { "mfussenegger/nvim-dap",
+        run = runHelptags("nvim-dap", "doc")
+      }
+    }
+  }
 
   -- autocomplete
   use {

@@ -654,12 +654,12 @@ vim.keymap.set('n', '<leader>ss', '<plug>(SubversiveSubstituteWordRange)', {
 vim.api.nvim_set_var('subversivePromptWithActualCommand', 1)
 
 -- ie = inner entire buffer
-vim.keymap.set('o', 'ie', ':exec normal! ggVG<cr>', {
+vim.keymap.set('o', 'ie', ':exec "normal! ggVG"<cr>', {
   desc = "select entire buffer"
 })
 
 -- iv = current viewable text in the buffer
-vim.keymap.set('o', 'iv', ':exec normal! HVL<cr>', {
+vim.keymap.set('o', 'iv', ':exec "normal! HVL"<cr>', {
   desc = "select current viewable text in buffer"
 })
 -----------------------------------------------------
