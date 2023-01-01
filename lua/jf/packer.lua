@@ -59,6 +59,7 @@ require('packer').startup({ function()
   -- https://github.com/folke/which-key.nvim
 
 
+  -- autocomplete
   use {
     "hrsh7th/nvim-cmp",
     requires = {
