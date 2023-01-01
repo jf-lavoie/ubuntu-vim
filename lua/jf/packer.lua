@@ -76,9 +76,6 @@ require('packer').startup({ function()
   use "honza/vim-snippets"
   use "quangnguyen30192/cmp-nvim-ultisnips"
 
-  --
-  -- use 'scrooloose/nerdtree' -- File Tree Explorer
-
   use {
     "nvim-neo-tree/neo-tree.nvim",
     branch = "v2.x",
@@ -129,10 +126,6 @@ require('packer').startup({ function()
   -- language specifics
   use "pangloss/vim-javascript"
   use "MaxMEllon/vim-jsx-pretty"
-  -- use {
-  --   "fatih/vim-go",
-  --   run = ':GoInstallBinaries'
-  -- }
   use "hashivim/vim-terraform"
   use "folke/neodev.nvim" -- lua lsp hover and signature help
   use "plasticboy/vim-markdown"
