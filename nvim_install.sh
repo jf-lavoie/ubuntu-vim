@@ -27,11 +27,11 @@ function links {
 
 	pushd "$INSTALL_VI_ROOTPATH" || exit
 
-	echo Symlinking init.vim
-	ln -sf "$dest"/init.vim init.vim
+	# echo Symlinking init.vim
+	# ln -sf "$dest"/init.vim init.vim
 
 	echo Symlinking init.lua
-	ln -sf "$dest"/init.lua init.vim.lua
+	ln -sf "$dest"/init.lua init.lua
 
 	echo Symlinking custom snippets
 	if [ ! -L vim-jfsnippets ]; then

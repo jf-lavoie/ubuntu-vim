@@ -650,7 +650,6 @@ vim.keymap.set('n', '<leader>ss', '<plug>(SubversiveSubstituteWordRange)', {
   remap = true
 })
 
-
 -- prompt with the native vim substitute command
 vim.api.nvim_set_var('subversivePromptWithActualCommand', 1)
 
@@ -676,12 +675,11 @@ vim.api.nvim_set_var('highlightedyank_highlight_duration', 300)
 ------------------------------------------------------
 -- Yggdroot/indentLine
 ------------------------------------------------------
--- let g:vim_json_syntax_concealcursor=0
 -- otherwise, vim-json can't do its work
 -- source: https://github.com/elzr/vim-json/blob/master/readme.md
 -- and https://github.com/elzr/vim-json/issues/23#issuecomment-40293049
--- vim.api.nvim_set_var('indentLine_concealcursor', "")
 vim.api.nvim_set_var('vim_json_syntax_conceal', 0)
+-- vim.api.nvim_set_var('indentLine_concealcursor', "")
 -- vim.api.nvim_set_var('indentLine_showFirstIndentLevel', 1)
 -- augroup JsonCursor
 --   au!

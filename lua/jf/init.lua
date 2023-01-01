@@ -7,6 +7,6 @@ require 'jf/lsp-configs'
 
 require 'jf/treesitter'
 require 'jf/null-ls'
-require 'jf/leader-guide'
+require 'jf/which-key'
 require 'jf/nvim-cmp'
 require 'jf/neotree'
