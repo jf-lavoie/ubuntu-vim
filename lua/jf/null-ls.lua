@@ -3,6 +3,13 @@
 local null_ls = require('null-ls')
 
 
+require("mason-null-ls").setup({
+  ensure_installed = { "shellcheck", "shfmt", "prettier", "goimports", "golangci_lint", "lua_format" },
+  automatic_installation = true,
+  automatic_setup = false,
+})
+
+
 -- taken here: https://github.com/jose-elias-alvarez/null-ls.nvim/wiki/Formatting-on-save
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 require("null-ls").setup({
@@ -17,7 +24,6 @@ require("null-ls").setup({
   },
   -- you can reuse a shared lspconfig on_attach callback here
   on_attach = function(client, bufnr)
-      print("jf-debug-> 'client.supports_method(\"textDocument/formatting\")': "..tostring(client.supports_method("textDocument/formatting")));
     if client.supports_method("textDocument/formatting") then
       vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
       vim.api.nvim_create_autocmd("BufWritePre", {
@@ -31,11 +37,4 @@ require("null-ls").setup({
     end
     require 'jf/lsp-configs-shared'.on_attach(_, bufnr)
   end
-})
-
-
-require("mason-null-ls").setup({
-  ensure_installed = { "shellcheck", "shfmt", "prettier", "goimports", "golangci_lint", "lua_format" },
-  automatic_installation = true,
-  automatic_setup = false,
 })
