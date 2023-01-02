@@ -63,15 +63,18 @@ require("packer").startup({ function()
     {
       "rcarriga/nvim-dap-ui",
       requires = {
-        "mfussenegger/nvim-dap",
-        run = runHelptags("nvim-dap", "doc")
+        {
+          "mfussenegger/nvim-dap",
+          run = runHelptags("nvim-dap", "doc")
+        },
+        "Weissle/persistent-breakpoints.nvim"
       }
     },
 
     -- "jbyuki/one-small-step-for-vimkind" -- lua
     -- "mfussenegger/nvim-dap-python" -- python specific dap adaptor
     "leoluz/nvim-dap-go", -- golang
-   -- node?  https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#javascript
+    -- node?  https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#javascript
   }
 
   -- autocomplete

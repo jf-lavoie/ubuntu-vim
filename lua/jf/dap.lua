@@ -1,4 +1,4 @@
-local dap, dapui = require("dap"), require("dapui")
+local dap, dapui, persistentbreakpoints = require("dap"), require("dapui"), require("persistent-breakpoints.api")
 
 require("mason-nvim-dap").setup({
   ensure_installed = {
@@ -37,7 +37,6 @@ dap.configurations.sh = {
 }
 
 
-
 dapui.setup()
 
 require('dap.ext.vscode').load_launchjs(nil, {})
@@ -62,7 +61,8 @@ vim.fn.sign_define('DapStopped', { text = '▶️', texthl = '', linehl = '', nu
 local wk = require 'which-key'
 
 vim.keymap.set('n', '<F8>', require 'dap'.continue)
-vim.keymap.set('n', '<F9>', require 'dap'.toggle_breakpoint)
+-- vim.keymap.set('n', '<F9>', require 'dap'.toggle_breakpoint)
+vim.keymap.set('n', '<F9>', require('persistent-breakpoints.api').toggle_breakpoint)
 vim.keymap.set('n', '<F10>', require 'dap'.step_over)
 vim.keymap.set('n', '<F11>', require 'dap'.step_into)
 vim.keymap.set('n', '<F12>', require 'dap'.step_out)
@@ -74,13 +74,12 @@ wk.register({
     name = "DAP (Debugging)", -- optional group name
     c = { dap.run_to_cursor, "Continues execution to the current cursor." },
     t = { dap.toggle_breakpoint, "Toggle breakpoint" },
-    B = { function()
+    D = { dap.clear_breakpoints, "Toggle breakpoint" },
+    L = { function()
         dap.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))
-      end, 'Conditional breakpoint'
+      end, 'Log point breakpoint'
     },
-    C = { function()
-        dap.set_breakpoint(vim.fn.input('Breakpoint condition: '))
-      end, 'Conditional breakpoint'
+    B = { persistentbreakpoints.set_conditional_breakpoint, 'Conditional breakpoint'
     },
     r = {dap.repl.toggle, "Toggle a REPL / Debug-console"},
     l = {dap.run_last, "Re-runs the last debug adapter / configuration that ran using"}
@@ -99,6 +98,11 @@ wk.register({
 
 }, { noremap = true, silent = true })
 
-
+require('persistent-breakpoints').setup{
+	load_breakpoints_event = { "BufReadPost" },
+  save_dir = vim.fn.stdpath('data') .. '/nvim_breakpoints',
+}
 
 require('dap-go').setup() -- nvim-dap-go
+
+
