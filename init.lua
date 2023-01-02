@@ -261,13 +261,15 @@ vim.api.nvim_create_autocmd(
   { pattern = { "javascript", "typescript", "vue" },
     callback = function(info)
       vim.keymap.set('n', '<F2>',
-        "yiwoi<BS><esc>:let @m = 'console.log(\"jf-debug-> ''' . @\" . ''': \", ' . @\" . ');'<enter><esc>\"mp", {
+        "yiwoi<BS><esc>:let @m = 'console.log(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': \", ' . @\" . ');'<enter><esc>\"mp"
+        , {
         desc = "console.log jf",
         buffer = info.buf
       })
 
       vim.keymap.set('v', '<F2>',
-        "yoi<BS><esc>:let @m = 'console.log(\"jf-debug-> ''' . @\" . ''': \", ' . @\" . ');'<enter><esc>\"mp", {
+        "yoi<BS><esc>:let @m = 'console.log(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': \", ' . @\" . ');'<enter><esc>\"mp"
+        , {
         desc = "visual console.log jf",
       })
 
@@ -278,13 +280,13 @@ vim.api.nvim_create_autocmd(
       })
 
       vim.keymap.set('n', '<F4>',
-        "yiwoi<BS><esc>:let @m = 'console.log(\"jf-debug-> ''' . @\" . ''': \", require(\"util\").inspect(' . @\" . ', { depth: 100, colors: false }));'<enter><esc>\"mp"
+        "yiwoi<BS><esc>:let @m = 'console.log(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': \", require(\"util\").inspect(' . @\" . ', { depth: 100, colors: false }));'<enter><esc>\"mp"
         , {
         desc = "console.log jf inspect",
       })
 
       vim.keymap.set('v', '<F4>',
-        "yoi<BS><esc>:let @m = 'console.log(\"jf-debug-> ''' . @\" . ''': \", require(\"util\").inspect(' . @\" . ', { depth: 100, colors: false }));'<enter><esc>\"mp"
+        "yoi<BS><esc>:let @m = 'console.log(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': \", require(\"util\").inspect(' . @\" . ', { depth: 100, colors: false }));'<enter><esc>\"mp"
         , {
         desc = "console.log jf inspect",
       })
@@ -306,13 +308,15 @@ vim.api.nvim_create_autocmd(
   { pattern = { "go" },
     callback = function(info)
       vim.keymap.set('n', '<F2>',
-        "yiwoi<BS><esc>:let @m = 'fmt.Printf(\"jf-debug-> ''' . @\" . ''': %#v\n\", ' . @\" . ');'<enter><esc>\"mp", {
+        "yiwoi<BS><esc>:let @m = 'fmt.Printf(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': %#v\\n\", ' . @\" . ');'<enter><esc>\"mp"
+        , {
         desc = "console.log jf",
         buffer = info.buf
       })
 
       vim.keymap.set('v', '<F2>',
-        "yoi<BS><esc>:let @m = 'fmt.Printf(\"jf-debug-> ''' . @\" . ''': %#v\n\", ' . @\" . ');'<enter><esc>\"mp", {
+        "yoi<BS><esc>:let @m = 'fmt.Printf(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': %#v\\n\", ' . @\" . ');'<enter><esc>\"mp"
+        , {
         desc = "visual console.log jf",
       })
 
@@ -325,13 +329,15 @@ vim.api.nvim_create_autocmd(
   { pattern = { "lua" },
     callback = function(info)
       vim.keymap.set('n', '<F2>',
-        "yiwoi<BS><esc>:let @m = 'print(\"jf-debug-> ''' . @\" . ''': \"..tostring('. @\" .'));'<enter><esc>\"mp", {
+        "yiwoi<BS><esc>:let @m = 'print(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': \"..tostring('. @\" .'));'<enter><esc>\"mp"
+        , {
         desc = "print jf",
         buffer = info.buf
       })
 
       vim.keymap.set('v', '<F2>',
-        "yoi<BS><esc>:let @m = 'print(\"jf-debug-> ''' . @\" . ''': \"..tostring('. @\" .'));'<enter><esc>\"mp", {
+        "yoi<BS><esc>:let @m = 'print(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': \"..tostring('. @\" .'));'<enter><esc>\"mp"
+        , {
         desc = "print jf",
         buffer = info.buf
       })
