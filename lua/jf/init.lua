@@ -9,5 +9,6 @@ require 'jf/treesitter'
 require 'jf/null-ls'
 require 'jf/which-key'
 require 'jf/nvim-cmp'
+-- package.loaded['jf/neotree'] = nil
 require 'jf/neotree'
 require 'jf/dap'

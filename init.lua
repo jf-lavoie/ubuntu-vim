@@ -417,11 +417,25 @@ vim.api.nvim_create_autocmd(
     end
   })
 
+vim.api.nvim_create_autocmd(
+  "FileType",
+  {
+    pattern = { "javascript", "typescript", "vue" },
+    callback = function()
+      if string.len(vim.bo.suffixesadd) > 0 then
+        vim.bo.suffixesadd = vim.bo.suffixesadd .. ","
+      end
+      vim.bo.suffixesadd = vim.bo.suffixesadd .. ".lua"
+    end
+  })
+
+
+-- vim.opt.rtp:append(os.getenv('HOME') .. '/ubuntu-vim/')
+vim.opt.path:append(os.getenv('HOME') .. '/ubuntu-vim/lua')
+
 -- ---------------------------------------------------
 -- FZF configs
 -- ---------------------------------------------------
-
-
 
 vim.opt.rtp:append(os.getenv('HOME') .. '/.fzf')
 vim.keymap.set('n', '<C-p>', ":call fzf#run(fzf#wrap(fzf#vim#with_preview()))<enter>", {})
@@ -441,7 +455,6 @@ RipgrepFzf = function(query, fullscreen)
     initial_command,
     spec,
     fullscreen)
-  print("jf-debug-> 'cmd': " .. cmd);
   vim.api.nvim_exec(cmd, true)
 end
 
