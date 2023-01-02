@@ -325,13 +325,13 @@ vim.api.nvim_create_autocmd(
   { pattern = { "lua" },
     callback = function(info)
       vim.keymap.set('n', '<F2>',
-        "yiwoi<BS><esc>:let @m = 'print(\"jf-debug-> ''' . @\" . ''': \"..'. @\" .');'<enter><esc>\"mp", {
+        "yiwoi<BS><esc>:let @m = 'print(\"jf-debug-> ''' . @\" . ''': \"..tostring('. @\" .'));'<enter><esc>\"mp", {
         desc = "print jf",
         buffer = info.buf
       })
 
       vim.keymap.set('v', '<F2>',
-        "yoi<BS><esc>:let @m = 'print(\"jf-debug-> ''' . @\" . ''': \"..'. @\" .');'<enter><esc>\"mp", {
+        "yoi<BS><esc>:let @m = 'print(\"jf-debug-> ''' . @\" . ''': \"..tostring('. @\" .'));'<enter><esc>\"mp", {
         desc = "print jf",
         buffer = info.buf
       })
