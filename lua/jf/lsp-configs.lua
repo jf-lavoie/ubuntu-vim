@@ -12,14 +12,6 @@ require 'mason-lspconfig'.setup({
   }
 })
 
-require("mason-nvim-dap").setup({
-  ensure_installed = {
-    "delve", -- golang, delve
-    "node2", -- node-debug2-adapter'
-    "bash", -- bash-debug-adapter'
-    "debugpy", -- debugpy
-  }
-})
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer

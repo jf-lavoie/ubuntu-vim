@@ -47,9 +47,6 @@ require("packer").startup({ function()
 
   use({
     "jose-elias-alvarez/null-ls.nvim",
-    config = function()
-      require("null-ls").setup()
-    end,
     requires = { "nvim-lua/plenary.nvim", "jay-babu/mason-null-ls.nvim" },
   })
 
@@ -61,17 +58,20 @@ require("packer").startup({ function()
   -- https://github.com/folke/which-key.nvim
 
   -- debugging
-  use {
-    "rcarriga/nvim-dap-ui",
-    -- "jbyuki/one-small-step-for-vimkind" -- lua
-    -- use "mfussenegger/nvim-dap-python" -- python specific dap adaptor
-    "leoluz/nvim-dap-go", -- golang
-
-    requires = {
-      { "mfussenegger/nvim-dap",
+  use
+  {
+    {
+      "rcarriga/nvim-dap-ui",
+      requires = {
+        "mfussenegger/nvim-dap",
         run = runHelptags("nvim-dap", "doc")
       }
-    }
+    },
+
+    -- "jbyuki/one-small-step-for-vimkind" -- lua
+    -- "mfussenegger/nvim-dap-python" -- python specific dap adaptor
+    "leoluz/nvim-dap-go", -- golang
+   -- node?  https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#javascript
   }
 
   -- autocomplete

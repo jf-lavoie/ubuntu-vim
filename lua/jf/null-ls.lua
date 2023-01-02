@@ -17,8 +17,6 @@ require("null-ls").setup({
   },
   -- you can reuse a shared lspconfig on_attach callback here
   on_attach = function(client, bufnr)
-    print("jf-debug-> 'client.supports_method(\"textDocument/formatting\")': " ..
-      tostring(client.supports_method("textDocument/formatting")));
     if client.supports_method("textDocument/formatting") then
       vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
       vim.api.nvim_create_autocmd("BufWritePre", {
