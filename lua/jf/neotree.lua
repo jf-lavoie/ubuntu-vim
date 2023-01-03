@@ -41,7 +41,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
 
     -- if vim.fn.argc() == 0 and not vim.fn.exists "s:std_in" then
     -- if vim.fn.argc() == 0 then
-      vim.cmd "Neotree toggle"
+    vim.cmd "Neotree toggle"
     -- end
   end
 })

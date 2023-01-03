@@ -261,13 +261,15 @@ vim.api.nvim_create_autocmd(
   { pattern = { "javascript", "typescript", "vue" },
     callback = function(info)
       vim.keymap.set('n', '<F2>',
-        "yiwoi<BS><esc>:let @m = 'console.log(\"jf-debug-> ''' . @\" . ''': \", ' . @\" . ');'<enter><esc>\"mp", {
+        "yiwoi<BS><esc>:let @m = 'console.log(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': \", ' . @\" . ');'<enter><esc>\"mp"
+        , {
         desc = "console.log jf",
         buffer = info.buf
       })
 
       vim.keymap.set('v', '<F2>',
-        "yoi<BS><esc>:let @m = 'console.log(\"jf-debug-> ''' . @\" . ''': \", ' . @\" . ');'<enter><esc>\"mp", {
+        "yoi<BS><esc>:let @m = 'console.log(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': \", ' . @\" . ');'<enter><esc>\"mp"
+        , {
         desc = "visual console.log jf",
       })
 
@@ -278,13 +280,13 @@ vim.api.nvim_create_autocmd(
       })
 
       vim.keymap.set('n', '<F4>',
-        "yiwoi<BS><esc>:let @m = 'console.log(\"jf-debug-> ''' . @\" . ''': \", require(\"util\").inspect(' . @\" . ', { depth: 100, colors: false }));'<enter><esc>\"mp"
+        "yiwoi<BS><esc>:let @m = 'console.log(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': \", require(\"util\").inspect(' . @\" . ', { depth: 100, colors: false }));'<enter><esc>\"mp"
         , {
         desc = "console.log jf inspect",
       })
 
       vim.keymap.set('v', '<F4>',
-        "yoi<BS><esc>:let @m = 'console.log(\"jf-debug-> ''' . @\" . ''': \", require(\"util\").inspect(' . @\" . ', { depth: 100, colors: false }));'<enter><esc>\"mp"
+        "yoi<BS><esc>:let @m = 'console.log(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': \", require(\"util\").inspect(' . @\" . ', { depth: 100, colors: false }));'<enter><esc>\"mp"
         , {
         desc = "console.log jf inspect",
       })
@@ -306,13 +308,15 @@ vim.api.nvim_create_autocmd(
   { pattern = { "go" },
     callback = function(info)
       vim.keymap.set('n', '<F2>',
-        "yiwoi<BS><esc>:let @m = 'fmt.Printf(\"jf-debug-> ''' . @\" . ''': %#v\n\", ' . @\" . ');'<enter><esc>\"mp", {
+        "yiwoi<BS><esc>:let @m = 'fmt.Printf(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': %#v\\n\", ' . @\" . ');'<enter><esc>\"mp"
+        , {
         desc = "console.log jf",
         buffer = info.buf
       })
 
       vim.keymap.set('v', '<F2>',
-        "yoi<BS><esc>:let @m = 'fmt.Printf(\"jf-debug-> ''' . @\" . ''': %#v\n\", ' . @\" . ');'<enter><esc>\"mp", {
+        "yoi<BS><esc>:let @m = 'fmt.Printf(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': %#v\\n\", ' . @\" . ');'<enter><esc>\"mp"
+        , {
         desc = "visual console.log jf",
       })
 
@@ -325,13 +329,15 @@ vim.api.nvim_create_autocmd(
   { pattern = { "lua" },
     callback = function(info)
       vim.keymap.set('n', '<F2>',
-        "yiwoi<BS><esc>:let @m = 'print(\"jf-debug-> ''' . @\" . ''': \"..'. @\" .');'<enter><esc>\"mp", {
+        "yiwoi<BS><esc>:let @m = 'print(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': \"..tostring('. @\" .'));'<enter><esc>\"mp"
+        , {
         desc = "print jf",
         buffer = info.buf
       })
 
       vim.keymap.set('v', '<F2>',
-        "yoi<BS><esc>:let @m = 'print(\"jf-debug-> ''' . @\" . ''': \"..'. @\" .');'<enter><esc>\"mp", {
+        "yoi<BS><esc>:let @m = 'print(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': \"..tostring('. @\" .'));'<enter><esc>\"mp"
+        , {
         desc = "print jf",
         buffer = info.buf
       })
@@ -411,11 +417,25 @@ vim.api.nvim_create_autocmd(
     end
   })
 
+vim.api.nvim_create_autocmd(
+  "FileType",
+  {
+    pattern = { "javascript", "typescript", "vue" },
+    callback = function()
+      if string.len(vim.bo.suffixesadd) > 0 then
+        vim.bo.suffixesadd = vim.bo.suffixesadd .. ","
+      end
+      vim.bo.suffixesadd = vim.bo.suffixesadd .. ".lua"
+    end
+  })
+
+
+-- vim.opt.rtp:append(os.getenv('HOME') .. '/ubuntu-vim/')
+vim.opt.path:append(os.getenv('HOME') .. '/ubuntu-vim/lua')
+
 -- ---------------------------------------------------
 -- FZF configs
 -- ---------------------------------------------------
-
-
 
 vim.opt.rtp:append(os.getenv('HOME') .. '/.fzf')
 vim.keymap.set('n', '<C-p>', ":call fzf#run(fzf#wrap(fzf#vim#with_preview()))<enter>", {})
@@ -435,7 +455,6 @@ RipgrepFzf = function(query, fullscreen)
     initial_command,
     spec,
     fullscreen)
-  print("jf-debug-> 'cmd': " .. cmd);
   vim.api.nvim_exec(cmd, true)
 end
 
@@ -654,12 +673,12 @@ vim.keymap.set('n', '<leader>ss', '<plug>(SubversiveSubstituteWordRange)', {
 vim.api.nvim_set_var('subversivePromptWithActualCommand', 1)
 
 -- ie = inner entire buffer
-vim.keymap.set('o', 'ie', ':exec normal! ggVG<cr>', {
+vim.keymap.set('o', 'ie', ':exec "normal! ggVG"<cr>', {
   desc = "select entire buffer"
 })
 
 -- iv = current viewable text in the buffer
-vim.keymap.set('o', 'iv', ':exec normal! HVL<cr>', {
+vim.keymap.set('o', 'iv', ':exec "normal! HVL"<cr>', {
   desc = "select current viewable text in buffer"
 })
 -----------------------------------------------------

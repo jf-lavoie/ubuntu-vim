@@ -1,10 +1,17 @@
 -- print('loading lsp-configs.lua')
 
 require 'mason'.setup()
-require 'mason-lspconfig'.setup()
 require 'mason-lspconfig'.setup({
-  ensure_installed = { 'sumneko_lua', 'tsserver', 'jsonls', 'pyright', 'terraformls' }
+  ensure_installed = {
+    'sumneko_lua', -- lua
+    'tsserver', -- javascript/typescript
+    'jsonls', --jsonls
+    'pyright', -- python
+    'terraformls', --terraform
+    -- 'delve', -- golang
+  }
 })
+
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
