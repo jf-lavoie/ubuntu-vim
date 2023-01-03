@@ -104,8 +104,32 @@ fonts() {
 	popd || exit
 }
 
-tree-sitter() {
-	echo installing tree-sitter
+lua() {
+
+	local LUAVERSION=5.1.5
+	mkdir -p $HOME/lua
+	pushd $HOME/lua
+
+	curl -R -O http://www.lua.org/ftp/lua-$LUAVERSION.tar.gz
+	tar -zxf lua-5.3.5.tar.gz
+	cd lua-5.3.5
+	make linux test
+	sudo make install
+
+	sudo apt update &&
+		sudo apt upgrade &&
+		apt install build-essential libreadline-dev unzip
+
+	pushd $HOME/bin
+	wget https://luarocks.org/releases/luarocks-3.9.1.tar.gz
+	tar zxpf luarocks-3.9.1.tar.gz
+	cd luarocks-3.9.1
+	./configure --prefix=$HOME/lua/luarocks-3.9,1 && make && sudo make install
+
+	popd
+
+	# for windows, eventually: https://github.com/luarocks/luarocks/wiki/Installation-instructions-for-Windows
+
 }
 
 nvim-packer
@@ -114,3 +138,4 @@ nvim-packer
 fzf
 fonts # for neotree
 vim-minimap
+luarocks
