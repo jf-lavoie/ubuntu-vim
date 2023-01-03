@@ -12,33 +12,6 @@ require("mason-nvim-dap").setup({
   }
 })
 
-dap.adapters.bashdb = {
-  type = 'executable';
-  command = vim.fn.stdpath("data") .. '/mason/packages/bash-debug-adapter/bash-debug-adapter';
-  name = 'bashdb';
-}
-dap.configurations.sh = {
-  {
-    type = 'bashdb';
-    request = 'launch';
-    name = "Launch file";
-    showDebugOutput = true;
-    pathBashdb = vim.fn.stdpath("data") .. '/mason/packages/bash-debug-adapter/extension/bashdb_dir/bashdb';
-    pathBashdbLib = vim.fn.stdpath("data") .. '/mason/packages/bash-debug-adapter/extension/bashdb_dir';
-    trace = true;
-    file = "${file}";
-    program = "${file}";
-    cwd = '${workspaceFolder}';
-    pathCat = "cat";
-    pathBash = "/bin/bash";
-    pathMkfifo = "mkfifo";
-    pathPkill = "pkill";
-    args = {};
-    env = {};
-    terminalKind = "integrated";
-  }
-}
-
 
 dapui.setup()
 
@@ -109,7 +82,7 @@ local dapMenuAdvancedDebugKey = '<leader>dA'
 local dapUIMenuKey = '<leader>du'
 local dapAdadptorCommandsMenuKey = '<leader>da'
 local defaultAdvancedDebugKeyMapping = {
-  name = "Advanced Debugging",
+  name = "[A]dvanced Debugging",
   b = { dap.step_back, "Step [b]ack" },
   d = { dap.down, "[d]own in current stacktrace without stepping." },
   f = { dap.restart_frame, "Restart [f]rame" },
@@ -128,7 +101,7 @@ local defaultAdvancedDebugKeyMapping = {
 
 }
 local defaultDapKeyMapping = {
-  name = "DAP (debugging)",
+  name = "[d]ebugger (DAP)",
   d = { dap.clear_breakpoints, "[d]elete all breakpoints" },
   c = { persistentbreakpoints.set_conditional_breakpoint, '[c]onditional breakpoint' },
   l = { function()
@@ -145,7 +118,7 @@ local defaultDapKeyMapping = {
     "[T]erminate session+try close adaptor" }
 }
 local defaultDapUIKeyMapping = {
-  name = "DAP UI",
+  name = "DAP [U]I",
   c = { function()
     dapui.close({})
     vim.api.nvim_command(':NeoTreeReveal')
@@ -172,7 +145,7 @@ vim.api.nvim_create_autocmd("FileType",
       keys[dapMenuAdvancedDebugKey] = defaultAdvancedDebugKeyMapping
       keys[dapUIMenuKey] = defaultDapUIKeyMapping
       keys[dapAdadptorCommandsMenuKey] = {
-        name = "Golang DAP adaptor (osv)",
+        name = "DAP [a]daptor (Golang dlv)",
         t = { require('dap-go').debug_test, "Debug [t]est" },
         l = { require('dap-go').debug_last_test, "Debug [l]ast test" },
       }
@@ -198,10 +171,40 @@ vim.api.nvim_create_autocmd("FileType",
       keys[dapMenuAdvancedDebugKey] = defaultAdvancedDebugKeyMapping
       keys[dapUIMenuKey] = defaultDapUIKeyMapping
       keys[dapAdadptorCommandsMenuKey] = {
-        name = "Lua DAP adaptor (osv)",
+        name = "DAP [a]daptor (Lua osv)",
         l = { function() require "osv".launch({ port = 8086, log = false }) end, '[l]aunch the lua dap server' },
         r = { function() require "osv".run_this({ log = false }) end, '[r]un the lua dap server and debug current file' },
         s = { require "osv".stop, '[s]top the lua dap server' }
+      }
+
+      wk.register(keys, bufOpts)
+
+    end
+  }
+)
+
+
+vim.api.nvim_create_autocmd("FileType",
+  {
+    group = "dap-bindings",
+    pattern = { "sh" },
+    desc = "Apply Lua dap bindings",
+    callback = function(data)
+
+      local bufOpts = { noremap = true, silent = true, buffer = data.buf }
+
+      setBindings(defaultFKeysMappings, bufOpts)
+
+      local keys = {}
+
+      keys[dapMenuKey] = defaultDapKeyMapping
+      keys[dapMenuAdvancedDebugKey] = defaultAdvancedDebugKeyMapping
+      keys[dapUIMenuKey] = defaultDapUIKeyMapping
+      keys[dapAdadptorCommandsMenuKey] = {
+        name = " DAP [a]daptor (bash-debug-adapter)",
+        -- l = { function() dap.launch(bashdb, sh, {}) end, '[l]aunch the lua dap server' },
+        -- r = { function() require "osv".run_this({ log = false }) end, '[r]un the lua dap server and debug current file' },
+        -- s = { require "osv".stop, '[s]top the lua dap server' }
       }
 
       wk.register(keys, bufOpts)
@@ -240,5 +243,33 @@ dap.configurations.lua = {
       -- return val
       return 8086
     end,
+  }
+}
+
+
+dap.adapters.bashdb = {
+  type = 'executable';
+  command = vim.fn.stdpath("data") .. '/mason/packages/bash-debug-adapter/bash-debug-adapter';
+  name = 'bashdb';
+}
+dap.configurations.sh = {
+  {
+    type = 'bashdb';
+    request = 'launch';
+    name = "Launch file";
+    showDebugOutput = true;
+    pathBashdb = vim.fn.stdpath("data") .. '/mason/packages/bash-debug-adapter/extension/bashdb_dir/bashdb';
+    pathBashdbLib = vim.fn.stdpath("data") .. '/mason/packages/bash-debug-adapter/extension/bashdb_dir';
+    trace = true;
+    file = "${file}";
+    program = "${file}";
+    cwd = '${workspaceFolder}';
+    pathCat = "cat";
+    pathBash = "/bin/bash";
+    pathMkfifo = "mkfifo";
+    pathPkill = "pkill";
+    args = {};
+    env = {};
+    terminalKind = "integrated";
   }
 }
