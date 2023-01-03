@@ -106,36 +106,57 @@ fonts() {
 
 lua() {
 
-	local LUAVERSION=5.1.5
-	mkdir -p $HOME/lua
-	pushd $HOME/lua
-
-	curl -R -O http://www.lua.org/ftp/lua-$LUAVERSION.tar.gz
-	tar -zxf lua-5.3.5.tar.gz
-	cd lua-5.3.5
-	make linux test
-	sudo make install
+	local LUAVERSION=5.1.5 # nvim = 5.1 source: https://neovim.io/doc/user/lua.html
+	local LUAROCKSVERSION=3.9.2
 
 	sudo apt update &&
 		sudo apt upgrade &&
-		apt install build-essential libreadline-dev unzip
+		sudo apt install build-essential libreadline-dev unzip
 
-	pushd $HOME/bin
-	wget https://luarocks.org/releases/luarocks-3.9.1.tar.gz
-	tar zxpf luarocks-3.9.1.tar.gz
-	cd luarocks-3.9.1
-	./configure --prefix=$HOME/lua/luarocks-3.9,1 && make && sudo make install
+	mkdir -p "$HOME/lua"
 
-	popd
+	pushd "$HOME/lua" || exit
+
+	if [ ! -f "lua-$LUAVERSION.tar.gz" ]; then
+		curl -R -O http://www.lua.org/ftp/lua-$LUAVERSION.tar.gz
+	fi
+	rm -rf lua-$LUAVERSION
+	tar -zxf "lua-$LUAVERSION.tar.gz"
+
+	pushd lua-$LUAVERSION || exit
+
+	make linux test
+	make local
+
+	ln -sfv "$PWD/bin/lua" "$HOME/bin/lua"
+	ln -sfv "$PWD/bin/luac" "$HOME/bin/luac"
+
+	popd || exit # lua-$LUAVERSION-sources
+
+	if [ ! -f luarocks-$LUAROCKSVERSION.tar.gz ]; then
+		wget https://luarocks.org/releases/luarocks-$LUAROCKSVERSION.tar.gz
+	fi
+	rm -rf luarocks-$LUAROCKSVERSION
+	tar zxpf luarocks-$LUAROCKSVERSION.tar.gz
+
+	pushd "luarocks-$LUAROCKSVERSION" || exit
+	./configure --prefix="$HOME/lua/luarocks-$LUAROCKSVERSION/installation" --with-lua-include="$HOME/lua/lua-$LUAVERSION/include" && make && sudo make install
+	make
+
+	ln -sfv "$PWD/installation/bin/luarocks" "$HOME/bin/luarocks"
+	ln -sfv "$PWD/installation/bin/luarocks-admin" "$HOME/bin/luarocks-admin"
+	popd || exit # "luarocks-$LUAROCKSVERSION"
+
+	popd || exit # luarocks
 
 	# for windows, eventually: https://github.com/luarocks/luarocks/wiki/Installation-instructions-for-Windows
 
 }
 
-nvim-packer
+# nvim-packer
 
 # environment related
-fzf
-fonts # for neotree
-vim-minimap
-luarocks
+# fzf
+# fonts # for neotree
+# vim-minimap
+lua
