@@ -56,6 +56,7 @@ links
 
 python3 -m pip install --upgrade pynvim
 python3 -m pip install --upgrade virtualenv
+sudo apt install python3.10-venv # required by Mason when installing debugpy
 
 # taken from :checkhealth
 npm install -g neovim
