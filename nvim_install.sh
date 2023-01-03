@@ -55,6 +55,7 @@ function links {
 links
 
 python3 -m pip install --upgrade pynvim
+python3 -m pip install --upgrade virtualenv
 
 # taken from :checkhealth
 npm install -g neovim
