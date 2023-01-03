@@ -1,13 +1,14 @@
 local dap, dapui, persistentbreakpoints = require("dap"), require("dapui"), require("persistent-breakpoints.api")
+local wk = require 'which-key'
 
-dap.set_log_level('TRACE')
+-- dap.set_log_level('TRACE')
 
 require("mason-nvim-dap").setup({
   ensure_installed = {
     "delve", -- golang, delve
     "node2", -- node-debug2-adapter'
     "bash", -- bash-debug-adapter'
-    "debugpy", -- debugpy
+    "python", -- debugpy
   }
 })
 
@@ -43,6 +44,13 @@ dapui.setup()
 
 require('dap.ext.vscode').load_launchjs(nil, {})
 
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { "dap-repl", "lua" },
+  desc = "omnifunc implementation",
+  callback = function()
+    require('dap.ext.autocompl').attach()
+  end
+})
 
 dap.listeners.after.event_initialized["dapui_config"] = function()
   vim.api.nvim_command(':NeoTreeClose')
@@ -58,15 +66,10 @@ end
 -- taken from : https://miguelcrespo.co/how-to-debug-like-a-pro-using-neovim
 vim.fn.sign_define('DapBreakpoint', { text = '🟥', texthl = '', linehl = '', numhl = '' })
 vim.fn.sign_define('DapStopped', { text = '▶️', texthl = '', linehl = '', numhl = '' })
+-- - `DapBreakpointCondition` for conditional breakpoints (default: `C`)
+-- - `DapLogPoint` for log points (default: `L`)
+-- - `DapBreakpointRejected` to indicate breakpoints rejected by the debug
 
-
-local wk = require 'which-key'
-
--- vim.keymap.set('n', '<F8>', require 'dap'.continue)
--- vim.keymap.set('n', '<F9>', require('persistent-breakpoints.api').toggle_breakpoint)
--- vim.keymap.set('n', '<F10>', require 'dap'.step_over)
--- vim.keymap.set('n', '<F11>', require 'dap'.step_into)
--- vim.keymap.set('n', '<F12>', require 'dap'.step_out)
 
 local merge = function(target, toMerge)
   local output = {}
@@ -82,35 +85,73 @@ local merge = function(target, toMerge)
   return output
 end
 
-local defaultKeyMappings = {
+local setBindings = function(bindings, opts)
 
-  ['<leader>d'] = {
-    name = "DAP (Debugging)", -- optional group name
-    c = { dap.run_to_cursor, "Continues execution to the current cursor." },
-    t = { dap.toggle_breakpoint, "Toggle breakpoint" },
-    D = { dap.clear_breakpoints, "Clear breakpoint" },
-    L = { function()
-      dap.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))
-    end, 'Log point breakpoint'
-    },
-    B = { persistentbreakpoints.set_conditional_breakpoint, 'Conditional breakpoint'
-    },
-    r = { dap.repl.toggle, "Toggle a REPL / Debug-console" },
-    l = { dap.run_last, "Re-runs the last debug adapter / configuration that ran using" }
+  for _, value in pairs(bindings) do
+    vim.keymap.set('n', value[1], value[2], merge(opts, { desc = value[3] }))
+  end
 
-  },
+end
+
+local defaultFKeysMappings = {
+
+  { '<F8>', require 'dap'.continue, "Continue" },
+  { '<F9>', require('persistent-breakpoints.api').toggle_breakpoint, "Toggle breakpoint" },
+  { '<F10>', require 'dap'.step_over, "Step over" },
+  { '<S-F10>', require 'dap'.run_to_cursor, "Run to cursor" },
+  { '<F11>', require 'dap'.step_into, "Stop into" },
+  { '<S-F11>', require 'dap'.step_out, "Step out" },
+}
 
 
-  ['<leader>du'] = {
-    name = "UI",
-    c = { function()
-      dapui.close({})
-      vim.api.nvim_command(':NeoTreeReveal')
-
-    end, "Close debugging UI" }
-  }
+local dapMenuKey = '<leader>d'
+local dapMenuAdvancedDebugKey = '<leader>dA'
+local dapUIMenuKey = '<leader>du'
+local dapAdadptorCommandsMenuKey = '<leader>da'
+local defaultAdvancedDebugKeyMapping = {
+  name = "Advanced Debugging",
+  b = { dap.step_back, "Step [b]ack" },
+  d = { dap.down, "[d]own in current stacktrace without stepping." },
+  f = { dap.restart_frame, "Restart [f]rame" },
+  g = { function()
+    local userInput = vim.fn.input("Line number (empty for line under cursor):")
+    if userInput == "" then
+      dap.goto_(nil)
+    else
+      dap.goto_(tonumber(userInput))
+    end
+  end,
+    "[g]oto line # or line under cursor" },
+  p = { function() dap.pause(vim.fn.input("Thread id: ")) end, "[p]ause thread" },
+  r = { dap.reverse_continue, "[r]everse continue" },
+  u = { dap.up, "[u]p in current stacktrace without stepping." },
 
 }
+local defaultDapKeyMapping = {
+  name = "DAP (debugging)",
+  d = { dap.clear_breakpoints, "[d]elete all breakpoints" },
+  c = { persistentbreakpoints.set_conditional_breakpoint, '[c]onditional breakpoint' },
+  l = { function()
+    dap.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))
+  end, '[l]og point breakpoint'
+  },
+  r = { dap.run_last, "[r]e-runs the last debug adapter / configuration that ran using" },
+  s = { dap.status, "[s]tatus of debug session" },
+  v = { dap.list_breakpoints, "[v]iew all breakpoints" },
+
+  D = { dap.clear_breakpoints, "[D]elete breakpoint" },
+  R = { dap.repl.toggle, "Toggle a [R]EPL / Debug-console" },
+  T = { function() dap.terminate({}, { terminateDebuggee = true }, nil) end,
+    "[T]erminate session+try close adaptor" }
+}
+local defaultDapUIKeyMapping = {
+  name = "DAP UI",
+  c = { function()
+    dapui.close({})
+    vim.api.nvim_command(':NeoTreeReveal')
+  end, "[c]lose debugging UI" }
+}
+
 
 
 
@@ -124,15 +165,19 @@ vim.api.nvim_create_autocmd("FileType",
 
       local bufOpts = { noremap = true, silent = true, buffer = data.buf }
 
+      setBindings(defaultFKeysMappings, bufOpts)
 
-      vim.keymap.set('n', '<F8>', require 'dap'.continue, bufOpts)
-      vim.keymap.set('n', '<F9>', require('persistent-breakpoints.api').toggle_breakpoint, bufOpts)
-      vim.keymap.set('n', '<F10>', require 'dap'.step_over, bufOpts)
-      vim.keymap.set('n', '<F11>', require 'dap'.step_into, bufOpts)
-      vim.keymap.set('n', '<F12>', require 'dap'.step_out, bufOpts)
+      local keys = {}
+      keys[dapMenuKey] = defaultDapKeyMapping
+      keys[dapMenuAdvancedDebugKey] = defaultAdvancedDebugKeyMapping
+      keys[dapUIMenuKey] = defaultDapUIKeyMapping
+      keys[dapAdadptorCommandsMenuKey] = {
+        name = "Golang DAP adaptor (osv)",
+        t = { require('dap-go').debug_test, "Debug [t]est" },
+        l = { require('dap-go').debug_last_test, "Debug [l]ast test" },
+      }
 
-      wk.register(defaultKeyMappings, bufOpts)
-
+      wk.register(keys, bufOpts)
     end
   }
 )
@@ -144,95 +189,26 @@ vim.api.nvim_create_autocmd("FileType",
     callback = function(data)
 
       local bufOpts = { noremap = true, silent = true, buffer = data.buf }
-      vim.keymap.set('n', '<F8>', function()
-        print("jf-debug: continue");
-        -- if dap.session() == nil then
-        --   -- require "osv".launch({ port = 8086 })
-        --   require "osv".run_this()
-        -- else
-        dap.continue()
-        -- end
-      end,
-        bufOpts)
-      vim.keymap.set('n', '<F9>', require('persistent-breakpoints.api').toggle_breakpoint, bufOpts)
-      vim.keymap.set('n', '<F10>', require 'dap'.step_over, bufOpts)
-      vim.keymap.set('n', '<F11>', function()
-        print("jf-debug: step_into!");
-        require 'dap'.step_into()
-      end, bufOpts)
-      vim.keymap.set('n', '<F12>', require 'dap'.step_out, bufOpts)
 
-      -- vim.api.nvim_set_keymap('n', '<F8>', [[:lua require"dap".toggle_breakpoint()<CR>]], { noremap = true })
-      -- vim.api.nvim_set_keymap('n', '<F9>', [[:lua require"dap".continue()<CR>]], { noremap = true })
-      -- vim.api.nvim_set_keymap('n', '<F10>', [[:lua require"dap".step_over()<CR>]], { noremap = true })
-      -- vim.api.nvim_set_keymap('n', '<S-F10>', [[:lua require"dap".step_into()<CR>]], { noremap = true })
-      -- vim.api.nvim_set_keymap('n', '<F12>', [[:lua require"dap.ui.widgets".hover()<CR>]], { noremap = true })
-      -- vim.api.nvim_set_keymap('n', '<F5>', [[:lua require"osv".launch({port = 8086})<CR>]], { noremap = true })
+      setBindings(defaultFKeysMappings, bufOpts)
 
-      wk.register({
+      local keys = {}
 
-        ['<leader>d'] = {
-          name = "DAP (Debugging)", -- optional group name
-          c = { dap.run_to_cursor, "Continues execution to the current cursor." },
-          t = { dap.toggle_breakpoint, "Toggle breakpoint" },
-          D = { dap.clear_breakpoints, "Clear breakpoint" },
-          L = { function()
-            dap.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))
-          end, 'Log point breakpoint'
-          },
-          B = { persistentbreakpoints.set_conditional_breakpoint, 'Conditional breakpoint'
-          },
-          r = { dap.repl.toggle, "Toggle a REPL / Debug-console" },
-          l = { dap.run_last, "Re-runs the last debug adapter / configuration that ran using" },
-          s = { function() require "osv".launch({ port = 8086, log = true }) end, 'Launch the dap server' }
+      keys[dapMenuKey] = defaultDapKeyMapping
+      keys[dapMenuAdvancedDebugKey] = defaultAdvancedDebugKeyMapping
+      keys[dapUIMenuKey] = defaultDapUIKeyMapping
+      keys[dapAdadptorCommandsMenuKey] = {
+        name = "Lua DAP adaptor (osv)",
+        l = { function() require "osv".launch({ port = 8086, log = false }) end, '[l]aunch the lua dap server' },
+        r = { function() require "osv".run_this({ log = false }) end, '[r]un the lua dap server and debug current file' },
+        s = { require "osv".stop, '[s]top the lua dap server' }
+      }
 
-        },
-
-
-        ['<leader>du'] = {
-          name = "UI",
-          c = { function()
-            dapui.close({})
-            vim.api.nvim_command(':NeoTreeReveal')
-
-          end, "Close debugging UI" }
-        }
-
-      }, bufOpts)
+      wk.register(keys, bufOpts)
 
     end
   }
 )
-
--- wk.register({
-
---   ['<leader>d'] = {
---     name = "DAP (Debugging)", -- optional group name
---     c = { dap.run_to_cursor, "Continues execution to the current cursor." },
---     t = { dap.toggle_breakpoint, "Toggle breakpoint" },
---     D = { dap.clear_breakpoints, "Clear breakpoint" },
---     L = { function()
---       dap.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))
---     end, 'Log point breakpoint'
---     },
---     B = { persistentbreakpoints.set_conditional_breakpoint, 'Conditional breakpoint'
---     },
---     r = { dap.repl.toggle, "Toggle a REPL / Debug-console" },
---     l = { dap.run_last, "Re-runs the last debug adapter / configuration that ran using" }
-
---   },
-
-
---   ['<leader>du'] = {
---     name = "UI",
---     c = { function()
---       dapui.close({})
---       vim.api.nvim_command(':NeoTreeReveal')
-
---     end, "Close debugging UI" }
---   }
-
--- }, { noremap = true, silent = true })
 
 require('persistent-breakpoints').setup {
   load_breakpoints_event = { "BufReadPost" },
