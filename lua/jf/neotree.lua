@@ -1,6 +1,5 @@
 -- print('loading neotree.lua')
 
-print("jf-debug: in neotree.lua");
 require 'nvim-web-devicons'.setup {
   -- your personnal icons can go here (to override)
   -- you can specify color or cterm_color instead of specifying both of them
