@@ -99,7 +99,7 @@ require("packer").startup({
     use "alvan/vim-closetag"
     use { "Yggdroot/indentLine", run = runHelptags('indentLine', 'doc') }
     use "svermeulen/vim-subversive"
-    use "machakann/vim-highlightedyank"
+    -- use "machakann/vim-highlightedyank"
     use "junegunn/fzf.vim"
     use { "mbbill/undotree", run = runHelptags('undotree', 'doc') }
 
