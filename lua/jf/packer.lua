@@ -61,7 +61,7 @@ require("packer").startup({
           "Weissle/persistent-breakpoints.nvim"
         }
       }, "jbyuki/one-small-step-for-vimkind", -- lua
-      -- "mfussenegger/nvim-dap-python", -- python specific dap adaptor
+      "mfussenegger/nvim-dap-python", -- python specific dap adaptor
       "leoluz/nvim-dap-go" -- golang
       -- node?  https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#javascript
     }

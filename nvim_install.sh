@@ -54,9 +54,14 @@ function links {
 
 links
 
-python3 -m pip install --upgrade pynvim
-python3 -m pip install --upgrade virtualenv
-sudo apt install python3.10-venv # required by Mason when installing debugpy
+# python3 -m pip install --upgrade virtualenv
+# sudo apt install python3.10-venv # required by Mason when installing debugpy
+mkdir -p "$HOME/.virtualenvs"
+pushd "$HOME"/.virtualenvs || exit
+rm -rf pynvim
+python3 -m venv pynvim
+./pynvim/bin/python3 -m pip install --upgrade pynvim
+popd || exit # $HOME/.virtualenvs
 
 # taken from :checkhealth
 npm install -g neovim

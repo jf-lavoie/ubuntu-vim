@@ -157,6 +157,14 @@ vim.api.nvim_create_autocmd({'BufNewFile', 'BufRead'}, {
   end
 })
 
+-- - INFO: `g:python3_host_prog` is not set.  Searching for python3 in the environment.
+-- - INFO: Multiple python3 executables found.  Set `g:python3_host_prog` to avoid surprises.
+-- - WARNING: Your virtualenv is not set up optimally.
+--   - ADVICE:
+--     - Create a virtualenv specifically for Nvim and use `g:python3_host_prog`.  This will avoid the need to install the pynvim module in each virtualenv.
+vim.api.nvim_set_var('python3_host_prog',
+                     os.getenv('HOME') .. '/.virtualenvs/pynvim/bin/python3')
+
 --------------------------------------------------------------------------------------
 -- Beeping
 --------------------------------------------------------------------------------------
