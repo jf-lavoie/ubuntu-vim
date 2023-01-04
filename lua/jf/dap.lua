@@ -207,9 +207,6 @@ vim.api.nvim_create_autocmd("FileType", {
     keys[dapUIMenuKey] = defaultDapUIKeyMapping
     keys[dapAdadptorCommandsMenuKey] = {
       name = " DAP [a]daptor (bash-debug-adapter)"
-      -- l = { function() dap.launch(bashdb, sh, {}) end, '[l]aunch the lua dap server' },
-      -- r = { function() require "osv".run_this({ log = false }) end, '[r]un the lua dap server and debug current file' },
-      -- s = { require "osv".stop, '[s]top the lua dap server' }
     }
 
     wk.register(keys, bufOpts)
@@ -256,6 +253,30 @@ vim.api.nvim_create_autocmd("FileType", {
       --      {sudo}             (boolean|nil)        Run program under elevated permissions. Default is `false`
       --    }
       -- }
+    }
+
+    wk.register(keys, bufOpts)
+
+  end
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = "dap-bindings",
+  pattern = {"javascript", "typescript"},
+  desc = "Apply Javascript/Typescript dap bindings",
+  callback = function(data)
+
+    local bufOpts = {noremap = true, silent = true, buffer = data.buf}
+
+    setBindings(defaultFKeysMappings, bufOpts)
+
+    local keys = {}
+
+    keys[dapMenuKey] = defaultDapKeyMapping
+    keys[dapMenuAdvancedDebugKey] = defaultAdvancedDebugKeyMapping
+    keys[dapUIMenuKey] = defaultDapUIKeyMapping
+    keys[dapAdadptorCommandsMenuKey] = {
+      name = " DAP [a]daptor (vscode-node-debug2)"
     }
 
     wk.register(keys, bufOpts)
@@ -330,3 +351,45 @@ dap.configurations.sh = {
     terminalKind = "integrated"
   }
 }
+
+-- taken here: https://www.reddit.com/r/neovim/comments/z4zrhx/comment/ixua4ol/?utm_source=reddit&utm_medium=web2x&context=3
+dap.adapters.node2 = {
+  type = "executable",
+  command = "node-debug2-adapter",
+  args = {}
+}
+
+-- dap.adapters.node2 = {
+--   type = 'executable',
+--   command = 'node',
+--   args = {
+--     vim.fn.stdpath("data") ..
+--         '/mason/packages/node-debug2-adapter/out/src/nodeDebug.js'
+--   }
+-- }
+
+local nodeconfig = {
+  {
+    name = 'Launch',
+    type = 'node2',
+    request = 'launch',
+    program = '${file}',
+    cwd = vim.fn.getcwd(),
+    sourceMaps = true,
+    protocol = 'inspector',
+    console = 'integratedTerminal',
+
+    -- taken here: https://code.visualstudio.com/docs/nodejs/nodejs-debugging
+    terminalOptions = {skipFiles = {"<node_internals>/**"}}
+
+  }, {
+    -- For this to work you need to make sure the node process is started with the `--inspect` flag.
+    name = 'Attach to process (process has to be started withn --inspect[-brk] flag)',
+    type = 'node2',
+    request = 'attach',
+    processId = require'dap.utils'.pick_process
+  }
+}
+
+dap.configurations.javascript = nodeconfig
+dap.configurations.typescript = nodeconfig
