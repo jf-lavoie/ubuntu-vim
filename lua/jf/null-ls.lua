@@ -16,7 +16,8 @@ require("null-ls").setup({
   -- debug = true,
   sources = {
     null_ls.builtins.code_actions.shellcheck,
-    null_ls.builtins.diagnostics.shellcheck, null_ls.builtins.formatting.shfmt,
+    null_ls.builtins.diagnostics.shellcheck,
+    null_ls.builtins.formatting.shfmt,
     null_ls.builtins.formatting.prettierd,
     null_ls.builtins.formatting.goimports,
     null_ls.builtins.formatting.lua_format.with({ extra_args = { "--indent-width=2", "--tab-width=2",
