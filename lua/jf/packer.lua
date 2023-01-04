@@ -9,11 +9,11 @@ local packagePath = util.join_paths(vim.fn.stdpath("data"), "site", "pack")
 
 local runHelptags = function(...)
 
-  local packed = {...}
+  local packed = { ... }
 
   return function()
     local docPath = util.join_paths(packagePath, "packer", "start",
-                                    unpack(packed))
+      unpack(packed))
 
     local status, value = pcall(vim.api.nvim_command, "helptags " .. docPath)
     if status then
@@ -38,11 +38,11 @@ require("packer").startup({
     }
 
     -- tree-sitter, synxtax highlight and incremental searches?
-    use {"nvim-treesitter/nvim-treesitter", run = ":TSUpdate"}
+    use { "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" }
 
     use({
       "jose-elias-alvarez/null-ls.nvim",
-      requires = {"nvim-lua/plenary.nvim", "jay-babu/mason-null-ls.nvim"}
+      requires = { "nvim-lua/plenary.nvim", "jay-babu/mason-null-ls.nvim" }
     })
 
     use "folke/which-key.nvim" -- show leader menu
@@ -57,7 +57,7 @@ require("packer").startup({
       {
         "rcarriga/nvim-dap-ui",
         requires = {
-          {"mfussenegger/nvim-dap", run = runHelptags("nvim-dap", "doc")},
+          { "mfussenegger/nvim-dap", run = runHelptags("nvim-dap", "doc") },
           "Weissle/persistent-breakpoints.nvim"
         }
       }, "jbyuki/one-small-step-for-vimkind", -- lua
@@ -90,18 +90,18 @@ require("packer").startup({
     }
 
     -- git related
-    use {"tpope/vim-fugitive", run = runHelptags('vim-fugitive', 'doc')}
-    use {"airblade/vim-gitgutter", run = runHelptags('vim-gitgutter', 'doc')}
+    use { "tpope/vim-fugitive", run = runHelptags('vim-fugitive', 'doc') }
+    use { "airblade/vim-gitgutter", run = runHelptags('vim-gitgutter', 'doc') }
 
     -- additionanl utilities
     use "tpope/vim-commentary"
-    use {"Raimondi/delimitMate", run = runHelptags('delimitMate', 'doc')}
+    use { "Raimondi/delimitMate", run = runHelptags('delimitMate', 'doc') }
     use "alvan/vim-closetag"
-    use {"Yggdroot/indentLine", run = runHelptags('indentLine', 'doc')}
+    use { "Yggdroot/indentLine", run = runHelptags('indentLine', 'doc') }
     use "svermeulen/vim-subversive"
     use "machakann/vim-highlightedyank"
     use "junegunn/fzf.vim"
-    use {"mbbill/undotree", run = runHelptags('undotree', 'doc')}
+    use { "mbbill/undotree", run = runHelptags('undotree', 'doc') }
 
     -- markdown
     -- expects that code-minimap is available in the environment
