@@ -100,7 +100,6 @@ local defaultAdvancedDebugKeyMapping = {
 }
 local defaultDapKeyMapping = {
   name = "[d]ebugger (DAP)",
-  d = {dap.clear_breakpoints, "[d]elete all breakpoints"},
   c = {
     persistentbreakpoints.set_conditional_breakpoint, '[c]onditional breakpoint'
   },
@@ -116,7 +115,10 @@ local defaultDapKeyMapping = {
   s = {dap.status, "[s]tatus of debug session"},
   v = {dap.list_breakpoints, "[v]iew all breakpoints"},
 
-  D = {dap.clear_breakpoints, "[D]elete breakpoint"},
+  D = {
+    require('persistent-breakpoints.api').PBClearAllBreakpoints,
+    "[D]elete breakpoint"
+  },
   R = {dap.repl.toggle, "Toggle a [R]EPL / Debug-console"},
   T = {
     function() dap.terminate({}, {terminateDebuggee = true}, nil) end,
