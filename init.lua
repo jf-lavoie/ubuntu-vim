@@ -8,7 +8,7 @@ require 'jf'
 -- set nocompatible
 --
 -- not needed in neovim anymore: https://www.reddit.com/r/vim/comments/4y8b51/what_are_common_settings_for_vim_that_are/
--- filetype plugin indent on
+--- filetype plugin indent on
 -- syntax enable
 
 vim.cmd('colorscheme dracula')
@@ -17,8 +17,7 @@ vim.cmd('colorscheme dracula')
 -- https://github.com/microsoft/terminal/issues/1040
 -- https://gist.github.com/XVilka/8346728
 if (os.getenv("COLORTERM") == "truecolor" or
-    (os.getenv("TERM") == "xterm-256color" and
-        vim.vn.empty(os.getenv("WSL_DISTRO_NAME") == 1))) then
+    (os.getenv("TERM") == "xterm-256color" and vim.vn.empty(os.getenv("WSL_DISTRO_NAME") == 1))) then
   vim.opt.termguicolors = true
 end
 
@@ -119,7 +118,9 @@ vim.opt.sidescrolloff = 5
 --------------------------------------------------------------------------------------
 -- Search
 --------------------------------------------------------------------------------------
-vim.keymap.set('', '<F3>', function() vim.opt.hls = not vim.opt.hls end)
+vim.keymap.set('', '<F3>', function()
+  vim.opt.hls = not vim.opt.hls
+end)
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 -- 'incsearch' is enabled
@@ -143,17 +144,18 @@ vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 
 -- python is special
-vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
-  pattern = { '*.py' },
+vim.api.nvim_create_autocmd({'BufNewFile', 'BufRead'}, {
+  pattern = {'*.py'},
   callback = function()
 
-    vim.opt.tabstop = 4
-    vim.opt.softtabstop = 4
-    vim.opt.shiftwidth = 4
-    vim.opt.expandtab = true
+    vim.bo.tabstop = 4
+    vim.bo.softtabstop = 4
+    vim.bo.shiftwidth = 4
+    vim.bo.expandtab = 4
     -- 'autoindent' is enabled
-    -- vim.opt.autoindent = true
-    vim.opt.fileformat = 'unix'
+    vim.bo.autoindent = true
+    vim.bo.fileformat = 'unix'
+
   end
 })
 
@@ -162,8 +164,7 @@ vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
 -- - WARNING: Your virtualenv is not set up optimally.
 --   - ADVICE:
 --     - Create a virtualenv specifically for Nvim and use `g:python3_host_prog`.  This will avoid the need to install the pynvim module in each virtualenv.
-vim.api.nvim_set_var('python3_host_prog',
-  os.getenv('HOME') .. '/.virtualenvs/pynvim/bin/python3')
+vim.api.nvim_set_var('python3_host_prog', os.getenv('HOME') .. '/.virtualenvs/pynvim/bin/python3')
 
 --------------------------------------------------------------------------------------
 -- Beeping
@@ -186,10 +187,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   desc = "Highlight yanked value",
   pattern = "*",
   callback = function()
-    vim.highlight.on_yank({
-      higroup = "IncSearch",
-      timeout = 300
-    })
+    vim.highlight.on_yank({higroup = "IncSearch", timeout = 300})
   end
 })
 
@@ -210,18 +208,15 @@ vim.opt.undofile = false
 -- Custom shortcuts
 --------------------------------------------------------------------------------------
 
-vim.keymap.set('n', '<F1>', ':h <C-r><C-w><enter>',
-  { desc = "Help for word under cursor" })
-vim.keymap.set('v', '<F1>', 'y<esc>:h <C-r>"<enter>',
-  { desc = "Help for visual selection" })
+vim.keymap.set('n', '<F1>', ':h <C-r><C-w><enter>', {desc = "Help for word under cursor"})
+vim.keymap.set('v', '<F1>', 'y<esc>:h <C-r>"<enter>', {desc = "Help for visual selection"})
 
-vim.keymap.set('n', '<F5>', ':NeoTreeRevealToggle<CR>',
-  { desc = "ReveaNeoTreeRevealToggle" })
+vim.keymap.set('n', '<F5>', ':NeoTreeRevealToggle<CR>', {desc = "ReveaNeoTreeRevealToggle"})
 
-vim.keymap.set('n', '<F6>', ':UndotreeToggle<CR>', { desc = "UndotreeToggle" })
-vim.keymap.set('n', '<F7>',
-  function() vim.fn.setreg("+", vim.fn.expand('%:p')) end,
-  { desc = "copy file path to clipboard" })
+vim.keymap.set('n', '<F6>', ':UndotreeToggle<CR>', {desc = "UndotreeToggle"})
+vim.keymap.set('n', '<F7>', function()
+  vim.fn.setreg("+", vim.fn.expand('%:p'))
+end, {desc = "copy file path to clipboard"})
 
 ----------------------- terminal ---------------------------
 
@@ -231,12 +226,11 @@ vim.api.nvim_create_autocmd('TermOpen', {
   pattern = '*',
   desc = "sets <esc><esc> to return to normal mode in terminal",
   callback = function(arguments)
-    vim.keymap
-        .set('t', '<Esc><Esc>', '<c-\\><c-n>', { buffer = arguments.buffer })
+    vim.keymap.set('t', '<Esc><Esc>', '<c-\\><c-n>', {buffer = arguments.buffer})
   end
 })
 -- required?
--- autocmd BufEnter * if &buftype=="terminal" | startinsert | endif
+vim.api.nvim_command('autocmd BufEnter * if &buftype=="terminal" | startinsert | endif')
 
 -- taken from here: https://github.com/junegunn/fzf.vim/issues/544#issuecomment-498202592
 -- tnoremap <expr> <Esc> (&filetype == "fzf") ? "<Esc>" : "<c-\\><c-n>"
@@ -257,32 +251,27 @@ vim.api.nvim_exec('autocmd FileType fzf tunmap <Esc><Esc>', false)
 -- while still returning in normal mode with the <esc>
 --
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "javascript", "typescript", "vue" },
+  pattern = {"javascript", "typescript", "vue"},
   callback = function(info)
     vim.keymap.set('n', '<F2>',
-      "yiwoi<BS><esc>:let @m = 'console.log(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': \", ' . @\" . ');'<enter><esc>\"mp"
-      ,
-      { desc = "console.log jf", buffer = info.buf })
+                   "yiwoi<BS><esc>:let @m = 'console.log(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': \", ' . @\" . ');'<enter><esc>\"mp",
+                   {desc = "console.log jf", buffer = info.buf})
 
     vim.keymap.set('v', '<F2>',
-      "yoi<BS><esc>:let @m = 'console.log(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': \", ' . @\" . ');'<enter><esc>\"mp"
-      ,
-      { desc = "visual console.log jf" })
+                   "yoi<BS><esc>:let @m = 'console.log(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': \", ' . @\" . ');'<enter><esc>\"mp",
+                   {desc = "visual console.log jf"})
 
     vim.keymap.set('v', '<F3>',
-      "oi<BS><esc>:let @m = 'console.log(\"jf-debug-> arguments: \", arguments);'<enter><esc>\"mp<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>"
-      ,
-      { desc = "console.log jf arguments" })
+                   "oi<BS><esc>:let @m = 'console.log(\"jf-debug-> arguments: \", arguments);'<enter><esc>\"mp<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>",
+                   {desc = "console.log jf arguments"})
 
     vim.keymap.set('n', '<F4>',
-      "yiwoi<BS><esc>:let @m = 'console.log(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': \", require(\"util\").inspect(' . @\" . ', { depth: 100, colors: false }));'<enter><esc>\"mp"
-      ,
-      { desc = "console.log jf inspect" })
+                   "yiwoi<BS><esc>:let @m = 'console.log(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': \", require(\"util\").inspect(' . @\" . ', { depth: 100, colors: false }));'<enter><esc>\"mp",
+                   {desc = "console.log jf inspect"})
 
     vim.keymap.set('v', '<F4>',
-      "yoi<BS><esc>:let @m = 'console.log(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': \", require(\"util\").inspect(' . @\" . ', { depth: 100, colors: false }));'<enter><esc>\"mp"
-      ,
-      { desc = "console.log jf inspect" })
+                   "yoi<BS><esc>:let @m = 'console.log(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': \", require(\"util\").inspect(' . @\" . ', { depth: 100, colors: false }));'<enter><esc>\"mp",
+                   {desc = "console.log jf inspect"})
   end
 })
 
@@ -296,42 +285,38 @@ vim.api.nvim_create_autocmd("FileType", {
 -- " while still returning in normal mode with the <esc>
 
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "go" },
+  pattern = {"go"},
   callback = function(info)
     vim.keymap.set('n', '<F2>',
-      "yiwoi<BS><esc>:let @m = 'fmt.Printf(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': %#v\\n\", ' . @\" . ');'<enter><esc>\"mp"
-      ,
-      { desc = "console.log jf", buffer = info.buf })
+                   "yiwoi<BS><esc>:let @m = 'fmt.Printf(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': %#v\\n\", ' . @\" . ');'<enter><esc>\"mp",
+                   {desc = "console.log jf", buffer = info.buf})
 
     vim.keymap.set('v', '<F2>',
-      "yoi<BS><esc>:let @m = 'fmt.Printf(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': %#v\\n\", ' . @\" . ');'<enter><esc>\"mp"
-      ,
-      { desc = "visual console.log jf" })
+                   "yoi<BS><esc>:let @m = 'fmt.Printf(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': %#v\\n\", ' . @\" . ');'<enter><esc>\"mp",
+                   {desc = "visual console.log jf"})
 
   end
 })
 
 ----------------------- lua specific shortcuts ---------------------------
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "lua" },
+  pattern = {"lua"},
   callback = function(info)
     vim.keymap.set('n', '<F2>',
-      "yiwoi<BS><esc>:let @m = 'print(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': \"..tostring('. @\" .'));'<enter><esc>\"mp"
-      ,
-      { desc = "print jf", buffer = info.buf })
+                   "yiwoi<BS><esc>:let @m = 'print(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': \"..tostring('. @\" .'));'<enter><esc>\"mp",
+                   {desc = "print jf", buffer = info.buf})
 
     vim.keymap.set('v', '<F2>',
-      "yoi<BS><esc>:let @m = 'print(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': \"..tostring('. @\" .'));'<enter><esc>\"mp"
-      ,
-      { desc = "print jf", buffer = info.buf })
+                   "yoi<BS><esc>:let @m = 'print(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': \"..tostring('. @\" .'));'<enter><esc>\"mp",
+                   {desc = "print jf", buffer = info.buf})
 
     vim.keymap.set('n', '<F4>',
-      "yiwoi<BS><esc>:let @m = 'print(\"jf-debug-> ''' . @\" . ''': \" .. vim.inspect(' . @\" . '));'<enter><esc>\"mp",
-      { desc = "visual console.log jf" })
+                   "yiwoi<BS><esc>:let @m = 'print(\"jf-debug-> ''' . @\" . ''': \" .. vim.inspect(' . @\" . '));'<enter><esc>\"mp",
+                   {desc = "visual console.log jf"})
 
     vim.keymap.set('v', '<F4>',
-      "yoi<BS><esc>:let @m = 'print(\"jf-debug-> ''' . @\" . ''': \" .. vim.inspect(' . @\" . '));'<enter><esc>\"mp",
-      { desc = "visual console.log jf" })
+                   "yoi<BS><esc>:let @m = 'print(\"jf-debug-> ''' . @\" . ''': \" .. vim.inspect(' . @\" . '));'<enter><esc>\"mp",
+                   {desc = "visual console.log jf"})
 
   end
 })
@@ -340,8 +325,10 @@ vim.api.nvim_create_autocmd("FileType", {
 -- Adding batch file comment type. Used with plugin commentary
 -- ---------------------------------------------------
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "dosbatch" },
-  callback = function() vim.opt.commentstring = ":: %s" end
+  pattern = {"dosbatch"},
+  callback = function()
+    vim.opt.commentstring = ":: %s"
+  end
 })
 
 -- ---------------------------------------------------
@@ -376,21 +363,17 @@ let $PATH = './node_modules/.bin:'.$PATH
 -- found here: https://stackoverflow.com/questions/1932604/vim-problem-with-gf-command
 -- https://til.hashrocket.com/posts/fef382f93e-use-suffixadd-to-save-yourself-some-life
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "javascript", "typescript", "vue" },
+  pattern = {"javascript", "typescript", "vue"},
   callback = function()
-    if string.len(vim.bo.suffixesadd) > 0 then
-      vim.bo.suffixesadd = vim.bo.suffixesadd .. ","
-    end
+    if string.len(vim.bo.suffixesadd) > 0 then vim.bo.suffixesadd = vim.bo.suffixesadd .. "," end
     vim.bo.suffixesadd = vim.bo.suffixesadd .. ".js,.jsx,.ts,.tsx,.vue.json"
   end
 })
 
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "javascript", "typescript", "vue" },
+  pattern = {"javascript", "typescript", "vue"},
   callback = function()
-    if string.len(vim.bo.suffixesadd) > 0 then
-      vim.bo.suffixesadd = vim.bo.suffixesadd .. ","
-    end
+    if string.len(vim.bo.suffixesadd) > 0 then vim.bo.suffixesadd = vim.bo.suffixesadd .. "," end
     vim.bo.suffixesadd = vim.bo.suffixesadd .. ".lua"
   end
 })
@@ -403,34 +386,26 @@ vim.opt.path:append(os.getenv('HOME') .. '/ubuntu-vim/lua')
 -- ---------------------------------------------------
 
 vim.opt.rtp:append(os.getenv('HOME') .. '/.fzf')
-vim.keymap.set('n', '<C-p>',
-  ":call fzf#run(fzf#wrap(fzf#vim#with_preview()))<enter>", {})
+vim.keymap.set('n', '<C-p>', ":call fzf#run(fzf#wrap(fzf#vim#with_preview()))<enter>", {})
 
 -- " taken here: https://github.com/junegunn/fzf.vim/issues/1081
 -- " linked there: https://github.com/junegunn/fzf.vim#example-advanced-ripgrep-integration
 RipgrepFzf = function(query, fullscreen)
 
-  local command_fmt =
-  "rg --column --line-number --no-heading --color=always --smart-case -- %s || true"
-  local initial_command = string.format("'" .. command_fmt .. "'",
-    string.format("%q", query))
+  local command_fmt = "rg --column --line-number --no-heading --color=always --smart-case -- %s || true"
+  local initial_command = string.format("'" .. command_fmt .. "'", string.format("%q", query))
   local reload_command = string.format(command_fmt, '{q}')
 
-  local spec = "[ '--phony', '--query', '" .. query ..
-      "', '--bind', 'change:reload:" .. reload_command .. "']"
+  local spec = "[ '--phony', '--query', '" .. query .. "', '--bind', 'change:reload:" .. reload_command .. "']"
 
-  local cmd = string.format(
-    "call fzf#vim#grep(%s, 1, fzf#vim#with_preview({'options':%s}), %s)",
-    initial_command, spec, fullscreen)
+  local cmd = string.format("call fzf#vim#grep(%s, 1, fzf#vim#with_preview({'options':%s}), %s)", initial_command, spec,
+                            fullscreen)
   vim.api.nvim_exec(cmd, true)
 end
 
-vim.api.nvim_create_user_command('RG',
-  function(data) RipgrepFzf(data.args, 0) end, {
-  nargs = '*',
-  bang = true,
-  desc = "Fzf using Ripgrep"
-})
+vim.api.nvim_create_user_command('RG', function(data)
+  RipgrepFzf(data.args, 0)
+end, {nargs = '*', bang = true, desc = "Fzf using Ripgrep"})
 
 vim.keymap.set('n', '<leader>fr', ':RG<enter>', {})
 
@@ -455,7 +430,7 @@ vim.api.nvim_exec([[
 
 -- taken here: https://github.com/dracula/vim/blob/master/colors/dracula.vim
 -- modified the border
-if vim.api.nvim_cmd({ cmd = 'colorscheme' }, { output = true }) == "dracula" then
+if vim.api.nvim_cmd({cmd = 'colorscheme'}, {output = true}) == "dracula" then
 
   vim.api.nvim_exec([[
 
@@ -511,8 +486,7 @@ end
 
 -- UltiSnips is the default bundle used by UltiSnips. It is installed via
 -- 'vim-snippets' plugin
-vim.api.nvim_set_var('UltiSnipsSnippetDirectories',
-  { "UltiSnips", "vim-jfsnippets/jfsnippets" })
+vim.api.nvim_set_var('UltiSnipsSnippetDirectories', {"UltiSnips", "vim-jfsnippets/jfsnippets"})
 
 ------------------------------------------------------
 -- lightline configuration
@@ -523,17 +497,9 @@ vim.opt.showmode = false
 
 vim.api.nvim_set_var('lightline', {
   colorscheme = 'dracula',
-  active = {
-    left = {
-      { 'mode', 'paste' },
-      { 'githunks', 'gitbranch', 'readonly', 'filename', 'modified' }
-    }
-  },
-  component = { filename = '%f:%n' },
-  component_function = {
-    githunks = 'LightlineGitGutter',
-    gitbranch = 'FugitiveHead'
-  }
+  active = {left = {{'mode', 'paste'}, {'githunks', 'gitbranch', 'readonly', 'filename', 'modified'}}},
+  component = {filename = '%f:%n'},
+  component_function = {githunks = 'LightlineGitGutter', gitbranch = 'FugitiveHead'}
 })
 
 -- " solutions to include git-gutter in lightline: https://github.com/airblade/vim-gitgutter/issues/674
@@ -579,10 +545,7 @@ vim.api.nvim_set_var('closetag_emptyTags_caseSensitive', 1)
 
 -- dict
 -- Disables auto-close if not in a --valid-- region (based on filetype)
-vim.api.nvim_set_var('closetag_regions', {
-  ['typescript.tsx'] = 'jsxRegion,tsxRegion',
-  ['javascript.jsx'] = 'jsxRegion'
-})
+vim.api.nvim_set_var('closetag_regions', {['typescript.tsx'] = 'jsxRegion,tsxRegion', ['javascript.jsx'] = 'jsxRegion'})
 
 -- Shortcut for closing tags, default is '>'
 vim.api.nvim_set_var('closetag_shortcut', '>')
@@ -618,10 +581,8 @@ vim.keymap.set('n', '<leader>s', '<plug>(SubversiveSubstituteRange)', {
   remap = true
 })
 
-vim.keymap.set('x', '<leader>s', '<plug>(SubversiveSubstituteRange)', {
-  desc = "<leader>s<motion1> replace visually selected text within range of motion1",
-  remap = true
-})
+vim.keymap.set('x', '<leader>s', '<plug>(SubversiveSubstituteRange)',
+               {desc = "<leader>s<motion1> replace visually selected text within range of motion1", remap = true})
 vim.keymap.set('n', '<leader>ss', '<plug>(SubversiveSubstituteWordRange)', {
   desc = "<leader>ss<motion1> mapping is used as a shortcut to replace the current word under the cursor within range of motion1",
   remap = true
@@ -631,12 +592,10 @@ vim.keymap.set('n', '<leader>ss', '<plug>(SubversiveSubstituteWordRange)', {
 vim.api.nvim_set_var('subversivePromptWithActualCommand', 1)
 
 -- ie = inner entire buffer
-vim.keymap.set('o', 'ie', ':exec "normal! ggVG"<cr>',
-  { desc = "select entire buffer" })
+vim.keymap.set('o', 'ie', ':exec "normal! ggVG"<cr>', {desc = "select entire buffer"})
 
 -- iv = current viewable text in the buffer
-vim.keymap.set('o', 'iv', ':exec "normal! HVL"<cr>',
-  { desc = "select current viewable text in buffer" })
+vim.keymap.set('o', 'iv', ':exec "normal! HVL"<cr>', {desc = "select current viewable text in buffer"})
 -----------------------------------------------------
 
 ------------------------------------------------------
@@ -660,6 +619,5 @@ vim.api.nvim_set_var('vim_json_syntax_conceal', 0)
 -- wfxr/minimap.vim
 ------------------------------------------------------
 -- disable minimap for specific file types
-vim.api.nvim_set_var('minimap_block_filetypes',
-  { 'fugitive', 'nerdtree', 'neo-tree' })
+vim.api.nvim_set_var('minimap_block_filetypes', {'fugitive', 'nerdtree', 'neo-tree'})
 -- ---------------------------------------------------
