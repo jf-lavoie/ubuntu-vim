@@ -1,6 +1,5 @@
 -- print('loading neotree.lua')
-
-require 'nvim-web-devicons'.setup {
+require'nvim-web-devicons'.setup {
   -- your personnal icons can go here (to override)
   -- you can specify color or cterm_color instead of specifying both of them
   -- DevIcon will be appended to `name`
@@ -11,10 +10,10 @@ require 'nvim-web-devicons'.setup {
     --   cterm_color = "65",
     --   name = "Zsh"
     -- }
-  };
+  },
   -- globally enable different highlight colors per icon (default to true)
   -- if set to false all icons will have the default icon's color
-  color_icons = true;
+  color_icons = true
   -- globally enable default icons (default to false)
   -- will get overriden by `get_icons` option
   -- default = true;
@@ -35,13 +34,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
   group = "neotree",
   callback = function()
     -- do not open neotree if in diff mode
-    if vim.api.nvim_win_get_option(0, "diff") then
-      return
-    end
-
-    for i = vim.fn.argc(), 0, -1 do
-      print(string.format("%d: %s", i, vim.fn.argv(i)))
-    end
+    if vim.api.nvim_win_get_option(0, "diff") then return end
 
     -- if vim.fn.argc() == 0 and not vim.fn.exists "s:std_in" then
     if vim.fn.argc() == 0 then -- do not open neotree if one or more files are given as argument
