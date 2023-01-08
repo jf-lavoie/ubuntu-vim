@@ -13,12 +13,27 @@ require("mason-nvim-dap").setup({
   }
 })
 
-dapui.setup()
+dapui.setup({
+  layouts = {
+    {
+      elements = {
+        -- Elements can be strings or table with id and size keys.
+        {id = "scopes", size = 0.25}, "breakpoints", "stacks", "watches"
+      },
+      size = 40, -- 40 columns
+      position = "left"
+    }, {
+      elements = {"repl", {id = "console", size = 0.6}},
+      size = 0.35, -- 25% of total lines
+      position = "bottom"
+    }
+  }
+})
 
 require('dap.ext.vscode').load_launchjs(nil, {})
 
 vim.api.nvim_create_autocmd('FileType', {
-  pattern = { "dap-repl", "lua" },
+  pattern = {"dap-repl", "lua"},
   desc = "omnifunc implementation",
   callback = function()
     require('dap.ext.autocompl').attach()
@@ -40,8 +55,8 @@ end
 --   dapui.close({})
 -- end
 
-vim.fn.sign_define('DapBreakpoint', { text = '🟥', texthl = '', linehl = '', numhl = '' })
-vim.fn.sign_define('DapStopped', { text = '▶️', texthl = '', linehl = '', numhl = '' })
+vim.fn.sign_define('DapBreakpoint', {text = '🟥', texthl = '', linehl = '', numhl = ''})
+vim.fn.sign_define('DapStopped', {text = '▶️', texthl = '', linehl = '', numhl = ''})
 
 local merge = function(target, toMerge)
   local output = {}
@@ -55,16 +70,16 @@ end
 
 local setBindings = function(bindings, opts)
 
-  for _, value in pairs(bindings) do vim.keymap.set('n', value[1], value[2], merge(opts, { desc = value[3] })) end
+  for _, value in pairs(bindings) do vim.keymap.set('n', value[1], value[2], merge(opts, {desc = value[3]})) end
 
 end
 
 local defaultFKeysMappings = {
 
-  { '<F8>', require 'dap'.continue, "Continue" },
-  { '<F9>', require('persistent-breakpoints.api').toggle_breakpoint, "Toggle breakpoint" },
-  { '<F10>', require 'dap'.step_over, "Step over" }, { '<S-F10>', require 'dap'.run_to_cursor, "Run to cursor" },
-  { '<F11>', require 'dap'.step_into, "Stop into" }, { '<S-F11>', require 'dap'.step_out, "Step out" }
+  {'<F8>', require'dap'.continue, "Continue"},
+  {'<F9>', require('persistent-breakpoints.api').toggle_breakpoint, "Toggle breakpoint"},
+  {'<F10>', require'dap'.step_over, "Step over"}, {'<S-F10>', require'dap'.run_to_cursor, "Run to cursor"},
+  {'<F11>', require'dap'.step_into, "Stop into"}, {'<S-F11>', require'dap'.step_out, "Step out"}
 }
 
 local dapMenuKey = '<leader>d'
@@ -73,9 +88,9 @@ local dapUIMenuKey = '<leader>du'
 local dapAdadptorCommandsMenuKey = '<leader>da'
 local defaultAdvancedDebugKeyMapping = {
   name = "[A]dvanced Debugging",
-  b = { dap.step_back, "Step [b]ack" },
-  d = { dap.down, "[d]own in current stacktrace without stepping." },
-  f = { dap.restart_frame, "Restart [f]rame" },
+  b = {dap.step_back, "Step [b]ack"},
+  d = {dap.down, "[d]own in current stacktrace without stepping."},
+  f = {dap.restart_frame, "Restart [f]rame"},
   g = {
     function()
       local userInput = vim.fn.input("Line number (empty for line under cursor):")
@@ -91,27 +106,27 @@ local defaultAdvancedDebugKeyMapping = {
       dap.pause(vim.fn.input("Thread id: "))
     end, "[p]ause thread"
   },
-  r = { dap.reverse_continue, "[r]everse continue" },
-  u = { dap.up, "[u]p in current stacktrace without stepping." }
+  r = {dap.reverse_continue, "[r]everse continue"},
+  u = {dap.up, "[u]p in current stacktrace without stepping."}
 
 }
 local defaultDapKeyMapping = {
   name = "[d]ebugger (DAP)",
-  c = { persistentbreakpoints.set_conditional_breakpoint, '[c]onditional breakpoint' },
+  c = {persistentbreakpoints.set_conditional_breakpoint, '[c]onditional breakpoint'},
   l = {
     function()
       dap.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))
     end, '[l]og point breakpoint'
   },
-  r = { dap.run_last, "[r]e-runs the last debug adapter / configuration that ran using" },
-  s = { dap.status, "[s]tatus of debug session" },
-  v = { dap.list_breakpoints, "[v]iew all breakpoints" },
+  r = {dap.run_last, "[r]e-runs the last debug adapter / configuration that ran using"},
+  s = {dap.status, "[s]tatus of debug session"},
+  v = {dap.list_breakpoints, "[v]iew all breakpoints"},
 
-  D = { require('persistent-breakpoints.api').PBClearAllBreakpoints, "[D]elete breakpoint" },
-  R = { dap.repl.toggle, "Toggle a [R]EPL / Debug-console" },
+  D = {require('persistent-breakpoints.api').PBClearAllBreakpoints, "[D]elete breakpoint"},
+  R = {dap.repl.toggle, "Toggle a [R]EPL / Debug-console"},
   T = {
     function()
-      dap.terminate({}, { terminateDebuggee = true }, nil)
+      dap.terminate({}, {terminateDebuggee = true}, nil)
     end, "[T]erminate session+try close adaptor"
   }
 }
@@ -125,14 +140,14 @@ local defaultDapUIKeyMapping = {
   }
 }
 
-vim.api.nvim_create_augroup("dap-bindings", { clear = true })
+vim.api.nvim_create_augroup("dap-bindings", {clear = true})
 vim.api.nvim_create_autocmd("FileType", {
   group = "dap-bindings",
-  pattern = { "go", "gomod" },
+  pattern = {"go", "gomod"},
   desc = "Apply Golang dap bindings",
   callback = function(data)
 
-    local bufOpts = { noremap = true, silent = true, buffer = data.buf }
+    local bufOpts = {noremap = true, silent = true, buffer = data.buf}
 
     setBindings(defaultFKeysMappings, bufOpts)
 
@@ -142,8 +157,8 @@ vim.api.nvim_create_autocmd("FileType", {
     keys[dapUIMenuKey] = defaultDapUIKeyMapping
     keys[dapAdadptorCommandsMenuKey] = {
       name = "DAP [a]daptor (Golang dlv)",
-      t = { require('dap-go').debug_test, "Debug [t]est" },
-      l = { require('dap-go').debug_last_test, "Debug [l]ast test" }
+      t = {require('dap-go').debug_test, "Debug [t]est"},
+      l = {require('dap-go').debug_last_test, "Debug [l]ast test"}
     }
 
     wk.register(keys, bufOpts)
@@ -151,11 +166,11 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 vim.api.nvim_create_autocmd("FileType", {
   group = "dap-bindings",
-  pattern = { "lua" },
+  pattern = {"lua"},
   desc = "Apply Lua dap bindings",
   callback = function(data)
 
-    local bufOpts = { noremap = true, silent = true, buffer = data.buf }
+    local bufOpts = {noremap = true, silent = true, buffer = data.buf}
 
     setBindings(defaultFKeysMappings, bufOpts)
 
@@ -168,15 +183,15 @@ vim.api.nvim_create_autocmd("FileType", {
       name = "DAP [a]daptor (Lua osv)",
       l = {
         function()
-          require "osv".launch({ port = 8086, log = false })
+          require"osv".launch({port = 8086, log = false})
         end, '[l]aunch the lua dap server'
       },
       r = {
         function()
-          require "osv".run_this({ log = false })
+          require"osv".run_this({log = false})
         end, '[r]un the lua dap server and debug current file'
       },
-      s = { require "osv".stop, '[s]top the lua dap server' }
+      s = {require"osv".stop, '[s]top the lua dap server'}
     }
 
     wk.register(keys, bufOpts)
@@ -186,11 +201,11 @@ vim.api.nvim_create_autocmd("FileType", {
 
 vim.api.nvim_create_autocmd("FileType", {
   group = "dap-bindings",
-  pattern = { "sh" },
+  pattern = {"sh"},
   desc = "Apply Bash dap bindings",
   callback = function(data)
 
-    local bufOpts = { noremap = true, silent = true, buffer = data.buf }
+    local bufOpts = {noremap = true, silent = true, buffer = data.buf}
 
     setBindings(defaultFKeysMappings, bufOpts)
 
@@ -199,7 +214,7 @@ vim.api.nvim_create_autocmd("FileType", {
     keys[dapMenuKey] = defaultDapKeyMapping
     keys[dapMenuAdvancedDebugKey] = defaultAdvancedDebugKeyMapping
     keys[dapUIMenuKey] = defaultDapUIKeyMapping
-    keys[dapAdadptorCommandsMenuKey] = { name = " DAP [a]daptor (bash-debug-adapter)" }
+    keys[dapAdadptorCommandsMenuKey] = {name = " DAP [a]daptor (bash-debug-adapter)"}
 
     wk.register(keys, bufOpts)
 
@@ -208,11 +223,11 @@ vim.api.nvim_create_autocmd("FileType", {
 
 vim.api.nvim_create_autocmd("FileType", {
   group = "dap-bindings",
-  pattern = { "python" },
+  pattern = {"python"},
   desc = "Apply Python dap bindings",
   callback = function(data)
 
-    local bufOpts = { noremap = true, silent = true, buffer = data.buf }
+    local bufOpts = {noremap = true, silent = true, buffer = data.buf}
 
     setBindings(defaultFKeysMappings, bufOpts)
 
@@ -264,11 +279,11 @@ vim.api.nvim_create_autocmd("FileType", {
 
 vim.api.nvim_create_autocmd("FileType", {
   group = "dap-bindings",
-  pattern = { "javascript", "typescript" },
+  pattern = {"javascript", "typescript"},
   desc = "Apply Javascript/Typescript dap bindings",
   callback = function(data)
 
-    local bufOpts = { noremap = true, silent = true, buffer = data.buf }
+    local bufOpts = {noremap = true, silent = true, buffer = data.buf}
 
     setBindings(defaultFKeysMappings, bufOpts)
 
@@ -277,7 +292,7 @@ vim.api.nvim_create_autocmd("FileType", {
     keys[dapMenuKey] = defaultDapKeyMapping
     keys[dapMenuAdvancedDebugKey] = defaultAdvancedDebugKeyMapping
     keys[dapUIMenuKey] = defaultDapUIKeyMapping
-    keys[dapAdadptorCommandsMenuKey] = { name = " DAP [a]daptor (vscode-node-debug2)" }
+    keys[dapAdadptorCommandsMenuKey] = {name = " DAP [a]daptor (vscode-node-debug2)"}
 
     wk.register(keys, bufOpts)
 
@@ -285,7 +300,7 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 require('persistent-breakpoints').setup {
-  load_breakpoints_event = { "BufReadPost" },
+  load_breakpoints_event = {"BufReadPost"},
   save_dir = vim.fn.stdpath('data') .. '/nvim_breakpoints'
 }
 
@@ -300,7 +315,7 @@ local function prune_nil(items)
 end
 
 dap.adapters.nlua = function(callback, config)
-  callback({ type = 'server', host = config.host or "127.0.0.1", port = config.port or 8086 })
+  callback({type = 'server', host = config.host or "127.0.0.1", port = config.port or 8086})
 end
 
 dap.configurations.lua = {
@@ -352,7 +367,7 @@ dap.configurations.sh = {
 }
 
 -- taken here: https://www.reddit.com/r/neovim/comments/z4zrhx/comment/ixua4ol/?utm_source=reddit&utm_medium=web2x&context=3
-dap.adapters.node2 = { type = "executable", command = "node-debug2-adapter", args = {} }
+dap.adapters.node2 = {type = "executable", command = "node-debug2-adapter", args = {}}
 
 -- dap.adapters.node2 = {
 --   type = 'executable',
@@ -375,14 +390,14 @@ local nodeconfig = {
     console = 'integratedTerminal',
 
     -- taken here: https://code.visualstudio.com/docs/nodejs/nodejs-debugging
-    terminalOptions = { skipFiles = { "<node_internals>/**" } }
+    terminalOptions = {skipFiles = {"<node_internals>/**"}}
 
   }, {
     -- For this to work you need to make sure the node process is started with the `--inspect` flag.
     name = 'Attach to process (process has to be started withn --inspect[-brk] flag)',
     type = 'node2',
     request = 'attach',
-    processId = require 'dap.utils'.pick_process
+    processId = require'dap.utils'.pick_process
   }
 }
 
