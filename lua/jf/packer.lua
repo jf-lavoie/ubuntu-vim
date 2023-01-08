@@ -109,7 +109,10 @@ require("packer").startup({
 
     -- ui related
     use "dracula/vim" -- colorsheme
-    use "itchyny/lightline.vim" -- status line
+    -- use "itchyny/lightline.vim" -- status line
+    use { 'nvim-lualine/lualine.nvim',
+      requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+    }
 
     -- language specifics
     use "pangloss/vim-javascript"

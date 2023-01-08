@@ -54,8 +54,9 @@ function links {
 
 links
 
-# python3 -m pip install --upgrade virtualenv
-# sudo apt install python3.10-venv # required by Mason when installing debugpy
+python3 -m pip install --upgrade virtualenv
+sudo apt install python3.10-venv # required by Mason when installing debugpy
+
 mkdir -p "$HOME/.virtualenvs"
 pushd "$HOME"/.virtualenvs || exit
 rm -rf pynvim
