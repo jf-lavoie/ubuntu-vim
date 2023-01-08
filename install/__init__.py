@@ -1,6 +1,8 @@
 import argparse
 import sys
 
+from .facade import Facade
+
 
 def parse_args(args):
     parser = argparse.ArgumentParser(
@@ -21,7 +23,15 @@ def parse_args(args):
 
 
 def main():
-    parse_args(sys.argv)
+    args = parse_args(sys.argv)
+    f = Facade()
+    print(
+        '(from main) jf-debug-> "f.install": {value}'.format(value=f.install))
+    print('jf-debug-> "f": ' + ", ".join(dir(f)))
+    print('jf-debug-> "f.install": ' + ", ".join(dir(f.install)))
+    f.install(**vars(args))
+    print('jf-debug-> "f.install.called": {value}'.format(
+        value=f.install.called))
 
 
 if __name__ == '__main__':
