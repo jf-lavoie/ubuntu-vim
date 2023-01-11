@@ -20,16 +20,30 @@ class Facade(object):
     def _links(self):
 
         files = [
-            (root, "init.lua"),
-            (root, "vim-jfsnippets"),
+            (root, "", "init.lua"),
+            (root, "", "vim-jfsnippets"),
         ]
 
         for (dir_path, _, file_names) in walk(path.join(root, "lua")):
-            files = files + list(map(lambda f: (dir_path, f), file_names))
+            files = files + list(
+                map(lambda f:
+                    (root, dir_path.partition(root)[2][1:], f), file_names))
 
+        # print('jf-debug-> "files": {value}'.format(value=files))
         for f in files:
-            subprocess.run([
+            args = [
                 "ln", "-sfv",
-                path.join(os.environ["INSTALL_VI_ROOTPATH"], f[1]),
-                path.join(f[0], f[1])
-            ])
+                path.join(f[0], f[1], f[2]),
+                path.join(os.environ["INSTALL_VI_ROOTPATH"], f[1], f[2])
+            ]
+            # print('jf-debug-> "f": {value}'.format(value=f))
+            # print('jf-debug-> "args": {value}'.format(value=args))
+            # print('jf-debug-> "os.environ["INSTALL_VI_ROOTPATH"]": {value}'.
+            #       format(value=os.environ["INSTALL_VI_ROOTPATH"]))
+            # print(
+            #     'jf-debug-> "path.join(os.environ["INSTALL_VI_ROOTPATH"], f[1], f[2])": {value}'
+            #     .format(value=path.join(os.environ["INSTALL_VI_ROOTPATH"],
+            #                             f[1], f[2])))
+            # print('jf-debug-> "os.environ["INSTALL_VI_ROOTPATH"]": {value}'.
+            #       format(value=os.environ["INSTALL_VI_ROOTPATH"]))
+            subprocess.run(args)
