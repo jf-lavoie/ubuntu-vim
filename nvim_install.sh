@@ -3,23 +3,23 @@
 source .env.nvim
 currentFolder="$PWD"
 
-rm -rf "$INSTALL_VI_ROOTPATH"
+# rm -rf "$INSTALL_VI_ROOTPATH"
 
-if [ ! -d "$INSTALL_VI_ROOTPATH" ]; then
-	mkdir -p "$INSTALL_VI_ROOTPATH"
-fi
+# if [ ! -d "$INSTALL_VI_ROOTPATH" ]; then
+# 	mkdir -p "$INSTALL_VI_ROOTPATH"
+# fi
 
-if [ -f "$INSTALL_NVIM_APPIMAGE_PATH"/nvim.appimage ]; then
-	rm "$INSTALL_NVIM_APPIMAGE_PATH"/nvim.appimage
-fi
+# if [ -f "$INSTALL_NVIM_APPIMAGE_PATH"/nvim.appimage ]; then
+# 	rm "$INSTALL_NVIM_APPIMAGE_PATH"/nvim.appimage
+# fi
 
-curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
-chmod u+x nvim.appimage
+# curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
+# chmod u+x nvim.appimage
 
-mv nvim.appimage "$INSTALL_NVIM_APPIMAGE_PATH"
-chmod 755 "$INSTALL_NVIM_APPIMAGE_PATH"/nvim.appimage
+# mv nvim.appimage "$INSTALL_NVIM_APPIMAGE_PATH"
+# chmod 755 "$INSTALL_NVIM_APPIMAGE_PATH"/nvim.appimage
 
-sudo ln -sfv "$INSTALL_NVIM_APPIMAGE_PATH"/nvim.appimage /usr/bin/nvim
+# sudo ln -sfv "$INSTALL_NVIM_APPIMAGE_PATH"/nvim.appimage /usr/bin/nvim
 
 function links {
 
@@ -54,17 +54,17 @@ function links {
 
 links
 
-python3 -m pip install --upgrade virtualenv
-sudo apt install python3.10-venv # required by Mason when installing debugpy
+# python3 -m pip install --upgrade virtualenv
+# sudo apt install python3.10-venv # required by Mason when installing debugpy
 
-mkdir -p "$HOME/.virtualenvs"
-pushd "$HOME"/.virtualenvs || exit
-rm -rf pynvim
-python3 -m venv pynvim
-./pynvim/bin/python3 -m pip install --upgrade pynvim
-popd || exit # $HOME/.virtualenvs
+# mkdir -p "$HOME/.virtualenvs"
+# pushd "$HOME"/.virtualenvs || exit
+# rm -rf pynvim
+# python3 -m venv pynvim
+# ./pynvim/bin/python3 -m pip install --upgrade pynvim
+# popd || exit # $HOME/.virtualenvs
 
-# taken from :checkhealth
-npm install -g neovim
+# # taken from :checkhealth
+# npm install -g neovim
 
-./plugins.sh
+# ./plugins.sh

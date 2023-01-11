@@ -41,11 +41,6 @@ clone() {
 
 }
 
-runCommand() {
-	echo "Running command $1"
-	bash -c "$INSTALL_VI_TARGET -U NONE --cmd \"$1\" --cmd \"qa\""
-}
-
 vim-minimap() {
 	echo "vim-minimap"
 
