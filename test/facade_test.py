@@ -35,10 +35,15 @@ class TestFacadeInstallLinks():
                     map(lambda f: (root, dir_path.partition(root)[2][1:], f),
                         file_names))
 
-            assert mock.call_count == len(expectedLinkedFiles)
+            mock.assert_any_call(
+                ["mkdir", "-p",
+                 path.join(self.install_path, "lua/jf")])
+
             for f in expectedLinkedFiles:
                 mock.assert_any_call([
                     "ln", "-sfv",
                     path.join(f[0], f[1], f[2]),
                     path.join(self.install_path, f[1], f[2])
                 ])
+
+            assert mock.call_count == len(expectedLinkedFiles) + 1

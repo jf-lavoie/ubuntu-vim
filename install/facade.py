@@ -17,6 +17,13 @@ class Facade(object):
         if links:
             self._links()
 
+    def _unique(self, list: list[str]) -> list[str]:
+        output = []
+        for x in list:
+            if x not in output:
+                output.append(x)
+        return output
+
     def _links(self):
 
         files = [
@@ -28,6 +35,15 @@ class Facade(object):
             files = files + list(
                 map(lambda f:
                     (root, dir_path.partition(root)[2][1:], f), file_names))
+
+        dirs_to_create = self._unique(
+            list(filter(None, map(lambda f: f[1], files))))
+
+        for d in dirs_to_create:
+            subprocess.run([
+                "mkdir", "-p",
+                path.join(os.environ["INSTALL_VI_ROOTPATH"], d)
+            ])
 
         # print('jf-debug-> "files": {value}'.format(value=files))
         for f in files:
