@@ -7,4 +7,4 @@ Watch out, the nvim_install.sh scripts erase before installing. Make sure to kee
 
 TODO:
 Migrate to an env var setup. Bigger than just nvim. (node, golang, python, cmake, clipboard)
-support both debian and wsl2
+support both debian and wsl2 (setup clipboard for both wls2<->windows and nvim: https://superuser.com/questions/1291425/windows-subsystem-linux-make-vim-use-the-clipboard )
