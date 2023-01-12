@@ -16,7 +16,8 @@ fi
 curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
 chmod u+x nvim.appimage
 
-mv nvim.appimage "$INSTALL_NVIM_APPIMAGE_PATH"
+echo $INSTALL_NVIM_APPIMAGE_PATH
+mv nvim.appimage "$INSTALL_NVIM_APPIMAGE_PATH"/nvim.appimage
 chmod 755 "$INSTALL_NVIM_APPIMAGE_PATH"/nvim.appimage
 
 sudo ln -sfv "$INSTALL_NVIM_APPIMAGE_PATH"/nvim.appimage /usr/bin/nvim
@@ -55,13 +56,18 @@ sudo ln -sfv "$INSTALL_NVIM_APPIMAGE_PATH"/nvim.appimage /usr/bin/nvim
 # links
 
 python3 -m pip install --upgrade virtualenv
-sudo apt install python3.10-venv # required by Mason when installing debugpy
+sudo apt install python3-venv # required by Mason when installing debugpy
 
 mkdir -p "$HOME/.virtualenvs"
 pushd "$HOME"/.virtualenvs || exit
 rm -rf pynvim
 python3 -m venv pynvim
 ./pynvim/bin/python3 -m pip install --upgrade pynvim
+
+rm-rf debugpy
+python3 -m venv debugpy
+debugpy/bin/python -m pip install debugpy
+
 popd || exit # $HOME/.virtualenvs
 
 # taken from :checkhealth

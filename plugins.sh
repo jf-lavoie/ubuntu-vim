@@ -5,6 +5,8 @@ set -u # or set -o nounset
 echo INSTALL_VI_ROOTPATH "$INSTALL_VI_ROOTPATH"
 echo INSTALL_VI_BUNDLEPATH "$INSTALL_VI_BUNDLEPATH"
 
+mkdir -p $INSTALL_VI_BUNDLEPATH
+
 currentFolder=$PWD
 echo currentFolder "$currentFolder"
 
@@ -75,7 +77,7 @@ fzf() {
 
 	# for the quoting escape black magic fuckery : https://stackoverflow.com/questions/1250079/how-to-escape-single-quotes-within-single-quoted-strings
 	grep -qF 'export FZF_DEFAULT_OPTS' "$HOME"/.bashrc || echo 'export FZF_DEFAULT_OPTS="--extended --preview '"'"'cat {}'"'"'"' >>"$HOME"/.bashrc
-	grep -qF 'export FZF_DEFAULT_COMMAND="rg' "HOME/."bashrc || echo 'export FZF_DEFAULT_COMMAND="rg --files --smart-case --hidden -g '"'"'!.git'"'"'"' >>"HOME/."bashrc
+	grep -qF 'export FZF_DEFAULT_COMMAND="rg' "$HOME"/.bashrc || echo 'export FZF_DEFAULT_COMMAND="rg --files --smart-case --hidden -g '"'"'!.git'"'"'"' >> "$HOME"/.bashrc
 
 	source "$HOME"/.bashrc
 }
@@ -147,10 +149,11 @@ lua() {
 
 }
 
-# nvim-packer
+nvim-packer
 
 # environment related
-# fzf
+fzf
 # fonts # for neotree
-# vim-minimap
+fonts
+vim-minimap
 lua

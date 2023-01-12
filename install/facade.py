@@ -17,9 +17,9 @@ class Facade(object):
         if links:
             self._links()
 
-    def _unique(self, list: list[str]) -> list[str]:
+    def _unique(self, l):
         output = []
-        for x in list:
+        for x in l:
             if x not in output:
                 output.append(x)
         return output

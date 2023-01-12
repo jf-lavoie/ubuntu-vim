@@ -3,3 +3,7 @@ Note: this repo is intended to be used by me only to help me develop on differen
 run nvim_install.sh to setup nvim plugins and config.
 
 Watch out, the nvim_install.sh scripts erase before installing. Make sure to keep a backup of your files.
+
+
+TODO:
+Migrate to an env var setup. Bigger than just nvim
