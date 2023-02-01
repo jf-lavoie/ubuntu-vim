@@ -18,7 +18,7 @@ vim.cmd('colorscheme dracula')
 -- https://gist.github.com/XVilka/8346728
 if (os.getenv("COLORTERM") == "truecolor" or
     (os.getenv("TERM") == "xterm-256color" and vim.fn.empty(os.getenv("WSL_DISTRO_NAME") == 1))) then
-	vim.opt.termguicolors = true
+  vim.opt.termguicolors = true
 end
 
 -- 'autoread' is enabled
@@ -119,7 +119,7 @@ vim.opt.sidescrolloff = 5
 -- Search
 --------------------------------------------------------------------------------------
 vim.keymap.set('', '<F3>', function()
-	vim.opt.hls = not vim.opt.hls
+  vim.opt.hls = not vim.opt.hls
 end)
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
@@ -144,19 +144,19 @@ vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 
 -- python is special
-vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
-	pattern = { '*.py' },
-	callback = function()
+vim.api.nvim_create_autocmd({'BufNewFile', 'BufRead'}, {
+  pattern = {'*.py'},
+  callback = function()
 
-		vim.bo.tabstop = 4
-		vim.bo.softtabstop = 4
-		vim.bo.shiftwidth = 4
-		vim.bo.expandtab = 4
-		-- 'autoindent' is enabled
-		vim.bo.autoindent = true
-		vim.bo.fileformat = 'unix'
+    vim.bo.tabstop = 4
+    vim.bo.softtabstop = 4
+    vim.bo.shiftwidth = 4
+    vim.bo.expandtab = 4
+    -- 'autoindent' is enabled
+    vim.bo.autoindent = true
+    vim.bo.fileformat = 'unix'
 
-	end
+  end
 })
 
 -- - INFO: `g:python3_host_prog` is not set.  Searching for python3 in the environment.
@@ -173,22 +173,22 @@ vim.api.nvim_set_var('python3_host_prog', os.getenv('HOME') .. '/.virtualenvs/py
 vim.opt.errorbells = false
 -- Use visual bell and remove flashing
 vim.api.nvim_create_autocmd('VimEnter', {
-	callback = function()
-		vim.opt.vb = false
-		-- apparently unused in nvim
-		-- vim.opt.t_vb = ''
-	end
+  callback = function()
+    vim.opt.vb = false
+    -- apparently unused in nvim
+    -- vim.opt.t_vb = ''
+  end
 })
 
 --------------------------------------------------------------------------------------
 -- Highlight yanked text
 --------------------------------------------------------------------------------------
 vim.api.nvim_create_autocmd("TextYankPost", {
-	desc = "Highlight yanked value",
-	pattern = "*",
-	callback = function()
-		vim.highlight.on_yank({ higroup = "IncSearch", timeout = 300 })
-	end
+  desc = "Highlight yanked value",
+  pattern = "*",
+  callback = function()
+    vim.highlight.on_yank({higroup = "IncSearch", timeout = 300})
+  end
 })
 
 --------------------------------------------------------------------------------------
@@ -208,26 +208,26 @@ vim.opt.undofile = false
 -- Custom shortcuts
 --------------------------------------------------------------------------------------
 
-vim.keymap.set('n', '<F1>', ':h <C-r><C-w><enter>', { desc = "Help for word under cursor" })
-vim.keymap.set('v', '<F1>', 'y<esc>:h <C-r>"<enter>', { desc = "Help for visual selection" })
+vim.keymap.set('n', '<F1>', ':h <C-r><C-w><enter>', {desc = "Help for word under cursor"})
+vim.keymap.set('v', '<F1>', 'y<esc>:h <C-r>"<enter>', {desc = "Help for visual selection"})
 
-vim.keymap.set('n', '<F5>', ':NeoTreeRevealToggle<CR>', { desc = "ReveaNeoTreeRevealToggle" })
+vim.keymap.set('n', '<F5>', ':NeoTreeRevealToggle<CR>', {desc = "ReveaNeoTreeRevealToggle"})
 
-vim.keymap.set('n', '<F6>', ':UndotreeToggle<CR>', { desc = "UndotreeToggle" })
+vim.keymap.set('n', '<F6>', ':UndotreeToggle<CR>', {desc = "UndotreeToggle"})
 vim.keymap.set('n', '<F7>', function()
-	vim.fn.setreg("+", vim.fn.expand('%:p'))
-end, { desc = "copy file path to clipboard" })
+  vim.fn.setreg("+", vim.fn.expand('%:p'))
+end, {desc = "copy file path to clipboard"})
 
 ----------------------- terminal ---------------------------
 
 -- taken from here: https://stackoverflow.com/questions/1236563/how-do-i-run-a-terminal-inside-of-vim/29293191#29293191
 -- tnoremap <ESC><ESC> <C-\><C-n>
 vim.api.nvim_create_autocmd('TermOpen', {
-	pattern = '*',
-	desc = "sets <esc><esc> to return to normal mode in terminal",
-	callback = function(arguments)
-		vim.keymap.set('t', '<Esc><Esc>', '<c-\\><c-n>', { buffer = arguments.buffer })
-	end
+  pattern = '*',
+  desc = "sets <esc><esc> to return to normal mode in terminal",
+  callback = function(arguments)
+    vim.keymap.set('t', '<Esc><Esc>', '<c-\\><c-n>', {buffer = arguments.buffer})
+  end
 })
 -- required?
 vim.api.nvim_command('autocmd BufEnter * if &buftype=="terminal" | startinsert | endif')
@@ -251,32 +251,27 @@ vim.api.nvim_exec('autocmd FileType fzf tunmap <Esc><Esc>', false)
 -- while still returning in normal mode with the <esc>
 --
 vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "javascript", "typescript", "vue" },
-	callback = function(info)
-		vim.keymap.set('n', '<F2>',
-			"yiwoi<BS><esc>:let @m = 'console.log(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': \", ' . @\" . ');'<enter><esc>\"mp"
-			,
-			{ desc = "console.log jf", buffer = info.buf })
-		vim.keymap.set('v', '<F2>',
-			"yoi<BS><esc>:let @m = 'console.log(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': \", ' . @\" . ');'<enter><esc>\"mp"
-			,
-			{ desc = "visual console.log jf", buffer = info.buf })
+  pattern = {"javascript", "typescript", "vue"},
+  callback = function(info)
+    vim.keymap.set('n', '<F2>',
+                   "yiwoi<BS><esc>:let @m = 'console.log(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': \", ' . @\" . ');'<enter><esc>\"mp",
+                   {desc = "console.log jf", buffer = info.buf})
+    vim.keymap.set('v', '<F2>',
+                   "yoi<BS><esc>:let @m = 'console.log(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': \", ' . @\" . ');'<enter><esc>\"mp",
+                   {desc = "visual console.log jf", buffer = info.buf})
 
-		vim.keymap.set('v', '<F3>',
-			"oi<BS><esc>:let @m = 'console.log(\"jf-debug-> arguments: \", arguments);'<enter><esc>\"mp<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>"
-			,
-			{ desc = "console.log jf arguments", buffer = info.buf })
+    vim.keymap.set('v', '<F3>',
+                   "oi<BS><esc>:let @m = 'console.log(\"jf-debug-> arguments: \", arguments);'<enter><esc>\"mp<left><left><left><left><left><left><left><left><left><left><left><left><left><left><left><left>",
+                   {desc = "console.log jf arguments", buffer = info.buf})
 
-		vim.keymap.set('n', '<F4>',
-			"yiwoi<BS><esc>:let @m = 'console.log(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': \", require(\"util\").inspect(' . @\" . ', { depth: 100, colors: false }));'<enter><esc>\"mp"
-			,
-			{ desc = "console.log jf inspect", buffer = info.buf })
+    vim.keymap.set('n', '<F4>',
+                   "yiwoi<BS><esc>:let @m = 'console.log(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': \", require(\"util\").inspect(' . @\" . ', { depth: 100, colors: false }));'<enter><esc>\"mp",
+                   {desc = "console.log jf inspect", buffer = info.buf})
 
-		vim.keymap.set('v', '<F4>',
-			"yoi<BS><esc>:let @m = 'console.log(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': \", require(\"util\").inspect(' . @\" . ', { depth: 100, colors: false }));'<enter><esc>\"mp"
-			,
-			{ desc = "console.log jf inspect", buffer = info.buf })
-	end
+    vim.keymap.set('v', '<F4>',
+                   "yoi<BS><esc>:let @m = 'console.log(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': \", require(\"util\").inspect(' . @\" . ', { depth: 100, colors: false }));'<enter><esc>\"mp",
+                   {desc = "console.log jf inspect", buffer = info.buf})
+  end
 })
 
 ----------------------- GO specific shortcuts ---------------------------
@@ -289,89 +284,81 @@ vim.api.nvim_create_autocmd("FileType", {
 -- " while still returning in normal mode with the <esc>
 
 vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "go" },
-	callback = function(info)
-		vim.keymap.set('n', '<F2>',
-			"yiwoi<BS><esc>:let @m = 'fmt.Printf(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': %#v\\n\", ' . @\" . ');'<enter><esc>\"mp"
-			,
-			{ desc = "console.log jf", buffer = info.buf })
+  pattern = {"go"},
+  callback = function(info)
+    vim.keymap.set('n', '<F2>',
+                   "yiwoi<BS><esc>:let @m = 'fmt.Printf(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': %#v\\n\", ' . @\" . ');'<enter><esc>\"mp",
+                   {desc = "console.log jf", buffer = info.buf})
 
-		vim.keymap.set('v', '<F2>',
-			"yoi<BS><esc>:let @m = 'fmt.Printf(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': %#v\\n\", ' . @\" . ');'<enter><esc>\"mp"
-			,
-			{ desc = "visual console.log jf", buffer = info.buf })
+    vim.keymap.set('v', '<F2>',
+                   "yoi<BS><esc>:let @m = 'fmt.Printf(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': %#v\\n\", ' . @\" . ');'<enter><esc>\"mp",
+                   {desc = "visual console.log jf", buffer = info.buf})
 
-	end
+  end
 })
 
 ----------------------- lua specific shortcuts ---------------------------
 vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "lua" },
-	callback = function(info)
-		vim.keymap.set('n', '<F2>',
-			"yiwoi<BS><esc>:let @m = 'print(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': \"..tostring('. @\" .'));'<enter><esc>\"mp"
-			,
-			{ desc = "print jf", buffer = info.buf })
+  pattern = {"lua"},
+  callback = function(info)
+    vim.keymap.set('n', '<F2>',
+                   "yiwoi<BS><esc>:let @m = 'print(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': \"..tostring('. @\" .'));'<enter><esc>\"mp",
+                   {desc = "print jf", buffer = info.buf})
 
-		vim.keymap.set('v', '<F2>',
-			"yoi<BS><esc>:let @m = 'print(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': \"..tostring('. @\" .'));'<enter><esc>\"mp"
-			,
-			{ desc = "print jf", buffer = info.buf })
+    vim.keymap.set('v', '<F2>',
+                   "yoi<BS><esc>:let @m = 'print(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': \"..tostring('. @\" .'));'<enter><esc>\"mp",
+                   {desc = "print jf", buffer = info.buf})
 
-		vim.keymap.set('n', '<F4>',
-			"yiwoi<BS><esc>:let @m = 'print(\"jf-debug-> ''' . @\" . ''': \" .. vim.inspect(' . @\" . '));'<enter><esc>\"mp",
-			{ desc = "visual console.log jf", buffer = info.buf })
+    vim.keymap.set('n', '<F4>',
+                   "yiwoi<BS><esc>:let @m = 'print(\"jf-debug-> ''' . @\" . ''': \" .. vim.inspect(' . @\" . '));'<enter><esc>\"mp",
+                   {desc = "visual console.log jf", buffer = info.buf})
 
-		vim.keymap.set('v', '<F4>',
-			"yoi<BS><esc>:let @m = 'print(\"jf-debug-> ''' . @\" . ''': \" .. vim.inspect(' . @\" . '));'<enter><esc>\"mp",
-			{ desc = "visual console.log jf", buffer = info.buf })
+    vim.keymap.set('v', '<F4>',
+                   "yoi<BS><esc>:let @m = 'print(\"jf-debug-> ''' . @\" . ''': \" .. vim.inspect(' . @\" . '));'<enter><esc>\"mp",
+                   {desc = "visual console.log jf", buffer = info.buf})
 
-	end
+  end
 })
 
 ----------------------- python specific shortcuts ---------------------------
 vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "python" },
-	callback = function(info)
-		vim.keymap.set('n', '<F2>',
-			"yiwoi<BS><esc>:let @m = 'print(''jf-debug-> \"' . substitute(@\", \"\'\", \"\\\\\\\\\'\", \"g\") . '\": {value}''.format(value='. @\" .'));'<enter><esc>\"mp"
-			,
-			{ desc = "print jf", buffer = info.buf })
+  pattern = {"python"},
+  callback = function(info)
+    vim.keymap.set('n', '<F2>',
+                   "yiwoi<BS><esc>:let @m = 'print(''jf-debug-> \"' . substitute(@\", \"\'\", \"\\\\\\\\\'\", \"g\") . '\": {value}''.format(value='. @\" .'));'<enter><esc>\"mp",
+                   {desc = "print jf", buffer = info.buf})
 
-		vim.keymap.set('v', '<F2>',
-			"yoi<BS><esc>:let @m = 'print(''jf-debug-> \"' . substitute(@\", \"\'\", \"\\\\\\\\\'\", \"g\") . '\": {value}''.format(value='. @\" .'));'<enter><esc>\"mp"
-			,
-			{ desc = "visual console.log jf", buffer = info.buf })
+    vim.keymap.set('v', '<F2>',
+                   "yoi<BS><esc>:let @m = 'print(''jf-debug-> \"' . substitute(@\", \"\'\", \"\\\\\\\\\'\", \"g\") . '\": {value}''.format(value='. @\" .'));'<enter><esc>\"mp",
+                   {desc = "visual console.log jf", buffer = info.buf})
 
-		vim.keymap.set('n', '<F4>',
-			"yiwoi<BS><esc>:let @m = 'print(''jf-debug-> \"' . substitute(@\", \"\'\", \"\\\\\\\\\'\", \"g\") . '\": '' + str(dir(' . @\" . ')));'<enter><esc>\"mp"
-			,
-			{ desc = "print jf inspect", buffer = info.buf })
+    vim.keymap.set('n', '<F4>',
+                   "yiwoi<BS><esc>:let @m = 'print(''jf-debug-> \"' . substitute(@\", \"\'\", \"\\\\\\\\\'\", \"g\") . '\": '' + str(dir(' . @\" . ')));'<enter><esc>\"mp",
+                   {desc = "print jf inspect", buffer = info.buf})
 
-		vim.keymap.set('v', '<F4>',
-			"yoi<BS><esc>:let @m = 'print(''jf-debug-> \"' . substitute(@\", \"\'\", \"\\\\\\\\\'\", \"g\") . '\": '' + str(dir(' . @\" . ')));'<enter><esc>\"mp"
-			,
-			{ desc = "visual print jf inspect", buffer = info.buf })
-	end
+    vim.keymap.set('v', '<F4>',
+                   "yoi<BS><esc>:let @m = 'print(''jf-debug-> \"' . substitute(@\", \"\'\", \"\\\\\\\\\'\", \"g\") . '\": '' + str(dir(' . @\" . ')));'<enter><esc>\"mp",
+                   {desc = "visual print jf inspect", buffer = info.buf})
+  end
 })
 
 -- ---------------------------------------------------
 -- Adding batch file comment type. Used with plugin commentary
 -- ---------------------------------------------------
 vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "dosbatch" },
-	callback = function()
-		vim.opt.commentstring = ":: %s"
-	end
+  pattern = {"dosbatch"},
+  callback = function()
+    vim.opt.commentstring = ":: %s"
+  end
 })
 
 -- ---------------------------------------------------
 -- Chaning the font for MAC only because the base font is too small.
 -- ---------------------------------------------------
 if vim.fn.has('mac') then
-	vim.opt.guifont = "Menlo Regular:h13"
-	-- elseif has('unix')
-	--   set guifont=Droid\ Sans\ Mono\ 11
+  vim.opt.guifont = "Menlo Regular:h13"
+  -- elseif has('unix')
+  --   set guifont=Droid\ Sans\ Mono\ 11
 end
 
 -- from: https://neovide.dev/configuration.html
@@ -397,19 +384,19 @@ let $PATH = './node_modules/.bin:'.$PATH
 -- found here: https://stackoverflow.com/questions/1932604/vim-problem-with-gf-command
 -- https://til.hashrocket.com/posts/fef382f93e-use-suffixadd-to-save-yourself-some-life
 vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "javascript", "typescript", "vue" },
-	callback = function()
-		if string.len(vim.bo.suffixesadd) > 0 then vim.bo.suffixesadd = vim.bo.suffixesadd .. "," end
-		vim.bo.suffixesadd = vim.bo.suffixesadd .. ".js,.jsx,.ts,.tsx,.vue.json"
-	end
+  pattern = {"javascript", "typescript", "vue"},
+  callback = function()
+    if string.len(vim.bo.suffixesadd) > 0 then vim.bo.suffixesadd = vim.bo.suffixesadd .. "," end
+    vim.bo.suffixesadd = vim.bo.suffixesadd .. ".js,.jsx,.ts,.tsx,.vue.json"
+  end
 })
 
 vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "javascript", "typescript", "vue" },
-	callback = function()
-		if string.len(vim.bo.suffixesadd) > 0 then vim.bo.suffixesadd = vim.bo.suffixesadd .. "," end
-		vim.bo.suffixesadd = vim.bo.suffixesadd .. ".lua"
-	end
+  pattern = {"javascript", "typescript", "vue"},
+  callback = function()
+    if string.len(vim.bo.suffixesadd) > 0 then vim.bo.suffixesadd = vim.bo.suffixesadd .. "," end
+    vim.bo.suffixesadd = vim.bo.suffixesadd .. ".lua"
+  end
 })
 
 -- vim.opt.rtp:append(os.getenv('HOME') .. '/ubuntu-vim/')
@@ -426,20 +413,20 @@ vim.keymap.set('n', '<C-p>', ":call fzf#run(fzf#wrap(fzf#vim#with_preview()))<en
 -- " linked there: https://github.com/junegunn/fzf.vim#example-advanced-ripgrep-integration
 RipgrepFzf = function(query, fullscreen)
 
-	local command_fmt = "rg --column --line-number --no-heading --color=always --smart-case -- %s || true"
-	local initial_command = string.format("'" .. command_fmt .. "'", string.format("%q", query))
-	local reload_command = string.format(command_fmt, '{q}')
+  local command_fmt = "rg --column --line-number --no-heading --color=always --smart-case -- %s || true"
+  local initial_command = string.format("'" .. command_fmt .. "'", string.format("%q", query))
+  local reload_command = string.format(command_fmt, '{q}')
 
-	local spec = "[ '--phony', '--query', '" .. query .. "', '--bind', 'change:reload:" .. reload_command .. "']"
+  local spec = "[ '--phony', '--query', '" .. query .. "', '--bind', 'change:reload:" .. reload_command .. "']"
 
-	local cmd = string.format("call fzf#vim#grep(%s, 1, fzf#vim#with_preview({'options':%s}), %s)", initial_command, spec,
-		fullscreen)
-	vim.api.nvim_exec(cmd, true)
+  local cmd = string.format("call fzf#vim#grep(%s, 1, fzf#vim#with_preview({'options':%s}), %s)", initial_command, spec,
+                            fullscreen)
+  vim.api.nvim_exec(cmd, true)
 end
 
 vim.api.nvim_create_user_command('RG', function(data)
-	RipgrepFzf(data.args, 0)
-end, { nargs = '*', bang = true, desc = "Fzf using Ripgrep" })
+  RipgrepFzf(data.args, 0)
+end, {nargs = '*', bang = true, desc = "Fzf using Ripgrep"})
 
 vim.keymap.set('n', '<leader>fr', ':RG<enter>', {})
 
@@ -464,9 +451,9 @@ vim.api.nvim_exec([[
 
 -- taken here: https://github.com/dracula/vim/blob/master/colors/dracula.vim
 -- modified the border
-if vim.api.nvim_cmd({ cmd = 'colorscheme' }, { output = true }) == "dracula" then
+if vim.api.nvim_cmd({cmd = 'colorscheme'}, {output = true}) == "dracula" then
 
-	vim.api.nvim_exec([[
+  vim.api.nvim_exec([[
 
   let g:fzf_colors = {
     \ 'fg':      ['fg', 'Normal'],
@@ -520,7 +507,7 @@ end
 
 -- UltiSnips is the default bundle used by UltiSnips. It is installed via
 -- 'vim-snippets' plugin
-vim.api.nvim_set_var('UltiSnipsSnippetDirectories', { "UltiSnips", "vim-jfsnippets/jfsnippets" })
+vim.api.nvim_set_var('UltiSnipsSnippetDirectories', {"UltiSnips", "vim-jfsnippets/jfsnippets"})
 
 -----------------------------------------------------
 -- vim-closetag
@@ -547,7 +534,7 @@ vim.api.nvim_set_var('closetag_emptyTags_caseSensitive', 1)
 
 -- dict
 -- Disables auto-close if not in a --valid-- region (based on filetype)
-vim.api.nvim_set_var('closetag_regions', { ['typescript.tsx'] = 'jsxRegion,tsxRegion', ['javascript.jsx'] = 'jsxRegion' })
+vim.api.nvim_set_var('closetag_regions', {['typescript.tsx'] = 'jsxRegion,tsxRegion', ['javascript.jsx'] = 'jsxRegion'})
 
 -- Shortcut for closing tags, default is '>'
 vim.api.nvim_set_var('closetag_shortcut', '>')
@@ -566,47 +553,72 @@ vim.api.nvim_set_var('vim_markdown_new_list_item_indent', 2)
 -----------------------------------------------------
 -- s for substitute
 vim.keymap.set('n', 's', '<plug>(SubversiveSubstitute)', {
-	desc = "s<motion> to substitute the text object provided by the motion with the contents of the default register (or an explicit register if provided)",
-	remap = true
+  desc = "s<motion> to substitute the text object provided by the motion with the contents of the default register (or an explicit register if provided)",
+  remap = true
 })
 vim.keymap.set('n', 'ss', '<plug>(SubversiveSubstituteLine)', {
-	desc = "ss<motion> to substitute the text object provided by the motion with the contents of the default register (or an explicit register if provided)",
-	remap = true
+  desc = "ss<motion> to substitute the text object provided by the motion with the contents of the default register (or an explicit register if provided)",
+  remap = true
 })
 vim.keymap.set('n', 'S', '<plug>(SubversiveSubstituteToEndOfLine)', {
-	desc = "S<motion> to substitute the text object provided by the motion with the contents of the default register (or an explicit register if provided)",
-	remap = true
+  desc = "S<motion> to substitute the text object provided by the motion with the contents of the default register (or an explicit register if provided)",
+  remap = true
 })
 
 vim.keymap.set('n', '<leader>s', '<plug>(SubversiveSubstituteRange)', {
-	desc = "<leader>s<motion1><motion2> replace text selected in motion1 within range of motion2",
-	remap = true
+  desc = "<leader>s<motion1><motion2> replace text selected in motion1 within range of motion2",
+  remap = true
 })
 
 vim.keymap.set('x', '<leader>s', '<plug>(SubversiveSubstituteRange)',
-	{ desc = "<leader>s<motion1> replace visually selected text within range of motion1", remap = true })
+               {desc = "<leader>s<motion1> replace visually selected text within range of motion1", remap = true})
 vim.keymap.set('n', '<leader>ss', '<plug>(SubversiveSubstituteWordRange)', {
-	desc = "<leader>ss<motion1> mapping is used as a shortcut to replace the current word under the cursor within range of motion1",
-	remap = true
+  desc = "<leader>ss<motion1> mapping is used as a shortcut to replace the current word under the cursor within range of motion1",
+  remap = true
 })
 
 -- prompt with the native vim substitute command
 vim.api.nvim_set_var('subversivePromptWithActualCommand', 1)
 
 -- ie = inner entire buffer
-vim.keymap.set('o', 'ie', ':exec "normal! ggVG"<cr>', { desc = "select entire buffer" })
+vim.keymap.set('o', 'ie', ':exec "normal! ggVG"<cr>', {desc = "select entire buffer"})
 
 -- iv = current viewable text in the buffer
-vim.keymap.set('o', 'iv', ':exec "normal! HVL"<cr>', { desc = "select current viewable text in buffer" })
+vim.keymap.set('o', 'iv', ':exec "normal! HVL"<cr>', {desc = "select current viewable text in buffer"})
 -----------------------------------------------------
 
 ------------------------------------------------------
 -- Yggdroot/indentLine
 ------------------------------------------------------
+
+vim.g.vim_json_conceal = 0
+
+vim.g.markdown_syntax_conceal = 0
+vim.g.vim_markdown_conceal = 0
+vim.g.vim_markdown_conceal_code_blocks = 0
+
+vim.api.nvim_create_augroup("indentLineConcealDisable", {})
+vim.api.nvim_create_autocmd({'BufAdd', 'BufRead', 'BufNew', 'BufEnter'}, {
+  pattern = {'*.json', '*.md'}, -- md does work? what other plugin??
+  callback = function()
+    print "HELLO enter"
+    vim.api.nvim_command('IndentLinesDisable')
+  end,
+  desc = "Disable concealing for json and markdown buffer on enter"
+})
+vim.api.nvim_create_autocmd({'BufLeave', 'BufUnload', 'BufDelete', 'BufHidden'}, {
+  group = "indentLineConcealDisable",
+  pattern = {'*.json', '*.md'}, -- md does work? what other plugin??
+  callback = function()
+    print "HELLO exit"
+    vim.api.nvim_command('IndentLinesEnable')
+  end,
+  desc = "Enabling concealing for json and markdown buffer on exit"
+})
 -- otherwise, vim-json can't do its work
 -- source: https://github.com/elzr/vim-json/blob/master/readme.md
 -- and https://github.com/elzr/vim-json/issues/23#issuecomment-40293049
-vim.api.nvim_set_var('vim_json_syntax_conceal', 0)
+-- vim.api.nvim_set_var('vim_json_syntax_conceal', 0)
 -- vim.api.nvim_set_var('indentLine_concealcursor', "")
 -- vim.api.nvim_set_var('indentLine_showFirstIndentLevel', 1)
 -- augroup JsonCursor
@@ -621,5 +633,5 @@ vim.api.nvim_set_var('vim_json_syntax_conceal', 0)
 -- wfxr/minimap.vim
 ------------------------------------------------------
 -- disable minimap for specific file types
-vim.api.nvim_set_var('minimap_block_filetypes', { 'fugitive', 'nerdtree', 'neo-tree' })
+vim.api.nvim_set_var('minimap_block_filetypes', {'fugitive', 'nerdtree', 'neo-tree'})
 -- ---------------------------------------------------
