@@ -601,7 +601,6 @@ vim.api.nvim_create_augroup("indentLineConcealDisable", {})
 vim.api.nvim_create_autocmd({'BufAdd', 'BufRead', 'BufNew', 'BufEnter'}, {
   pattern = {'*.json', '*.md'}, -- md does work? what other plugin??
   callback = function()
-    print "HELLO enter"
     vim.api.nvim_command('IndentLinesDisable')
   end,
   desc = "Disable concealing for json and markdown buffer on enter"
@@ -610,7 +609,6 @@ vim.api.nvim_create_autocmd({'BufLeave', 'BufUnload', 'BufDelete', 'BufHidden'},
   group = "indentLineConcealDisable",
   pattern = {'*.json', '*.md'}, -- md does work? what other plugin??
   callback = function()
-    print "HELLO exit"
     vim.api.nvim_command('IndentLinesEnable')
   end,
   desc = "Enabling concealing for json and markdown buffer on exit"
