@@ -18,6 +18,8 @@ require("null-ls").setup({
     null_ls.builtins.code_actions.shellcheck, -- sh
     null_ls.builtins.diagnostics.shellcheck, -- sh
     -- null_ls.builtins.diagnostics.flake8.with({ extra_args = { "--max-line-length 120" } }), -- python
+    null_ls.builtins.code_actions.eslint_d, -- eslint
+    null_ls.builtins.diagnostics.eslint_d, -- eslint
     null_ls.builtins.formatting.shfmt, -- sh
     null_ls.builtins.formatting.prettierd, -- javscript, typescript, json, ...
     null_ls.builtins.formatting.goimports, -- golang
@@ -35,7 +37,9 @@ require("null-ls").setup({
       vim.api.nvim_create_autocmd("BufWritePre", {
         group = augroup,
         buffer = bufnr,
-        callback = function() vim.lsp.buf.format({bufnr = bufnr}) end
+        callback = function()
+          vim.lsp.buf.format({bufnr = bufnr})
+        end
       })
 
     end
