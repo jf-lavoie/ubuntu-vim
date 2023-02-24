@@ -8,22 +8,20 @@ require("mason-nvim-dap").setup({
   ensure_installed = {
     "delve", -- golang
     "node2", -- node-debug2-adapter'
+    "js", -- 'js-debug-adapter'
     "bash", -- bash-debug-adapter'
     "python" -- debugpy
   }
 })
--- "js", -- vscode-js-debug
-
--- print("jf-debug-> 'vim.log.levels': " .. vim.inspect(vim.log.levels));
 
 require("dap-vscode-js").setup({
   -- node_path = "node", -- Path of node executable. Defaults to $NODE_PATH, and then "node"
   -- debugger_path = "(runtimedir)/site/pack/packer/opt/vscode-js-debug", -- Path to vscode-js-debug installation.
-  -- debugger_path = vim.fn.stdpath("data") .. "/mason/packages/js-debug-adapter", -- Path to vscode-js-debug installation.
+  debugger_path = vim.fn.stdpath("data") .. "/mason/packages/js-debug-adapter", -- Path to vscode-js-debug installation.
   -- debugger_cmd = { "js-debug-adapter" }, -- Command to use to launch the debug server. Takes precedence over `node_path` and `debugger_path`.
-  -- adapters = {'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost'}, -- which adapters to register in nvim-dap
-  adapters = {'pwa-node', 'node-terminal'}, -- which adapters to register in nvim-dap
+  adapters = {'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost'}, -- which adapters to register in nvim-dap
   -- log_file_path = "(stdpath cache)/dap_vscode_js.log" -- Path for file logging
+
   -- 'vim.log.levels': {
   --   DEBUG = 1,
   --   ERROR = 4,
@@ -32,9 +30,8 @@ require("dap-vscode-js").setup({
   --   TRACE = 0,
   --   WARN = 3
   -- }
-  log_file_level = vim.log.levels.TRACE -- Logging level for output to file. Set to false to disable file logging.
-  -- log_console_level = vim.log.levels.ERROR -- Logging level for output to console. Set to false to disable console output.
-  -- log_console_level = vim.log.levels.TRACE -- Logging level for output to console. Set to false to disable console output.
+  -- log_file_level = vim.log.levels.TRACE -- Logging level for output to file. Set to false to disable file logging.
+  log_console_level = vim.log.levels.ERROR -- Logging level for output to console. Set to false to disable console output.
 })
 
 dapui.setup({
@@ -52,6 +49,14 @@ dapui.setup({
       position = "bottom"
     }
   }
+})
+
+-- source: https://github.com/mfussenegger/nvim-dap/blob/master/doc/dap.txt
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "dap-repl",
+  callback = function()
+    require("dap.ext.autocompl").attach()
+  end
 })
 
 require('dap.ext.vscode').load_launchjs(nil, {})
@@ -426,8 +431,36 @@ dap.configurations.sh = {
 -- }
 
 -- dap.configurations.javascript = nodeconfig
+--
 
--- dap.adapters['pwa-node'] = {type = "executable", command = "node-debug2-adapter", args = {}}
+dap.configurations.javascript = {
+  {
+    type = "pwa-node",
+    request = "launch",
+    name = "Launch file",
+    program = "${file}",
+    cwd = "${workspaceFolder}",
+    -- runtimeArgs = {"-r", "ts-node/register"},
+    -- sourceMaps = true,
+    -- resolveSourceMapLocations = {"${workspaceFolder}/**/*.js", "!**/node_modules/**"},
+    skipFiles = {"<node_internals>/**", "node_modules/**"},
+    console = "integratedTerminal"
+  }, {
+    type = "pwa-node",
+    request = "launch",
+    name = "Run mocha on file",
+    program = "${file}",
+    cwd = "${workspaceFolder}",
+
+    runtimeExecutable = "mocha",
+    runtimeArgs = {"--experimental-modules", "--recursive"},
+    skipFiles = {"<node_internals>/**", "node_modules/**"},
+    resolveSourceMapLocations = {"!**/js-debug-adapter/**"},
+
+    console = "integratedTerminal"
+  }
+}
+-- ideas of configuration: https://github.com/rockerBOO/dotfiles/blob/current/config/nvim/lua/plugin/dap.lua
 dap.configurations.typescript = {
   {
     type = "pwa-node",
@@ -439,31 +472,28 @@ dap.configurations.typescript = {
     sourceMaps = true,
     resolveSourceMapLocations = {"${workspaceFolder}/**/*.js", "!**/node_modules/**"},
     skipFiles = {"<node_internals>/**", "node_modules/**"}
+  }, {
+    type = "pwa-node",
+    request = "launch",
+    name = "Run jest on file",
+    program = "${file}",
+    cwd = "${workspaceFolder}",
 
-    -- from vscode
-    -- type = "node",
-    -- type = "pwa-node",
-    -- request = "launch",
-    -- name = "Launch Program",
-    -- cwd = "${workspaceFolder}",
-    -- skipFiles = {"<node_internals>/**"},
-    -- program = "${workspaceFolder}/src/index.ts",
-    -- outFiles = {"${workspaceFolder}/**/*.js"},
+    runtimeExecutable = "jest",
+    runtimeArgs = {"--verbose", "--silent", "false"},
 
+    -- console: 'internalConsole' | 'integratedTerminal' | 'externalTerminal';
+    console = "integratedTerminal",
+
+    sourceMaps = true,
+    resolveSourceMapLocations = {"${workspaceFolder}/**/*.js", "!**/node_modules/**"},
+    skipFiles = {"<node_internals>/**", "node_modules/**"}
+  }, {
+    -- UNTESTED!!
+    type = "pwa-node",
+    request = "attach",
+    name = "Attach",
+    processId = require'dap.utils'.pick_process,
+    cwd = "${workspaceFolder}"
   }
-  -- , {
-  --   type = "pwa-node",
-  --   request = "attach",
-  --   name = "Attach",
-  --   processId = require'dap.utils'.pick_process,
-  --   cwd = "${workspaceFolder}"
-  -- }
 }
-
--- source: https://github.com/mfussenegger/nvim-dap/blob/master/doc/dap.txt
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "dap-repl",
-  callback = function()
-    require("dap.ext.autocompl").attach()
-  end
-})

@@ -61,7 +61,7 @@ require("packer").startup({
       "leoluz/nvim-dap-go" -- golang
       -- node?  https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#javascript
     }
-    use {"microsoft/vscode-js-debug", opt = true, run = "npm install --legacy-peer-deps && npm run compile"}
+    -- use {"microsoft/vscode-js-debug", opt = true, run = "npm install --legacy-peer-deps && npm run compile"}
 
     -- autocomplete
     use {
