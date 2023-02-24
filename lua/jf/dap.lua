@@ -2,7 +2,7 @@ local dap, dapui, persistentbreakpoints = require("dap"), require("dapui"), requ
 local dappython = require('dap-python')
 local wk = require 'which-key'
 
--- dap.set_log_level('TRACE')
+dap.set_log_level('TRACE')
 
 require("mason-nvim-dap").setup({
   ensure_installed = {
@@ -11,6 +11,30 @@ require("mason-nvim-dap").setup({
     "bash", -- bash-debug-adapter'
     "python" -- debugpy
   }
+})
+-- "js", -- vscode-js-debug
+
+-- print("jf-debug-> 'vim.log.levels': " .. vim.inspect(vim.log.levels));
+
+require("dap-vscode-js").setup({
+  -- node_path = "node", -- Path of node executable. Defaults to $NODE_PATH, and then "node"
+  -- debugger_path = "(runtimedir)/site/pack/packer/opt/vscode-js-debug", -- Path to vscode-js-debug installation.
+  -- debugger_path = vim.fn.stdpath("data") .. "/mason/packages/js-debug-adapter", -- Path to vscode-js-debug installation.
+  -- debugger_cmd = { "js-debug-adapter" }, -- Command to use to launch the debug server. Takes precedence over `node_path` and `debugger_path`.
+  -- adapters = {'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost'}, -- which adapters to register in nvim-dap
+  adapters = {'pwa-node', 'node-terminal'}, -- which adapters to register in nvim-dap
+  -- log_file_path = "(stdpath cache)/dap_vscode_js.log" -- Path for file logging
+  -- 'vim.log.levels': {
+  --   DEBUG = 1,
+  --   ERROR = 4,
+  --   INFO = 2,
+  --   OFF = 5,
+  --   TRACE = 0,
+  --   WARN = 3
+  -- }
+  log_file_level = vim.log.levels.TRACE -- Logging level for output to file. Set to false to disable file logging.
+  -- log_console_level = vim.log.levels.ERROR -- Logging level for output to console. Set to false to disable console output.
+  -- log_console_level = vim.log.levels.TRACE -- Logging level for output to console. Set to false to disable console output.
 })
 
 dapui.setup({
@@ -308,11 +332,11 @@ require('dap-go').setup() -- nvim-dap-go
 
 dappython.setup('~/.virtualenvs/debugpy/bin/python')
 
-local function prune_nil(items)
-  return vim.tbl_filter(function(x)
-    return x
-  end, items)
-end
+-- local function prune_nil(items)
+--   return vim.tbl_filter(function(x)
+--     return x
+--   end, items)
+-- end
 
 dap.adapters.nlua = function(callback, config)
   callback({type = 'server', host = config.host or "127.0.0.1", port = config.port or 8086})
@@ -367,7 +391,7 @@ dap.configurations.sh = {
 }
 
 -- taken here: https://www.reddit.com/r/neovim/comments/z4zrhx/comment/ixua4ol/?utm_source=reddit&utm_medium=web2x&context=3
-dap.adapters.node2 = {type = "executable", command = "node-debug2-adapter", args = {}}
+-- dap.adapters.node2 = {type = "executable", command = "node-debug2-adapter", args = {}}
 
 -- dap.adapters.node2 = {
 --   type = 'executable',
@@ -378,28 +402,68 @@ dap.adapters.node2 = {type = "executable", command = "node-debug2-adapter", args
 --   }
 -- }
 
-local nodeconfig = {
+-- local nodeconfig = {
+--   {
+--     name = 'Launch',
+--     type = 'node2',
+--     request = 'launch',
+--     program = '${file}',
+--     cwd = vim.fn.getcwd(),
+--     sourceMaps = true,
+--     protocol = 'inspector',
+--     console = 'integratedTerminal',
+
+--     -- taken here: https://code.visualstudio.com/docs/nodejs/nodejs-debugging
+--     terminalOptions = {skipFiles = {"<node_internals>/**"}}
+
+--   }, {
+--     -- For this to work you need to make sure the node process is started with the `--inspect` flag.
+--     name = 'Attach to process (process has to be started withn --inspect[-brk] flag)',
+--     type = 'node2',
+--     request = 'attach',
+--     processId = require'dap.utils'.pick_process
+--   }
+-- }
+
+-- dap.configurations.javascript = nodeconfig
+
+-- dap.adapters['pwa-node'] = {type = "executable", command = "node-debug2-adapter", args = {}}
+dap.configurations.typescript = {
   {
-    name = 'Launch',
-    type = 'node2',
-    request = 'launch',
-    program = '${file}',
-    cwd = vim.fn.getcwd(),
+    type = "pwa-node",
+    request = "launch",
+    name = "Launch file",
+    program = "${file}",
+    cwd = "${workspaceFolder}",
+    runtimeArgs = {"-r", "ts-node/register"},
     sourceMaps = true,
-    protocol = 'inspector',
-    console = 'integratedTerminal',
+    resolveSourceMapLocations = {"${workspaceFolder}/**/*.js", "!**/node_modules/**"},
+    skipFiles = {"<node_internals>/**", "node_modules/**"}
 
-    -- taken here: https://code.visualstudio.com/docs/nodejs/nodejs-debugging
-    terminalOptions = {skipFiles = {"<node_internals>/**"}}
+    -- from vscode
+    -- type = "node",
+    -- type = "pwa-node",
+    -- request = "launch",
+    -- name = "Launch Program",
+    -- cwd = "${workspaceFolder}",
+    -- skipFiles = {"<node_internals>/**"},
+    -- program = "${workspaceFolder}/src/index.ts",
+    -- outFiles = {"${workspaceFolder}/**/*.js"},
 
-  }, {
-    -- For this to work you need to make sure the node process is started with the `--inspect` flag.
-    name = 'Attach to process (process has to be started withn --inspect[-brk] flag)',
-    type = 'node2',
-    request = 'attach',
-    processId = require'dap.utils'.pick_process
   }
+  -- , {
+  --   type = "pwa-node",
+  --   request = "attach",
+  --   name = "Attach",
+  --   processId = require'dap.utils'.pick_process,
+  --   cwd = "${workspaceFolder}"
+  -- }
 }
 
-dap.configurations.javascript = nodeconfig
-dap.configurations.typescript = nodeconfig
+-- source: https://github.com/mfussenegger/nvim-dap/blob/master/doc/dap.txt
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "dap-repl",
+  callback = function()
+    require("dap.ext.autocompl").attach()
+  end
+})

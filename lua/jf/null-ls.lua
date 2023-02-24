@@ -13,7 +13,7 @@ require("mason-null-ls").setup({
 -- taken here: https://github.com/jose-elias-alvarez/null-ls.nvim/wiki/Formatting-on-save
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 require("null-ls").setup({
-  debug = true,
+  -- debug = true,
   sources = {
     null_ls.builtins.code_actions.shellcheck, -- sh
     null_ls.builtins.diagnostics.shellcheck, -- sh
