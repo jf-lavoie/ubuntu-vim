@@ -7,7 +7,6 @@ dap.set_log_level('TRACE')
 require("mason-nvim-dap").setup({
   ensure_installed = {
     "delve", -- golang
-    "node2", -- node-debug2-adapter'
     "js", -- 'js-debug-adapter'
     "bash", -- bash-debug-adapter'
     "python" -- debugpy
@@ -33,6 +32,23 @@ require("dap-vscode-js").setup({
   -- log_file_level = vim.log.levels.TRACE -- Logging level for output to file. Set to false to disable file logging.
   log_console_level = vim.log.levels.ERROR -- Logging level for output to console. Set to false to disable console output.
 })
+local custom_adapter = 'pwa-node-custom'
+dap.adapters[custom_adapter] = function(cb, config)
+  if config.preLaunchTask then
+    local async = require('plenary.async')
+    local notify = require('notify').async
+
+    async.run(function()
+      ---@diagnostic disable-next-line: missing-parameter
+      notify('Running [' .. config.preLaunchTask .. ']').events.close()
+    end, function()
+      vim.fn.system(config.preLaunchTask)
+      config.type = 'pwa-node'
+      -- cb(config)
+      dap.run(config)
+    end)
+  end
+end
 
 dapui.setup({
   layouts = {
@@ -71,7 +87,6 @@ vim.api.nvim_create_autocmd('FileType', {
 
 -- taken from : https://miguelcrespo.co/how-to-debug-like-a-pro-using-neovim
 dap.listeners.after.event_initialized["dapui_config"] = function()
-
   pcall(function()
     vim.api.nvim_command(':NeoTreeClose')
   end) -- silently ignore errors. Happens when it is already closed
@@ -98,9 +113,7 @@ local merge = function(target, toMerge)
 end
 
 local setBindings = function(bindings, opts)
-
   for _, value in pairs(bindings) do vim.keymap.set('n', value[1], value[2], merge(opts, {desc = value[3]})) end
-
 end
 
 local defaultFKeysMappings = {
@@ -137,7 +150,6 @@ local defaultAdvancedDebugKeyMapping = {
   },
   r = {dap.reverse_continue, "[r]everse continue"},
   u = {dap.up, "[u]p in current stacktrace without stepping."}
-
 }
 local defaultDapKeyMapping = {
   name = "[d]ebugger (DAP)",
@@ -150,7 +162,6 @@ local defaultDapKeyMapping = {
   r = {dap.run_last, "[r]e-runs the last debug adapter / configuration that ran using"},
   s = {dap.status, "[s]tatus of debug session"},
   v = {dap.list_breakpoints, "[v]iew all breakpoints"},
-
   D = {require('persistent-breakpoints.api').PBClearAllBreakpoints, "[D]elete breakpoint"},
   R = {dap.repl.toggle, "Toggle a [R]EPL / Debug-console"},
   T = {
@@ -175,7 +186,6 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = {"go", "gomod"},
   desc = "Apply Golang dap bindings",
   callback = function(data)
-
     local bufOpts = {noremap = true, silent = true, buffer = data.buf}
 
     setBindings(defaultFKeysMappings, bufOpts)
@@ -198,7 +208,6 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = {"lua"},
   desc = "Apply Lua dap bindings",
   callback = function(data)
-
     local bufOpts = {noremap = true, silent = true, buffer = data.buf}
 
     setBindings(defaultFKeysMappings, bufOpts)
@@ -224,7 +233,6 @@ vim.api.nvim_create_autocmd("FileType", {
     }
 
     wk.register(keys, bufOpts)
-
   end
 })
 
@@ -233,7 +241,6 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = {"sh"},
   desc = "Apply Bash dap bindings",
   callback = function(data)
-
     local bufOpts = {noremap = true, silent = true, buffer = data.buf}
 
     setBindings(defaultFKeysMappings, bufOpts)
@@ -246,7 +253,6 @@ vim.api.nvim_create_autocmd("FileType", {
     keys[dapAdadptorCommandsMenuKey] = {name = " DAP [a]daptor (bash-debug-adapter)"}
 
     wk.register(keys, bufOpts)
-
   end
 })
 
@@ -255,7 +261,6 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = {"python"},
   desc = "Apply Python dap bindings",
   callback = function(data)
-
     local bufOpts = {noremap = true, silent = true, buffer = data.buf}
 
     setBindings(defaultFKeysMappings, bufOpts)
@@ -272,7 +277,6 @@ vim.api.nvim_create_autocmd("FileType", {
           dappython.test_class({})
         end, 'Test [c]lass above cursor'
       },
-
       d = {
         function()
           dappython.debug_selection({})
@@ -283,7 +287,6 @@ vim.api.nvim_create_autocmd("FileType", {
           dappython.test_method()
         end, '[t]est method above cursor'
       }
-
       -- DebugOpts:
       -- {
       --    console = ("internalConsole"|"integratedTerminal"|"externalTerminal"|nil),
@@ -311,7 +314,6 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = {"javascript", "typescript"},
   desc = "Apply Javascript/Typescript dap bindings",
   callback = function(data)
-
     local bufOpts = {noremap = true, silent = true, buffer = data.buf}
 
     setBindings(defaultFKeysMappings, bufOpts)
@@ -324,7 +326,6 @@ vim.api.nvim_create_autocmd("FileType", {
     keys[dapAdadptorCommandsMenuKey] = {name = " DAP [a]daptor (vscode-node-debug2)"}
 
     wk.register(keys, bufOpts)
-
   end
 })
 
@@ -336,12 +337,6 @@ require('persistent-breakpoints').setup {
 require('dap-go').setup() -- nvim-dap-go
 
 dappython.setup('~/.virtualenvs/debugpy/bin/python')
-
--- local function prune_nil(items)
---   return vim.tbl_filter(function(x)
---     return x
---   end, items)
--- end
 
 dap.adapters.nlua = function(callback, config)
   callback({type = 'server', host = config.host or "127.0.0.1", port = config.port or 8086})
@@ -395,44 +390,17 @@ dap.configurations.sh = {
   }
 }
 
--- taken here: https://www.reddit.com/r/neovim/comments/z4zrhx/comment/ixua4ol/?utm_source=reddit&utm_medium=web2x&context=3
--- dap.adapters.node2 = {type = "executable", command = "node-debug2-adapter", args = {}}
-
--- dap.adapters.node2 = {
---   type = 'executable',
---   command = 'node',
---   args = {
---     vim.fn.stdpath("data") ..
---         '/mason/packages/node-debug2-adapter/out/src/nodeDebug.js'
---   }
--- }
-
--- local nodeconfig = {
---   {
---     name = 'Launch',
---     type = 'node2',
---     request = 'launch',
---     program = '${file}',
---     cwd = vim.fn.getcwd(),
---     sourceMaps = true,
---     protocol = 'inspector',
---     console = 'integratedTerminal',
-
---     -- taken here: https://code.visualstudio.com/docs/nodejs/nodejs-debugging
---     terminalOptions = {skipFiles = {"<node_internals>/**"}}
-
---   }, {
---     -- For this to work you need to make sure the node process is started with the `--inspect` flag.
---     name = 'Attach to process (process has to be started withn --inspect[-brk] flag)',
---     type = 'node2',
---     request = 'attach',
---     processId = require'dap.utils'.pick_process
---   }
--- }
-
--- dap.configurations.javascript = nodeconfig
+-- inspired from:
+-- https://github.com/stefanwatt/nvim/blob/49f6473c30d5e92e2dff0554b58e1627fbe924d1/lua/user/dap.lua#L120-L144
+-- https://www.reddit.com/r/neovim/comments/y7dvva/typescript_debugging_in_neovim_with_nvimdap/?utm_source=ifttt
+-- ideas of configuration: https://github.com/rockerBOO/dotfiles/blob/current/config/nvim/lua/plugin/dap.lua
+-- https://github.com/mxsdev/nvim-dap-vscode-js
+-- and running vscode debugging with trace mode on to  figure out their parameters
 --
-
+-- for node2 inspiration:
+-- https://www.reddit.com/r/neovim/comments/szajig/nvimdap_with_typescript_and_react_native/
+-- https://github.com/awwalker/dotfiles/blob/master/.config/nvim/lua/plugins/debuggers/typescript.lua
+-- https://github.com/rockerBOO/dotfiles/blob/current/config/nvim/lua/plugin/dap.lua
 dap.configurations.javascript = {
   {
     type = "pwa-node",
@@ -460,7 +428,6 @@ dap.configurations.javascript = {
     console = "integratedTerminal"
   }
 }
--- ideas of configuration: https://github.com/rockerBOO/dotfiles/blob/current/config/nvim/lua/plugin/dap.lua
 dap.configurations.typescript = {
   {
     type = "pwa-node",
@@ -472,6 +439,7 @@ dap.configurations.typescript = {
     sourceMaps = true,
     resolveSourceMapLocations = {"${workspaceFolder}/**/*.js", "!**/node_modules/**"},
     skipFiles = {"<node_internals>/**", "node_modules/**"}
+
   }, {
     type = "pwa-node",
     request = "launch",

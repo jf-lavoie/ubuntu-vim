@@ -8,7 +8,6 @@ local util = require "packer.util"
 local packagePath = util.join_paths(vim.fn.stdpath("data"), "site", "pack")
 
 local runHelptags = function(...)
-
   local packed = {...}
 
   return function()
@@ -22,12 +21,10 @@ local runHelptags = function(...)
     end
     print(value)
   end
-
 end
 
 require("packer").startup({
   function()
-
     use "wbthomason/packer.nvim" -- Package manager
 
     -- Configurations for Nvim LSP
@@ -92,11 +89,11 @@ require("packer").startup({
 
     -- additionanl utilities
     use "tpope/vim-commentary"
+    use "nvim-lua/plenary.nvim"
     use {"Raimondi/delimitMate", run = runHelptags('delimitMate', 'doc')}
     use "alvan/vim-closetag"
     use {"Yggdroot/indentLine", run = runHelptags('indentLine', 'doc')}
     use "svermeulen/vim-subversive"
-    -- use "machakann/vim-highlightedyank"
     use "junegunn/fzf.vim"
     use {"mbbill/undotree", run = runHelptags('undotree', 'doc')}
 
@@ -108,6 +105,9 @@ require("packer").startup({
     use "dracula/vim" -- colorsheme
     -- use "itchyny/lightline.vim" -- status line
     use {'nvim-lualine/lualine.nvim', requires = {'kyazdani42/nvim-web-devicons', opt = true}}
+
+    -- ui notifications
+    use "rcarriga/nvim-notify"
 
     -- language specifics
     use "pangloss/vim-javascript"
@@ -121,7 +121,6 @@ require("packer").startup({
         vim.fn["mkdp#util#install"]()
       end
     }
-
   end,
   config = {
     package_root = packagePath
