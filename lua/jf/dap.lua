@@ -2,7 +2,7 @@ local dap, dapui, persistentbreakpoints = require("dap"), require("dapui"), requ
 local dappython = require('dap-python')
 local wk = require 'which-key'
 
-dap.set_log_level('TRACE')
+-- dap.set_log_level('TRACE')
 
 require("mason-nvim-dap").setup({
   ensure_installed = {
@@ -460,8 +460,13 @@ dap.configurations.typescript = {
     -- UNTESTED!!
     type = "pwa-node",
     request = "attach",
-    name = "Attach",
+    name = "Attach (continue on attach)",
     processId = require'dap.utils'.pick_process,
-    cwd = "${workspaceFolder}"
+    cwd = "${workspaceFolder}",
+    skipFiles = {"<node_internals>/**", "node_modules/**"},
+    resolveSourceMapLocations = {"${workspaceFolder}/**/*.js", "!**/node_modules/**"},
+    console = "integratedTerminal",
+
+    continueOnAttach = true
   }
 }
