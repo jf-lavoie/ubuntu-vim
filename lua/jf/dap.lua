@@ -55,7 +55,8 @@ dapui.setup({
     {
       elements = {
         -- Elements can be strings or table with id and size keys.
-        {id = "scopes", size = 0.25}, "breakpoints", "stacks", "watches"
+        {id = "scopes", size = 0.60}, {id = "breakpoints", size = 0.10}, {id = "stacks", size = 0.10},
+        {id = "watches", size = 0.2}
       },
       size = 40, -- 40 columns
       position = "left"
@@ -448,7 +449,7 @@ dap.configurations.typescript = {
     cwd = "${workspaceFolder}",
 
     runtimeExecutable = "jest",
-    runtimeArgs = {"--verbose", "--silent", "false"},
+    runtimeArgs = {"--verbose", "--silent", "false", "--testTimeout=2147483647"},
 
     -- console: 'internalConsole' | 'integratedTerminal' | 'externalTerminal';
     console = "integratedTerminal",
