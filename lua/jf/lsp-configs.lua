@@ -19,7 +19,7 @@ local lsp_flags = {
   debounce_text_changes = 150
 }
 
--- vim.lsp.set_log_level('debug')
+-- vim.lsp.set_log_level('trace')
 
 vim.diagnostic.config({
   update_in_insert = false,
@@ -65,7 +65,42 @@ require'lspconfig'['lua_ls'].setup {
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 require'lspconfig'['pyright'].setup {on_attach = on_attach, flags = lsp_flags, capabilities = capabilities}
-require'lspconfig'['tsserver'].setup {on_attach = on_attach, flags = lsp_flags, capabilities = capabilities}
+
+-- local tlsPath = "/home/jfl/projects/typescript-language-server/lib/cli.mjs"
+-- if os.getenv("TSS_DEBUG_BRK") ~= nil then tlsPath = "/home/jfl/projects/typescript-language-server/lib-debug/cli.mjs" end
+-- print("jf-debug-> 'tlsPath': " .. tostring(tlsPath));
+require'lspconfig'['tsserver'].setup {
+  on_attach = on_attach,
+  flags = lsp_flags,
+  capabilities = capabilities,
+
+  -- debugging
+  --
+  -- cmd = {"/home/jfl/projects/typescript-language-server/lib/cli.mjs", "--stdio", "--log-level=4"},
+  -- cmd = {tlsPath, "--stdio", "--log-level=4"},
+  -- cmd = {"typescript-language-server", "--stdio", "--log-level=4"},
+  -- filetypes = {
+  --   "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx", "json"
+  -- },
+
+  -- taken from
+  -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/lspconfig.txt
+  -- https://github.com/typescript-language-server/typescript-language-server#initializationoptions
+  init_options = {
+    -- disableAutomaticTypingAcquisition = false,
+    -- locale = "fr",
+    tsserver = {
+      -- path = "/home/jfl/projects/TypeScript/lib/tsserver.js",
+      -- path = "/home/jfl/projects/TypeScript/built/local/tsserver.js",
+      logDirectory = vim.fn.getcwd() .. "/.log/"
+      -- logDirectory = ".log",
+      -- logVerbosity?: 'off' | 'terse' | 'normal' | 'requestTime' | 'verbose';
+      -- logVerbosity = "verbose",
+      -- trace = "verbose"
+    }
+    -- preferences = {lazyConfiguredProjectsFromExternalProject = true}
+  }
+}
 
 require'lspconfig'['jsonls'].setup {capabilities = capabilities}
 
