@@ -1,4 +1,6 @@
 -- print('loading lsp-configs.lua')
+local util = require "lspconfig/util"
+
 require'mason'.setup()
 require'mason-lspconfig'.setup({
   ensure_installed = {
@@ -6,7 +8,8 @@ require'mason-lspconfig'.setup({
     'tsserver', -- javascript/typescript
     'jsonls', -- jsonls
     'pyright', -- python
-    'terraformls' -- terraform
+    'terraformls', -- terraform
+    'gopls' -- go
   }
 })
 
@@ -19,7 +22,7 @@ local lsp_flags = {
   debounce_text_changes = 150
 }
 
--- vim.lsp.set_log_level('trace')
+vim.lsp.set_log_level('trace')
 
 vim.diagnostic.config({
   update_in_insert = false,
@@ -90,22 +93,23 @@ require'lspconfig'['tsserver'].setup {
     -- disableAutomaticTypingAcquisition = false,
     -- locale = "fr",
     tsserver = {
-      -- path = "/home/jfl/projects/TypeScript/lib/tsserver.js",
       -- path = "/home/jfl/projects/TypeScript/built/local/tsserver.js",
-      logDirectory = vim.fn.getcwd() .. "/.log/"
-      -- logDirectory = ".log",
+      -- logDirectory = vim.fn.getcwd() .. "/.log/"
       -- logVerbosity?: 'off' | 'terse' | 'normal' | 'requestTime' | 'verbose';
       -- logVerbosity = "verbose",
       -- trace = "verbose"
     }
-    -- preferences = {lazyConfiguredProjectsFromExternalProject = true}
   }
 }
 
 require'lspconfig'['jsonls'].setup {capabilities = capabilities}
 
 require'lspconfig'['gopls'].setup {
-  settings = {gopls = {analyses = {unusedparams = true}, staticcheck = true}},
+  -- settings = {gopls = {analyses = {unusedparams = true}, staticcheck = true}},
+  cmd = {"gopls", "serve"},
+  root_dir = util.root_pattern("go.work", "go.mod", ".git"),
   on_attach = on_attach,
+  flags = lsp_flags,
   capabilities = capabilities
+
 }

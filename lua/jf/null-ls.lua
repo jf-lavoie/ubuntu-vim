@@ -3,11 +3,12 @@ local null_ls = require('null-ls')
 
 require("mason-null-ls").setup({
   ensure_installed = {
-    "shellcheck", "shfmt", "prettier", "goimports", "golangci_lint", "lua_format", "isort", "ruff", "flake8", "yapf"
+    "shellcheck", "shfmt", "prettier", "goimports", "golangci_lint", "gomodifytags", "lua_format", "isort", "ruff",
+    "flake8", "yapf", "gopls"
+
   },
   automatic_installation = true,
   automatic_setup = false
-
 })
 
 -- taken here: https://github.com/jose-elias-alvarez/null-ls.nvim/wiki/Formatting-on-save
@@ -17,11 +18,12 @@ require("null-ls").setup({
   sources = {
     null_ls.builtins.code_actions.shellcheck, -- sh
     null_ls.builtins.diagnostics.shellcheck, -- sh
+    null_ls.builtins.formatting.shfmt, -- sh
     -- null_ls.builtins.diagnostics.flake8.with({ extra_args = { "--max-line-length 120" } }), -- python
     null_ls.builtins.code_actions.eslint_d, -- eslint
     null_ls.builtins.diagnostics.eslint_d, -- eslint
-    null_ls.builtins.formatting.shfmt, -- sh
     null_ls.builtins.formatting.prettierd, -- javscript, typescript, json, ...
+    null_ls.builtins.code_actions.gomodifytags, -- golang
     null_ls.builtins.formatting.goimports, -- golang
     null_ls.builtins.formatting.lua_format -- lua
     .with({
@@ -41,7 +43,6 @@ require("null-ls").setup({
           vim.lsp.buf.format({bufnr = bufnr})
         end
       })
-
     end
     require'jf/lsp-configs-shared'.on_attach(_, bufnr)
   end

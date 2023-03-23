@@ -13,19 +13,17 @@ end
 -- copy/paste from https://github.com/neovim/nvim-lspconfig
 -- Mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
-local opts = { noremap = true, silent = true }
+local opts = {noremap = true, silent = true}
 
 local lspGroupKey = "<leader>l"
 
 wk.register({
   [lspGroupKey] = {
     name = "Diagnostic", -- optional group name
-    v = { vim.diagnostic.open_float, "View diagnostic (vim.diagnostic.open_float)" },
-    n = { vim.diagnostic.goto_next, "Next diagnostic (vim.diagnostic.goto_next)" },
-    p = { vim.diagnostic.goto_prev, "Prev diagnostic (vim.diagnostic.goto_prev)" },
-    q = {
-      vim.diagnostic.setloclist, "Set Location List (vim.diagnostic.setloclist)"
-    }
+    v = {vim.diagnostic.open_float, "View diagnostic (vim.diagnostic.open_float)"},
+    n = {vim.diagnostic.goto_next, "Next diagnostic (vim.diagnostic.goto_next)"},
+    p = {vim.diagnostic.goto_prev, "Prev diagnostic (vim.diagnostic.goto_prev)"},
+    q = {vim.diagnostic.setloclist, "Set Location List (vim.diagnostic.setloclist)"}
   }
 }, opts)
 
@@ -38,43 +36,18 @@ shared.on_attach = function(_, bufnr)
 
   -- Mappings.
   -- See `:help vim.lsp.*` for documentation on any of the below functions
-  local bufopts = { noremap = true, silent = true, buffer = bufnr }
-  local definition = {
-    vim.lsp.buf.definition, "Go to definition (vim.lsp.buf.definition)"
-  }
-  local declaration = {
-    vim.lsp.buf.declaration, "Go to declaration (vim.lsp.buf.declaration)"
-  }
-  local implementation = {
-    vim.lsp.buf.implementation,
-    "Go to implementation (vim.lsp.buf.implementation)"
-  }
-  local hover = { vim.lsp.buf.hover, "Open hover (vim.lsp.buf.hover)" }
-  local signature = {
-    vim.lsp.buf.signature_help, "Signature help (vim.lsp.buf.signature_help)"
-  }
+  local bufopts = {noremap = true, silent = true, buffer = bufnr}
+  local definition = {vim.lsp.buf.definition, "Go to definition (vim.lsp.buf.definition)"}
+  local declaration = {vim.lsp.buf.declaration, "Go to declaration (vim.lsp.buf.declaration)"}
+  local implementation = {vim.lsp.buf.implementation, "Go to implementation (vim.lsp.buf.implementation)"}
+  local hover = {vim.lsp.buf.hover, "Open hover (vim.lsp.buf.hover)"}
+  local signature = {vim.lsp.buf.signature_help, "Signature help (vim.lsp.buf.signature_help)"}
 
-  vim.keymap.set('n', 'K', hover[1], merge(bufopts, { desc = hover[2] }))
-  vim.keymap.set('n', '<C-k>', signature[1],
-    merge(bufopts, { desc = signature[2] }))
-
-  -- vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
-  -- vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
-  -- vim.keymap.set('n', '<space>wl', function()
-  --   print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-  -- end, bufopts)
-
-  -- vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, merge(bufopts, { desc = "Type definition" }))
-  -- vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, merge(bufopts, { desc = "Rename" }))
-  -- vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, merge(bufopts, { desc = "Code Actions" }))
-  -- vim.keymap.set('n', 'gr', vim.lsp.buf.references, merge(bufopts, { desc = "References" }))
-  -- vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end,
-  --   merge(bufopts, { desc = "Format" }))
+  vim.keymap.set('n', 'K', hover[1], merge(bufopts, {desc = hover[2]}))
+  vim.keymap.set('n', '<C-k>', signature[1], merge(bufopts, {desc = signature[2]}))
 
   wk.register({
-
-    g = { D = declaration, d = definition, i = implementation },
-
+    g = {D = declaration, d = definition, i = implementation},
     [lspGroupKey] = {
       name = "LSP", -- optional group name
 
@@ -84,21 +57,34 @@ shared.on_attach = function(_, bufnr)
       k = signature,
       i = implementation,
 
-      t = {
-        vim.lsp.buf.type_definition,
-        "Type definition (vim.lsp.buf.type_definition)"
-      },
-      r = { vim.lsp.buf.references, "References (vim.lsp.buf.references)" }
+      t = {vim.lsp.buf.type_definition, "Type definition (vim.lsp.buf.type_definition)"},
+      r = {vim.lsp.buf.references, "References (vim.lsp.buf.references)"}
     },
-
     ["<leader>la"] = {
       name = "LSP-Action", -- optional group name
-      r = { vim.lsp.buf.rename, "Rename (vim.lsp.buf.rename)" },
-      a = { vim.lsp.buf.code_action, "Code Actions (vim.lsp.buf.code_action)" },
+      a = {vim.lsp.buf.code_action, "Code Actions (vim.lsp.buf.code_action)"},
       f = {
-        function() vim.lsp.buf.format { async = true } end,
-        "Format (vim.lsp.buf.format { async = true })"
-      }
+        function()
+          vim.lsp.buf.format {async = true}
+        end, "Format (vim.lsp.buf.format { async = true })"
+      },
+      r = {vim.lsp.buf.rename, "Rename (vim.lsp.buf.rename)"}
+      -- v = {
+      --   function()
+      --     local lsp_util = vim.lsp.util
+
+      --     local context = {diagnostics = vim.lsp.diagnostic.get_line_diagnostics()}
+      --     local params = lsp_util.make_range_params()
+      --     params.context = context
+      --     vim.lsp.buf_request(0, 'textDocument/codeAction', params, function(err, result, ctx, config)
+      --       print("jf-debug-> 'config': " .. vim.inspect(config));
+      --       print("jf-debug-> 'ctx': " .. vim.inspect(ctx));
+      --       print("jf-debug-> 'err': " .. vim.inspect(err));
+      --       print("jf-debug-> 'result': " .. vim.inspect(result));
+      --       -- do something with result - e.g. check if empty and show some indication such as a sign
+      --     end)
+      --   end, "View available code actions"
+      -- }
 
     }
   }, bufopts)
