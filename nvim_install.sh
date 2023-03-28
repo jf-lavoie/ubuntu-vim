@@ -49,7 +49,6 @@ sudo ln -sfv "$INSTALL_NVIM_APPIMAGE_PATH"/nvim.appimage /usr/bin/nvim
 # 		ln -sfv "$dest"/lua/jf/"$f" "$f"
 # 	done
 # 	popd || exit # lua/jf
-
 # 	popd || exit # $INSTALL_VI_ROOTPATH
 # }
 
@@ -62,9 +61,10 @@ mkdir -p "$HOME/.virtualenvs"
 pushd "$HOME"/.virtualenvs || exit
 rm -rf pynvim
 python3 -m venv pynvim
+./pynvim/bin/python3 -m pip install --upgrade wheel
 ./pynvim/bin/python3 -m pip install --upgrade pynvim
 
-rm-rf debugpy
+rm -rf debugpy
 python3 -m venv debugpy
 debugpy/bin/python -m pip install debugpy
 
