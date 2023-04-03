@@ -3,8 +3,8 @@ local null_ls = require('null-ls')
 
 require("mason-null-ls").setup({
   ensure_installed = {
-    "shellcheck", "shfmt", "prettier", "goimports", "golangci_lint", "gomodifytags", "lua_format", "isort", "ruff",
-    "flake8", "yapf", "gopls"
+    "shellcheck", "shfmt", "eslint_d", "prettier", "prettierd", "goimports", "golangci_lint", "gomodifytags",
+    "lua_format", "isort", "ruff", "flake8", "yapf", "gopls"
 
   },
   automatic_installation = true,
