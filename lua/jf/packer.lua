@@ -97,6 +97,9 @@ require("packer").startup({
     use "junegunn/fzf.vim"
     use {"mbbill/undotree", run = runHelptags('undotree', 'doc')}
 
+    -- plantuml
+    use "aklt/plantuml-syntax"
+
     -- markdown
     -- expects that code-minimap is available in the environment
     use "wfxr/minimap.vim"
@@ -124,7 +127,6 @@ require("packer").startup({
   end,
   config = {
     package_root = packagePath
-
     -- display = {
     --   open_fn = function()
     --     require 'packer.util'.float { border = "rounded" }
