@@ -147,7 +147,6 @@ vim.opt.expandtab = true
 vim.api.nvim_create_autocmd({'BufNewFile', 'BufRead'}, {
   pattern = {'*.py'},
   callback = function()
-
     vim.bo.tabstop = 4
     vim.bo.softtabstop = 4
     vim.bo.shiftwidth = 4
@@ -155,7 +154,6 @@ vim.api.nvim_create_autocmd({'BufNewFile', 'BufRead'}, {
     -- 'autoindent' is enabled
     vim.bo.autoindent = true
     vim.bo.fileformat = 'unix'
-
   end
 })
 
@@ -251,7 +249,7 @@ vim.api.nvim_exec('autocmd FileType fzf tunmap <Esc><Esc>', false)
 -- while still returning in normal mode with the <esc>
 --
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = {"javascript", "typescript", "vue"},
+  pattern = {"javascript", "typescript", "typescriptreact", "vue"},
   callback = function(info)
     vim.keymap.set('n', '<F2>',
                    "yiwoi<BS><esc>:let @m = 'console.log(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': \", ' . @\" . ');'<enter><esc>\"mp",
@@ -293,7 +291,6 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set('v', '<F2>',
                    "yoi<BS><esc>:let @m = 'fmt.Printf(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': %#v\\n\", ' . @\" . ');'<enter><esc>\"mp",
                    {desc = "visual console.log jf", buffer = info.buf})
-
   end
 })
 
@@ -316,7 +313,6 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set('v', '<F4>',
                    "yoi<BS><esc>:let @m = 'print(\"jf-debug-> ''' . @\" . ''': \" .. vim.inspect(' . @\" . '));'<enter><esc>\"mp",
                    {desc = "visual console.log jf", buffer = info.buf})
-
   end
 })
 
@@ -412,7 +408,6 @@ vim.keymap.set('n', '<C-p>', ":call fzf#run(fzf#wrap(fzf#vim#with_preview()))<en
 -- " taken here: https://github.com/junegunn/fzf.vim/issues/1081
 -- " linked there: https://github.com/junegunn/fzf.vim#example-advanced-ripgrep-integration
 RipgrepFzf = function(query, fullscreen)
-
   local command_fmt = "rg --column --line-number --no-heading --color=always --smart-case -- %s || true"
   local initial_command = string.format("'" .. command_fmt .. "'", string.format("%q", query))
   local reload_command = string.format(command_fmt, '{q}')
@@ -452,7 +447,6 @@ vim.api.nvim_exec([[
 -- taken here: https://github.com/dracula/vim/blob/master/colors/dracula.vim
 -- modified the border
 if vim.api.nvim_cmd({cmd = 'colorscheme'}, {output = true}) == "dracula" then
-
   vim.api.nvim_exec([[
 
   let g:fzf_colors = {
