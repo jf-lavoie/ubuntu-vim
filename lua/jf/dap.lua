@@ -121,7 +121,7 @@ local defaultFKeysMappings = {
   {'<F8>', require'dap'.continue, "Continue"},
   {'<F9>', require('persistent-breakpoints.api').toggle_breakpoint, "Toggle breakpoint"},
   {'<F10>', require'dap'.step_over, "Step over"}, {'<S-F10>', require'dap'.run_to_cursor, "Run to cursor"},
-  {'<F11>', require'dap'.step_into, "Stop into"}, {'<S-F11>', require'dap'.step_out, "Step out"}
+  {'<F12>', require'dap'.step_into, "Stop into"}, {'<S-F12>', require'dap'.step_out, "Step out"}
 }
 
 local dapMenuKey = '<leader>d'
@@ -419,12 +419,10 @@ dap.configurations.javascript = {
     name = "Run mocha on file",
     program = "${file}",
     cwd = "${workspaceFolder}",
-
     runtimeExecutable = "mocha",
     runtimeArgs = {"--experimental-modules", "--recursive"},
     skipFiles = {"<node_internals>/**", "node_modules/**"},
     resolveSourceMapLocations = {"!**/js-debug-adapter/**"},
-
     console = "integratedTerminal"
   }
 }
@@ -439,20 +437,16 @@ dap.configurations.typescript = {
     sourceMaps = true,
     resolveSourceMapLocations = {"${workspaceFolder}/**/*.js", "!**/node_modules/**"},
     skipFiles = {"<node_internals>/**", "node_modules/**"}
-
   }, {
     type = "pwa-node",
     request = "launch",
     name = "Run jest on file",
     program = "${file}",
     cwd = "${workspaceFolder}",
-
     runtimeExecutable = "jest",
     runtimeArgs = {"--verbose", "--silent", "false", "--testTimeout=2147483647"},
-
     -- console: 'internalConsole' | 'integratedTerminal' | 'externalTerminal';
     console = "integratedTerminal",
-
     sourceMaps = true,
     resolveSourceMapLocations = {"${workspaceFolder}/**/*.js", "!**/node_modules/**"},
     skipFiles = {"<node_internals>/**", "node_modules/**"}
@@ -470,7 +464,6 @@ dap.configurations.typescript = {
     skipFiles = {"<node_internals>/**", "node_modules/**"},
     resolveSourceMapLocations = {"${workspaceFolder}/**/*.js", "!**/node_modules/**"},
     console = "integratedTerminal",
-
     continueOnAttach = true
   }
 }
