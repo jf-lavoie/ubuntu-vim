@@ -22,7 +22,8 @@ require("null-ls").setup({
     -- null_ls.builtins.diagnostics.flake8.with({ extra_args = { "--max-line-length 120" } }), -- python
     null_ls.builtins.code_actions.eslint_d, -- eslint
     null_ls.builtins.diagnostics.eslint_d, -- eslint
-    null_ls.builtins.formatting.prettierd, -- javscript, typescript, json, ...
+    -- null_ls.builtins.formatting.prettierd, -- javscript, typescript, json, ...
+    null_ls.builtins.formatting.prettier.with({extra_args = {"--loglevel", "debug"}}), -- javscript, typescript, json, ...
     null_ls.builtins.code_actions.gomodifytags, -- golang
     null_ls.builtins.formatting.goimports, -- golang
     null_ls.builtins.formatting.lua_format -- lua

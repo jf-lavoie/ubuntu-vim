@@ -627,3 +627,10 @@ vim.api.nvim_create_autocmd({'BufLeave', 'BufUnload', 'BufDelete', 'BufHidden'},
 -- disable minimap for specific file types
 vim.api.nvim_set_var('minimap_block_filetypes', {'fugitive', 'nerdtree', 'neo-tree'})
 -- ---------------------------------------------------
+
+------------------------------------------------------
+-- preservim/vim-markdown
+------------------------------------------------------
+-- disable folding. It always tries to fold even when typing. This is annoying
+vim.api.nvim_set_var('vim_markdown_folding_disabled', 1)
+-- ---------------------------------------------------
