@@ -16,8 +16,8 @@ require("which-key").setup {
 }
 
 require("which-key").register({
-  ["<leader>c"] = {
-    name = "Close windows",
+  ["<leader>w"] = {
+    name = "windows operations",
     c = {
       function()
         vim.api.nvim_command("cclose")
