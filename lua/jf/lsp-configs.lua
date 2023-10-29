@@ -9,7 +9,8 @@ require'mason-lspconfig'.setup({
     'jsonls', -- jsonls
     'pyright', -- python
     'terraformls', -- terraform
-    'gopls' -- go
+    'gopls', -- go
+    'jdtls' -- java
   }
 })
 
@@ -113,3 +114,5 @@ require'lspconfig'['gopls'].setup {
   capabilities = capabilities
 
 }
+
+require'lspconfig'['jdtls'].setup {on_attach = on_attach, flags = lsp_flags, capabilities = capabilities}

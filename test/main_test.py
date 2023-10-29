@@ -10,7 +10,7 @@ sys.path.insert(
 import facade
 import main
 
-print("jf-debug: " + str(sys.path))
+# print("jf-debug: " + str(sys.path))
 
 
 @patch('facade.Facade')

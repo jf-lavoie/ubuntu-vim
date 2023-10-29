@@ -28,6 +28,7 @@ class TestFacadeInstallLinks():
             expectedLinkedFiles = [
                 (root, "", "init.lua"),
                 (root, "", "vim-jfsnippets"),
+                (root, "", "ftplugin"),
             ]
 
             for (dir_path, _, file_names) in walk(path.join(root, "lua")):

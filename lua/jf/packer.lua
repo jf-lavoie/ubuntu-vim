@@ -55,10 +55,10 @@ require("packer").startup({
       }, "jbyuki/one-small-step-for-vimkind", -- lua
       "mfussenegger/nvim-dap-python", -- python specific dap adaptor
       "mxsdev/nvim-dap-vscode-js", -- javasript,nodejs dap adaptor
-      "leoluz/nvim-dap-go" -- golang
-      -- node?  https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#javascript
+      "leoluz/nvim-dap-go", -- golang
+      "mfussenegger/nvim-jdtls" -- java
+      -- use {"microsoft/vscode-js-debug", opt = true, run = "npm install --legacy-peer-deps && npm run compile"}
     }
-    -- use {"microsoft/vscode-js-debug", opt = true, run = "npm install --legacy-peer-deps && npm run compile"}
 
     -- autocomplete
     use {
@@ -85,7 +85,7 @@ require("packer").startup({
 
     -- git related
     use {"tpope/vim-fugitive", run = runHelptags('vim-fugitive', 'doc')}
-    use {"airblade/vim-gitgutter", run = runHelptags('vim-gitgutter', 'doc')}
+    use {"airblade/vim-gitgutter", run = runHelptags('vim-gitgutter', 'doc'), branch = 'main'}
 
     -- additionanl utilities
     use "tpope/vim-commentary"

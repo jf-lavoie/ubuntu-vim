@@ -29,6 +29,7 @@ class Facade(object):
         files = [
             (root, "", "init.lua"),
             (root, "", "vim-jfsnippets"),
+            (root, "", "ftplugin"),
         ]
 
         for (dir_path, _, file_names) in walk(path.join(root, "lua")):
@@ -45,21 +46,10 @@ class Facade(object):
                 path.join(os.environ["INSTALL_VI_ROOTPATH"], d)
             ])
 
-        # print('jf-debug-> "files": {value}'.format(value=files))
         for f in files:
             args = [
                 "ln", "-sfv",
                 path.join(f[0], f[1], f[2]),
                 path.join(os.environ["INSTALL_VI_ROOTPATH"], f[1], f[2])
             ]
-            # print('jf-debug-> "f": {value}'.format(value=f))
-            # print('jf-debug-> "args": {value}'.format(value=args))
-            # print('jf-debug-> "os.environ["INSTALL_VI_ROOTPATH"]": {value}'.
-            #       format(value=os.environ["INSTALL_VI_ROOTPATH"]))
-            # print(
-            #     'jf-debug-> "path.join(os.environ["INSTALL_VI_ROOTPATH"], f[1], f[2])": {value}'
-            #     .format(value=path.join(os.environ["INSTALL_VI_ROOTPATH"],
-            #                             f[1], f[2])))
-            # print('jf-debug-> "os.environ["INSTALL_VI_ROOTPATH"]": {value}'.
-            #       format(value=os.environ["INSTALL_VI_ROOTPATH"]))
             subprocess.run(args)
