@@ -1,5 +1,4 @@
 -- print('loading which-key.lua')
-
 require("which-key").setup {
   -- your configuration comes here
   -- or leave it empty to use the default settings
@@ -9,13 +8,23 @@ require("which-key").setup {
   operators = {}, -- default: { gc = "Comments" }
 
   window = {
-    border = "shadow", -- none, single, double, shadow
+    border = "shadow" -- none, single, double, shadow
   },
   layout = {
-    align = "center", -- align columns left, center or right
-  },
+    align = "center" -- align columns left, center or right
+  }
 }
 
+require("which-key").register({
+  ["<leader>c"] = {
+    name = "Close windows",
+    c = {
+      function()
+        vim.api.nvim_command("cclose")
+      end, "Close the quickfix window"
+    }
+  }
+})
 
 -- nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
 -- vim.keymap.set('n', '<leader>', '<cmd>WhichKey \'<Space\'<CR>', { silent=true, remap=false })
