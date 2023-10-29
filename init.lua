@@ -446,26 +446,26 @@ vim.api.nvim_exec([[
 
 -- taken here: https://github.com/dracula/vim/blob/master/colors/dracula.vim
 -- modified the border
-if vim.api.nvim_cmd({cmd = 'colorscheme'}, {output = true}) == "dracula" then
-  vim.api.nvim_exec([[
+-- if vim.api.nvim_cmd({cmd = 'colorscheme'}, {output = true}) == "dracula" then
+--   vim.api.nvim_exec([[
 
-  let g:fzf_colors = {
-    \ 'fg':      ['fg', 'Normal'],
-    \ 'bg':      ['bg', 'Normal'],
-    \ 'hl':      ['fg', 'Search'],
-    \ 'fg+':     ['fg', 'Normal'],
-    \ 'bg+':     ['bg', 'Normal'],
-    \ 'hl+':     ['fg', 'DraculaOrange'],
-    \ 'info':    ['fg', 'DraculaPurple'],
-    \ 'border':  ['fg', 'DraculaPurple'],
-    \ 'prompt':  ['fg', 'DraculaGreen'],
-    \ 'pointer': ['fg', 'Exception'],
-    \ 'marker':  ['fg', 'Keyword'],
-    \ 'spinner': ['fg', 'Label'],
-    \ 'header':  ['fg', 'Comment'],
-    \}
-   ]], false)
-end
+--   let g:fzf_colors = {
+--     \ 'fg':      ['fg', 'Normal'],
+--     \ 'bg':      ['bg', 'Normal'],
+--     \ 'hl':      ['fg', 'Search'],
+--     \ 'fg+':     ['fg', 'Normal'],
+--     \ 'bg+':     ['bg', 'Normal'],
+--     \ 'hl+':     ['fg', 'DraculaOrange'],
+--     \ 'info':    ['fg', 'DraculaPurple'],
+--     \ 'border':  ['fg', 'DraculaPurple'],
+--     \ 'prompt':  ['fg', 'DraculaGreen'],
+--     \ 'pointer': ['fg', 'Exception'],
+--     \ 'marker':  ['fg', 'Keyword'],
+--     \ 'spinner': ['fg', 'Label'],
+--     \ 'header':  ['fg', 'Comment'],
+--     \}
+--    ]], false)
+-- end
 
 -----------------------------------------------------
 -- UtilsSnip configs
