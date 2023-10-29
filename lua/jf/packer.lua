@@ -105,7 +105,8 @@ require("packer").startup({
     use "wfxr/minimap.vim"
 
     -- ui related
-    use "dracula/vim" -- colorsheme
+    -- use "dracula/vim" -- colorsheme
+    use 'Mofiqul/dracula.nvim'
     -- use "itchyny/lightline.vim" -- status line
     use {'nvim-lualine/lualine.nvim', requires = {'kyazdani42/nvim-web-devicons', opt = true}}
 
