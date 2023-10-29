@@ -13,6 +13,8 @@ require("mason-nvim-dap").setup({
   }
 })
 
+-- TODO: replicate this: https://www.reddit.com/r/neovim/comments/wsbgk3/how_to_use_dap_servers_installed_via_masonnvim/
+-- links to here: https://github.com/ecosse3/nvim/blob/master/lua/plugins/dap.lua#L146C1-L147C41
 require("dap-vscode-js").setup({
   -- node_path = "node", -- Path of node executable. Defaults to $NODE_PATH, and then "node"
   -- debugger_path = "/home/jflavoie/.local/share/nvim/site/pack/packer/opt/vscode-js-debug/src", -- Path to vscode-js-debug installation.
