@@ -56,8 +56,16 @@ require("packer").startup({
       "mfussenegger/nvim-dap-python", -- python specific dap adaptor
       "mxsdev/nvim-dap-vscode-js", -- javasript,nodejs dap adaptor
       "leoluz/nvim-dap-go", -- golang
-      "mfussenegger/nvim-jdtls" -- java
+      "mfussenegger/nvim-jdtls", -- java
       -- use {"microsoft/vscode-js-debug", opt = true, run = "npm install --legacy-peer-deps && npm run compile"}
+      --
+      -- taken here: https://github.com/mxsdev/nvim-dap-vscode-js/issues/23
+      use {
+        "microsoft/vscode-js-debug",
+        opt = true,
+        run = "npm install --legacy-peer-deps && npm run compile",
+        tag = 'v1.74.1'
+      }
     }
 
     -- autocomplete

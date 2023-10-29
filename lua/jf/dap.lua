@@ -2,7 +2,7 @@ local dap, dapui, persistentbreakpoints = require("dap"), require("dapui"), requ
 local dappython = require('dap-python')
 local wk = require 'which-key'
 
--- dap.set_log_level('TRACE')
+dap.set_log_level('TRACE')
 
 require("mason-nvim-dap").setup({
   ensure_installed = {
@@ -15,9 +15,13 @@ require("mason-nvim-dap").setup({
 
 require("dap-vscode-js").setup({
   -- node_path = "node", -- Path of node executable. Defaults to $NODE_PATH, and then "node"
-  -- debugger_path = "(runtimedir)/site/pack/packer/opt/vscode-js-debug", -- Path to vscode-js-debug installation.
-  debugger_path = vim.fn.stdpath("data") .. "/mason/packages/js-debug-adapter", -- Path to vscode-js-debug installation.
-  -- debugger_cmd = { "js-debug-adapter" }, -- Command to use to launch the debug server. Takes precedence over `node_path` and `debugger_path`.
+  -- debugger_path = "/home/jflavoie/.local/share/nvim/site/pack/packer/opt/vscode-js-debug/src", -- Path to vscode-js-debug installation.
+  -- debugger_path = vim.fn.stdpath("data") .. "/mason/packages/js-debug-adapter", -- Path to vscode-js-debug installation.
+  --
+  -- this is the Mason js-debug-adapter, not the one recommended from dap-vscode-js
+  -- debugger_cmd = {"js-debug-adapter"}, -- Command to use to launch the debug server. Takes precedence over `node_path` and `debugger_path`.
+  -- debugger_cmd = {vim.fn.stdpath("data") .. "/site/pack/packer/opt/vscode-js-debug/src/vsDebugServer.ts"}, -- Path to vscode-js-debug installation.
+  -- debugger_cmd = {"/home/jflavoie/.local/share/nvim/site/pack/packer/opt/vscode-js-debug/src/vsDebugServer.ts"}, -- Path to vscode-js-debug installation.
   adapters = {'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost'}, -- which adapters to register in nvim-dap
   -- log_file_path = "(stdpath cache)/dap_vscode_js.log", -- Path for file logging
   -- 'vim.log.levels': {
@@ -28,26 +32,26 @@ require("dap-vscode-js").setup({
   --   TRACE = 0,
   --   WARN = 3
   -- }
-  log_file_level = vim.log.levels.ERROR -- Logging level for output to file. Set to false to disable file logging.
-  -- log_console_level = vim.log.levels.ERROR -- Logging level for output to console. Set to false to disable console output.
+  log_file_level = vim.log.levels.DEBUG -- Logging level for output to file. Set to false to disable file logging.
+  -- log_console_level = vim.log.levels.DEBUG                                   -- Logging level for output to console. Set to false to disable console output.
 })
-local custom_adapter = 'pwa-node-custom'
-dap.adapters[custom_adapter] = function(cb, config)
-  if config.preLaunchTask then
-    local async = require('plenary.async')
-    local notify = require('notify').async
+-- local custom_adapter = 'pwa-node-custom'
+-- dap.adapters[custom_adapter] = function(cb, config)
+--  if config.preLaunchTask then
+--    local async = require('plenary.async')
+--    local notify = require('notify').async
 
-    async.run(function()
-      ---@diagnostic disable-next-line: missing-parameter
-      notify('Running [' .. config.preLaunchTask .. ']').events.close()
-    end, function()
-      vim.fn.system(config.preLaunchTask)
-      config.type = 'pwa-node'
-      -- cb(config)
-      dap.run(config)
-    end)
-  end
-end
+--    async.run(function()
+--      ---@diagnostic disable-next-line: missing-parameter
+--      notify('Running [' .. config.preLaunchTask .. ']').events.close()
+--    end, function()
+--      vim.fn.system(config.preLaunchTask)
+--      config.type = 'pwa-node'
+--      -- cb(config)
+--      dap.run(config)
+--    end)
+--  end
+-- end
 
 dapui.setup({
   layouts = {
@@ -311,7 +315,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 vim.api.nvim_create_autocmd("FileType", {
   group = "dap-bindings",
-  pattern = {"javascript", "typescript"},
+  pattern = {"javascript", "typescript", "typescriptreact", "javascriptreact"},
   desc = "Apply Javascript/Typescript dap bindings",
   callback = function(data)
     local bufOpts = {noremap = true, silent = true, buffer = data.buf}
@@ -465,5 +469,11 @@ dap.configurations.typescript = {
     resolveSourceMapLocations = {"${workspaceFolder}/**/*.js", "!**/node_modules/**"},
     console = "integratedTerminal",
     continueOnAttach = true
+  }, {
+    type = "pwa-chrome",
+    request = "launch",
+    name = "Launch Chrome against localhost",
+    url = "http://localhost=5173",
+    webRoot = "${workspaceFolder}/app"
   }
 }
