@@ -3,7 +3,7 @@ local null_ls = require('null-ls')
 
 require("mason-null-ls").setup({
   ensure_installed = {
-    "shellcheck", "shfmt", "eslint_d", "prettier", "prettierd", "goimports", "golangci_lint", "gomodifytags",
+    "shellcheck", "shfmt", "eslint_d", "eslint", "prettier", "prettierd", "goimports", "golangci_lint", "gomodifytags",
     "lua_format", "isort", "ruff", "flake8", "yapf", "gopls"
 
   },
@@ -20,8 +20,10 @@ require("null-ls").setup({
     null_ls.builtins.diagnostics.shellcheck, -- sh
     null_ls.builtins.formatting.shfmt, -- sh
     -- null_ls.builtins.diagnostics.flake8.with({ extra_args = { "--max-line-length 120" } }), -- python
-    null_ls.builtins.code_actions.eslint_d, -- eslint
-    null_ls.builtins.diagnostics.eslint_d, -- eslint
+    -- null_ls.builtins.code_actions.eslint_d, -- eslint
+    -- null_ls.builtins.diagnostics.eslint_d, -- eslint
+    null_ls.builtins.code_actions.eslint, -- eslint
+    null_ls.builtins.diagnostics.eslint, -- eslint
     -- null_ls.builtins.formatting.prettierd, -- javscript, typescript, json, ...
     null_ls.builtins.formatting.prettier.with({extra_args = {"--loglevel", "debug"}}), -- javscript, typescript, json, ...
     null_ls.builtins.code_actions.gomodifytags, -- golang
