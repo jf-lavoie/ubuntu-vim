@@ -471,6 +471,9 @@ vim.api.nvim_exec([[
 -- UtilsSnip configs
 -----------------------------------------------------
 -- -- Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+vim.api.nvim_set_var("UltiSnipsExpandTrigger", "<tab>")
+vim.api.nvim_set_var("UltiSnipsJumpForwardTrigger", "<c-b>")
+vim.api.nvim_set_var("UltiSnipsJumpBackwardTrigger", "<c-z>")
 -- -- let g:UltiSnipsExpandTrigger=--<tab>--
 -- let g:UltiSnipsExpandTrigger=--<leader><tab>--
 -- -- let g:UltiSnipsJumpForwardTrigger=--<c-b>--
