@@ -348,6 +348,13 @@ vim.api.nvim_create_autocmd("FileType", {
   end
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = {"structurizr"},
+  callback = function()
+    vim.bo.commentstring = "# %s"
+  end
+})
+
 -- ---------------------------------------------------
 -- Chaning the font for MAC only because the base font is too small.
 -- ---------------------------------------------------
