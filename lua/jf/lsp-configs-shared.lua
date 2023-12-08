@@ -66,9 +66,15 @@ shared.on_attach = function(_, bufnr)
       f = {
         function()
           vim.lsp.buf.format {async = true}
-        end, "Format (vim.lsp.buf.format { async = true })"
+        end, "Format async (vim.lsp.buf.format { async = true })"
       },
-      r = {vim.lsp.buf.rename, "Rename (vim.lsp.buf.rename)"}
+      r = {vim.lsp.buf.rename, "Rename (vim.lsp.buf.rename)"},
+      d = {
+        function()
+          -- this group is coming from a custom command in null-ls configuration
+          vim.api.nvim_clear_autocmds({event = "BufWritePre", buffer = bufnr, group = "LspFormatting"})
+        end, "disable buffer formatting autocmd"
+      }
       -- v = {
       --   function()
       --     local lsp_util = vim.lsp.util
