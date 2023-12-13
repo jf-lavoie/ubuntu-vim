@@ -75,7 +75,7 @@ vim.api.nvim_create_autocmd("FileType", {
   end
 })
 
-require('dap.ext.vscode').load_launchjs(nil, {})
+require('dap.ext.vscode').load_launchjs(nil, nil)
 
 vim.api.nvim_create_autocmd('FileType', {
   pattern = {"dap-repl", "lua"},
@@ -334,7 +334,9 @@ require('persistent-breakpoints').setup {
   save_dir = vim.fn.stdpath('data') .. '/nvim_breakpoints'
 }
 
-require('dap-go').setup() -- nvim-dap-go
+-- this is to include the configurations loaded by vscode/.launch.json specification
+local go_configuration = merge(dap.configurations.go or {}, {{type = "go", name = "++config belows are from launch.json++"}})
+require('dap-go').setup({dap_configurations = go_configuration}) -- nvim-dap-go
 
 dappython.setup('~/.virtualenvs/debugpy/bin/python')
 
