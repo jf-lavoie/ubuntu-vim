@@ -116,3 +116,37 @@ require'lspconfig'['gopls'].setup {
 }
 
 require'lspconfig'['jdtls'].setup {on_attach = on_attach, flags = lsp_flags, capabilities = capabilities}
+
+-- local augroup = vim.api.nvim_create_augroup("terraform-LspFormatting", {})
+local augroup = require'jf/lsp-configs-shared'.group_lspformatting
+require'lspconfig'['terraformls'].setup {
+
+  on_attach = function(_, bufnr)
+    vim.api.nvim_clear_autocmds({group = augroup, buffer = bufnr})
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      group = augroup,
+      buffer = bufnr,
+      callback = function()
+        vim.lsp.buf.format({bufnr = bufnr})
+      end
+    })
+    require'jf/lsp-configs-shared'.on_attach(_, bufnr)
+  end
+}
+-- local augroup = vim.api.nvim_create_augroup("terraform-LspFormatting", {})
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+--   group = augroup,
+--   pattern = {"*.tf", "*.tf.json", "*.tfvars", "*.terraform", "*.tfvars", "*.hcl"},
+--   callback = function(ev)
+--     local bufnr = ev.buf
+--     vim.lsp.buf.format({bufnr = bufnr})
+--   end
+-- })
+-- vim.api.nvim_create_autocmd("LspAttach", {
+--   group = augroup,
+--   pattern = {"*.tf", "*.tf.json", "*.tfvars", "*.terraform", "*.tfvars", "*.hcl"},
+--   callback = function(ev)
+--     local bufnr = ev.buf
+--     require'jf/lsp-configs-shared'.on_attach(_, bufnr)
+--   end
+-- })
