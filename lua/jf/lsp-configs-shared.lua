@@ -27,6 +27,8 @@ wk.register({
   }
 }, opts)
 
+shared.group_lspformatting = vim.api.nvim_create_augroup("LspFormatting", {})
+
 ---Sets default lsp/diagnostic shortcuts
 ---@param _ table This is the client
 ---@param bufnr number bufnr The buffer number to attach the shortcuts to.
@@ -72,7 +74,7 @@ shared.on_attach = function(_, bufnr)
       d = {
         function()
           -- this group is coming from a custom command in null-ls configuration
-          vim.api.nvim_clear_autocmds({event = "BufWritePre", buffer = bufnr, group = "LspFormatting"})
+          vim.api.nvim_clear_autocmds({event = "BufWritePre", buffer = bufnr, group = shared.group_lspformatting})
         end, "disable buffer formatting autocmd"
       }
       -- v = {

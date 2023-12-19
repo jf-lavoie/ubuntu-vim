@@ -12,7 +12,8 @@ require("mason-null-ls").setup({
 })
 
 -- taken here: https://github.com/jose-elias-alvarez/null-ls.nvim/wiki/Formatting-on-save
-local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+-- local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+local augroup = require'jf/lsp-configs-shared'.group_lspformatting
 require("null-ls").setup({
   -- debug = true,
   sources = {
@@ -25,7 +26,8 @@ require("null-ls").setup({
     null_ls.builtins.code_actions.eslint, -- eslint
     null_ls.builtins.diagnostics.eslint, -- eslint
     -- null_ls.builtins.formatting.prettierd, -- javscript, typescript, json, ...
-    null_ls.builtins.formatting.prettier.with({extra_args = {"--loglevel", "debug"}}), -- javscript, typescript, json, ...
+    -- null_ls.builtins.formatting.prettier.with({extra_args = {"--log-level", "debug"}}), -- javscript, typescript, json, ...
+    null_ls.builtins.formatting.prettier, -- javscript, typescript, json, ...
     null_ls.builtins.code_actions.gomodifytags, -- golang
     null_ls.builtins.formatting.goimports, -- golang
     null_ls.builtins.formatting.lua_format -- lua
