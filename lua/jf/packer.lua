@@ -125,6 +125,7 @@ require("packer").startup({
         vim.fn["mkdp#util#install"]()
       end
     }
+    use "andreshazard/vim-freemarker"
   end,
   config = {
     package_root = packagePath
