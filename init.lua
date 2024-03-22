@@ -285,10 +285,18 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = {"go"},
   callback = function(info)
     vim.keymap.set('n', '<F2>',
-                   "yiwoi<BS><esc>:let @m = 'fmt.Printf(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': %#v\\n\", ' . @\" . ');'<enter><esc>\"mp",
+                   "yiwoi<BS><esc>:let @m = 'fmt.Printf(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': %s\\n\", ' . @\" . ');'<enter><esc>\"mp",
                    {desc = "console.log jf", buffer = info.buf})
 
     vim.keymap.set('v', '<F2>',
+                   "yoi<BS><esc>:let @m = 'fmt.Printf(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': %s\\n\", ' . @\" . ');'<enter><esc>\"mp",
+                   {desc = "visual console.log jf", buffer = info.buf})
+
+    vim.keymap.set('n', '<F3>',
+                   "yiwoi<BS><esc>:let @m = 'fmt.Printf(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': %#v\\n\", ' . @\" . ');'<enter><esc>\"mp",
+                   {desc = "console.log jf", buffer = info.buf})
+
+    vim.keymap.set('v', '<F3>',
                    "yoi<BS><esc>:let @m = 'fmt.Printf(\"jf-debug-> ''' . substitute(@\", \"\\\"\", \"\\\\\\\\\\\"\", \"g\") . ''': %#v\\n\", ' . @\" . ');'<enter><esc>\"mp",
                    {desc = "visual console.log jf", buffer = info.buf})
   end
