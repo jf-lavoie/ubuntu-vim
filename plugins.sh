@@ -61,6 +61,10 @@ vim-minimap() {
 fzf() {
 	echo "cloning fzf"
 
+	if [ -d "$HOME"/.fzf ]; then
+		"$HOME"/.fzf/uninstall
+	fi
+
 	rm -rf "$HOME"/.fzf
 	git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME"/.fzf
 
@@ -77,7 +81,7 @@ fzf() {
 
 	# for the quoting escape black magic fuckery : https://stackoverflow.com/questions/1250079/how-to-escape-single-quotes-within-single-quoted-strings
 	grep -qF 'export FZF_DEFAULT_OPTS' "$HOME"/.bashrc || echo 'export FZF_DEFAULT_OPTS="--extended --preview '"'"'cat {}'"'"'"' >>"$HOME"/.bashrc
-	grep -qF 'export FZF_DEFAULT_COMMAND="rg' "$HOME"/.bashrc || echo 'export FZF_DEFAULT_COMMAND="rg --files --smart-case --hidden -g '"'"'!.git'"'"'"' >> "$HOME"/.bashrc
+	grep -qF 'export FZF_DEFAULT_COMMAND="rg' "$HOME"/.bashrc || echo 'export FZF_DEFAULT_COMMAND="rg --files --smart-case --hidden -g '"'"'!.git'"'"'"' >>"$HOME"/.bashrc
 
 	source "$HOME"/.bashrc
 }
@@ -114,7 +118,7 @@ lua() {
 	pushd "$HOME/lua" || exit
 
 	if [ ! -f "lua-$LUAVERSION.tar.gz" ]; then
-		curl -R -O http://www.lua.org/ftp/lua-$LUAVERSION.tar.gz
+		curl -R -O -L https://www.lua.org/ftp/lua-$LUAVERSION.tar.gz
 	fi
 	rm -rf lua-$LUAVERSION
 	tar -zxf "lua-$LUAVERSION.tar.gz"

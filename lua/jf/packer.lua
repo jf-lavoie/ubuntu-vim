@@ -50,7 +50,8 @@ require("packer").startup({
       {
         "rcarriga/nvim-dap-ui",
         requires = {
-          {"mfussenegger/nvim-dap", run = runHelptags("nvim-dap", "doc")}, "Weissle/persistent-breakpoints.nvim"
+          {"mfussenegger/nvim-dap", run = runHelptags("nvim-dap", "doc")}, "Weissle/persistent-breakpoints.nvim",
+          "nvim-neotest/nvim-nio"
         }
       }, "jbyuki/one-small-step-for-vimkind", -- lua
       "mfussenegger/nvim-dap-python", -- python specific dap adaptor
